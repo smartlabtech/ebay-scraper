@@ -17,7 +17,6 @@ import DashboardLayout from "./components/layout/DashboardLayout"
 import AdminLayout from "./components/admin/AdminLayout"
 import {unifiedTheme} from "./utils/theme/unifiedTheme"
 import {LoadingProvider, AppLoadingOverlay} from "./contexts/LoadingContext"
-import {siteMeta} from "./config/siteMeta"
 import {getCookie} from "./utils/tracking"
 import {initFBPixel} from "./utils/fbPixel"
 import {useFBPixelPageView} from "./hooks/useFBPixel"
@@ -96,30 +95,30 @@ const PageLoader = () => (
 )
 
 function App() {
-  // Set document meta tags from siteMeta
+  // Set default document meta tags
   useEffect(() => {
     // Set page title
-    document.title = siteMeta.seo.title
+    document.title = "eBay Store Manager"
 
     // Set meta description
     const metaDescription = document.querySelector('meta[name="description"]')
     if (metaDescription) {
-      metaDescription.content = siteMeta.seo.description
+      metaDescription.content = "Manage and analyze eBay stores"
     } else {
       const meta = document.createElement("meta")
       meta.name = "description"
-      meta.content = siteMeta.seo.description
+      meta.content = "Manage and analyze eBay stores"
       document.head.appendChild(meta)
     }
 
     // Set theme color
     const metaTheme = document.querySelector('meta[name="theme-color"]')
     if (metaTheme) {
-      metaTheme.content = siteMeta.brandColors.primary
+      metaTheme.content = "#7c3aed"
     } else {
       const meta = document.createElement("meta")
       meta.name = "theme-color"
-      meta.content = siteMeta.brandColors.primary
+      meta.content = "#7c3aed"
       document.head.appendChild(meta)
     }
   }, [])
@@ -169,8 +168,8 @@ function App() {
         // Extract required data including country calling code and currency
         const trackingData = {
           // Site identification
-          site_name: siteMeta.siteName.en,
-          site_url: siteMeta.website,
+          site_name: "eBay Store Manager",
+          site_url: window.location.origin,
 
           // User location info
           ip: locationData.ip,
@@ -259,8 +258,8 @@ function App() {
 
         // Fallback tracking with just referrer and UTM params
         const fallbackData = {
-          site_name: siteMeta.siteName.en,
-          site_url: siteMeta.website,
+          site_name: "eBay Store Manager",
+          site_url: window.location.origin,
           referrer: document.referrer || "Direct",
           entry_page: window.location.href,
           utm_source: new URLSearchParams(window.location.search).get(

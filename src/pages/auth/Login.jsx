@@ -2,9 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import PageSEO from '../../components/SEO/PageSEO';
-import SiteMetaTags from '../../components/SEO/SiteMetaTags';
-import { getSEOData } from '../../config/seo';
 import { 
   Container, 
   Title, 
@@ -25,7 +22,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [isChecking, setIsChecking] = useState(true);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const seoData = getSEOData('/auth/login');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -51,14 +47,7 @@ const Login = () => {
   }
 
   return (
-    <>
-      <SiteMetaTags
-        title="Login"
-        description="Sign in to your BrandBanda account to access AI-powered brand psychology tools"
-        noIndex={true}
-      />
-      <PageSEO {...seoData} url="/auth/login" />
-      <Box style={{ minHeight: '100vh', display: 'flex' }}>
+    <Box style={{ minHeight: '100vh', display: 'flex' }}>
       {/* Left side - Form */}
       <Box style={{ flex: 1, display: 'flex', alignItems: 'center' }} p="xl">
         <Container size="xs" w="100%">
@@ -177,8 +166,7 @@ const Login = () => {
           </Center>
         </AnimatedGradient>
       </Box>
-      </Box>
-    </>
+    </Box>
   );
 };
 
