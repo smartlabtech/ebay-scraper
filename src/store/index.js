@@ -18,6 +18,7 @@ import plansReducer from "./slices/plansSlice"
 import ordersReducer from "./slices/ordersSlice"
 import creditPackagesReducer from "./slices/creditPackagesSlice"
 import writingStylesReducer from "./slices/writingStylesSlice"
+import storesReducer from "./slices/storesSlice"
 
 // Redux persist configuration
 const persistConfig = {
@@ -41,7 +42,8 @@ const appReducer = combineReducers({
   plans: plansReducer,
   orders: ordersReducer,
   creditPackages: creditPackagesReducer,
-  writingStyles: writingStylesReducer
+  writingStyles: writingStylesReducer,
+  stores: storesReducer
 })
 
 // Root reducer that handles logout action to reset entire store

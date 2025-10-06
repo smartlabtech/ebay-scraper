@@ -17,16 +17,16 @@ import DashboardLayout from "./components/layout/DashboardLayout"
 import AdminLayout from "./components/admin/AdminLayout"
 import {unifiedTheme} from "./utils/theme/unifiedTheme"
 import {LoadingProvider, AppLoadingOverlay} from "./contexts/LoadingContext"
-import Landing2 from "./pages/landing/LandingPage2/Landing2"
 import {siteMeta} from "./config/siteMeta"
 import {getCookie} from "./utils/tracking"
 import {initFBPixel} from "./utils/fbPixel"
 import {useFBPixelPageView} from "./hooks/useFBPixel"
-import Landing1 from "./pages/landing/landingPage1/Landing1_DRY"
 import {Bubble} from "@typebot.io/react"
 
 // Lazy load pages
 const Landing = lazy(() => import("./pages/landing/Landing"))
+const Landing1 = lazy(() => import("./pages/landing/landingPage1/Landing1_DRY"))
+const Landing2 = lazy(() => import("./pages/landing/LandingPage2/Landing2"))
 const Login = lazy(() => import("./pages/auth/Login"))
 const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"))
 const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"))
@@ -57,6 +57,7 @@ const PaymentSuccess = lazy(() => import("./pages/payment/PaymentSuccess"))
 const PaymentCancel = lazy(() => import("./pages/payment/PaymentCancel"))
 const PaymentFailure = lazy(() => import("./pages/payment/PaymentFailure"))
 const Checkout = lazy(() => import("./pages/checkout/Checkout"))
+const StoresList = lazy(() => import("./pages/stores/StoresList"))
 
 // Admin pages
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"))
@@ -310,7 +311,7 @@ function App() {
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
                     {/* Public routes */}
-                    <Route path="/" element={<Landing1 />} />
+                    <Route path="/" element={<Login />} />
                     <Route path="/login" element={<Login />} />
                     <Route
                       path="/forgot-password"
@@ -321,6 +322,14 @@ function App() {
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/terms" element={<Terms />} />
                     <Route path="/privacy" element={<Privacy />} />
+
+                    {/* Stores route - public but requires auth token */}
+                    <Route path="/stores" element={<StoresList />} />
+
+                    {/* Optional landing page routes */}
+                    <Route path="/landing" element={<Landing />} />
+                    <Route path="/landing1" element={<Landing1 />} />
+                    <Route path="/landing2" element={<Landing2 />} />
 
                     {/* Payment result pages */}
                     <Route

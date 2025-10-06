@@ -6,26 +6,26 @@ class AuthService {
   // Login
   async login(email, password) {
     try {
-      const response = await axiosInstance.post('/en/auth/signin', {
+      const response = await axiosInstance.post('/auth/signin', {
         email,
         password
       });
 
-      // Check if response has nested data property or direct properties
-      const responseData = response.data.data || response.data;
-      
+      // Response structure: { token: "...", user: { ... } }
+      const { token, user } = response.data;
+
       // Store auth data
-      if (responseData.token) {
-        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, responseData.token);
+      if (token) {
+        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, token);
       }
-      
-      if (responseData.user) {
-        localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(responseData.user));
+
+      if (user) {
+        localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(user));
       }
 
       return {
-        token: responseData.token,
-        user: responseData.user
+        token: token,
+        user: user
       };
     } catch (error) {
       if (error.response?.data?.message) {
@@ -38,28 +38,28 @@ class AuthService {
   // Register
   async register(userData) {
     try {
-      const response = await axiosInstance.post('/en/auth/signup', {
+      const response = await axiosInstance.post('/auth/signup', {
         firstName: userData.firstName,
         lastName: userData.lastName,
         email: userData.email,
         password: userData.password
       });
 
-      // Check if response has nested data property or direct properties
-      const responseData = response.data.data || response.data;
-      
+      // Response structure: { token: "...", user: { ... } }
+      const { token, user } = response.data;
+
       // Store auth data if auto-login after registration
-      if (responseData.token) {
-        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, responseData.token);
+      if (token) {
+        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, token);
       }
-      
-      if (responseData.user) {
-        localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(responseData.user));
+
+      if (user) {
+        localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(user));
       }
 
       return {
-        token: responseData.token,
-        user: responseData.user
+        token: token,
+        user: user
       };
     } catch (error) {
       if (error.response?.data?.message) {
@@ -83,7 +83,7 @@ class AuthService {
 
     // Optionally call logout endpoint if your backend has one
     try {
-      await axiosInstance.post('/en/auth/logout');
+      await axiosInstance.post('/auth/logout');
     } catch (error) {
       // Ignore logout endpoint errors
     }
@@ -110,14 +110,14 @@ class AuthService {
   // Refresh token
   async refreshToken() {
     try {
-      const response = await axiosInstance.post('/en/auth/refresh');
-      const { data } = response.data;
-      
-      if (data.token) {
-        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, data.token);
+      const response = await axiosInstance.post('/auth/refresh');
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, token);
       }
 
-      return { token: data.token };
+      return { token: token };
     } catch (error) {
       throw new Error('Token refresh failed');
     }
@@ -126,7 +126,7 @@ class AuthService {
   // Forgot password
   async forgotPassword(email) {
     try {
-      const response = await axiosInstance.get(`/en/auth/forgot-password/${encodeURIComponent(email)}`);
+      const response = await axiosInstance.get(`/auth/forgot-password/${encodeURIComponent(email)}`);
       return response.data;
     } catch (error) {
       if (error.response?.data?.message) {
@@ -139,7 +139,7 @@ class AuthService {
   // Reset password
   async resetPassword(token, newPassword) {
     try {
-      const response = await axiosInstance.post('/en/auth/reset-password', {
+      const response = await axiosInstance.post('/auth/reset-password', {
         token,
         newPassword
       });
@@ -155,7 +155,7 @@ class AuthService {
   // Verify email
   async verifyEmail(token) {
     try {
-      const response = await axiosInstance.get(`/en/auth/verify-email/${token}`);
+      const response = await axiosInstance.get(`/auth/verify-email/${token}`);
       return response.data;
     } catch (error) {
       if (error.response?.data?.message) {
@@ -168,7 +168,7 @@ class AuthService {
   // Resend verification email
   async resendVerificationEmail() {
     try {
-      const response = await axiosInstance.post('/en/auth/resend-verification');
+      const response = await axiosInstance.post('/auth/resend-verification');
       return response.data;
     } catch (error) {
       if (error.response?.data?.message) {
@@ -181,7 +181,7 @@ class AuthService {
   // Change password
   async changePassword(currentPassword, newPassword) {
     try {
-      const response = await axiosInstance.post('/en/auth/change-password', {
+      const response = await axiosInstance.post('/auth/change-password', {
         newPassword
       });
       return response.data;
@@ -196,21 +196,21 @@ class AuthService {
   // Update profile
   async updateProfile(updates) {
     try {
-      const response = await axiosInstance.patch('/en/user/profile', updates);
-      
+      const response = await axiosInstance.patch('/user/profile', updates);
+
       // The response contains both token and user
       const { token, user } = response.data;
-      
+
       // Update token if provided
       if (token) {
         localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, token);
       }
-      
+
       // Update user data
       if (user) {
         localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(user));
       }
-      
+
       return user;
     } catch (error) {
       if (error.response?.data?.message) {
@@ -225,21 +225,21 @@ class AuthService {
     try {
       const formData = new FormData();
       formData.append('avatar', file);
-      
-      const response = await axiosInstance.post('/en/auth/avatar', formData, {
+
+      const response = await axiosInstance.post('/auth/avatar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      
+
       const { data } = response.data;
-      
+
       if (data) {
         const currentUser = this.getCurrentUser();
         const updatedUser = { ...currentUser, avatar: data.avatarUrl };
         localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(updatedUser));
       }
-      
+
       return data;
     } catch (error) {
       if (error.response?.data?.message) {
