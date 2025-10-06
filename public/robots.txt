@@ -1,0 +1,95 @@
+# Robots.txt for BrandBanda
+# Allow all web crawlers to access public content only
+
+User-agent: *
+Allow: /
+Allow: /login
+Allow: /pricing
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+
+# Disallow authenticated/private pages
+Disallow: /dashboard
+Disallow: /projects
+Disallow: /brand-messages
+Disallow: /copies
+Disallow: /teleprompter
+Disallow: /settings
+Disallow: /split-testing
+Disallow: /analytics
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Disallow resource files
+Disallow: *.json$
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.map$
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+Disallow: /dashboard
+Disallow: /projects
+Disallow: /brand-messages
+Disallow: /copies
+Disallow: /teleprompter
+Disallow: /settings
+Disallow: /split-testing
+Disallow: /analytics
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Disallow: /dashboard
+Disallow: /projects
+Disallow: /brand-messages
+Disallow: /copies
+Disallow: /teleprompter
+Disallow: /settings
+Disallow: /split-testing
+Disallow: /analytics
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+Disallow: /dashboard
+Disallow: /projects
+Disallow: /brand-messages
+Disallow: /copies
+Disallow: /teleprompter
+Disallow: /settings
+Disallow: /split-testing
+Disallow: /analytics
+Crawl-delay: 0
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /dashboard
+Disallow: /projects
+Disallow: /brand-messages
+Disallow: /copies
+Disallow: /teleprompter
+Disallow: /settings
+Disallow: /split-testing
+Disallow: /analytics
+Crawl-delay: 0
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://brandbanda.com/sitemap.xml

@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  branding-dashboard:
+    image: ghcr.io/smartlabtech/2zpoint-fe:latest
+    container_name: 2zpoint-fe
+    restart: unless-stopped
+    networks:
+      - proxy-network
+    # environment:
+    # - NODE_ENV=production
+    # - VITE_FB_PIXEL_ID=1157426736438863
+    # Note: No port mapping needed since NPM will handle routing
+
+networks:
+  proxy-network:
+    external: true

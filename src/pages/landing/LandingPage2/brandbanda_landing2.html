@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandBanda - AI-Powered Branding Revolution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .neural-connection {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            animation: flow 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        @keyframes flow {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: rgb(239, 204, 126);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #ffd700;
+        }
+
+        .cta-button {
+            background: linear-gradient(180deg, rgb(207, 157, 79), rgb(239, 202, 126));
+            color: #000;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .exclusive-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            padding: 8px 16px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .gift-icon {
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .gift-icon::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 6px;
+            background: #ff6b6b;
+            border-radius: 3px;
+        }
+
+        .gift-icon::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 26px;
+            background: #ff6b6b;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: rgb(239, 204, 126);
+        }
+
+        @keyframes neonGlow {
+            from {
+                text-shadow: 
+                    0 0 5px rgb(211, 162, 81),
+                    0 0 10px rgb(211, 162, 81),
+                    0 0 15px rgb(211, 162, 81),
+                    0 0 20px rgb(211, 162, 81),
+                    0 0 35px rgb(211, 162, 81);
+            }
+            to {
+                text-shadow: 
+                    0 0 10px rgb(211, 162, 81),
+                    0 0 20px rgb(211, 162, 81),
+                    0 0 30px rgb(211, 162, 81),
+                    0 0 40px rgb(211, 162, 81),
+                    0 0 70px rgb(211, 162, 81);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #cccccc;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            color: #aaaaaa;
+            line-height: 1.6;
+        }
+
+        /* Brain Visualization */
+        .brain-container {
+            position: relative;
+            margin: 60px 0;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .brain-hemisphere {
+            width: 120px;
+            height: 180px;
+            border: 2px solid;
+            border-radius: 60px 60px 60px 0;
+            position: relative;
+            margin: 0 10px;
+        }
+
+        .brain-left {
+            border-color: #ffd700;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.3), transparent);
+        }
+
+        .brain-right {
+            border-color: #00bfff;
+            background: radial-gradient(circle at 70% 30%, rgba(0, 191, 255, 0.3), transparent);
+            transform: scaleX(-1);
+        }
+
+        .circuit-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, transparent 49%, currentColor 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, currentColor 50%, transparent 51%);
+            background-size: 15px 15px;
+            opacity: 0.3;
+            border-radius: inherit;
+        }
+
+        /* Feature Icons */
+        .feature-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 80px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .feature-icon {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            min-width: 200px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-icon:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .feature-icon-symbol {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .feature-icon h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .feature-icon p {
+            font-size: 0.9rem;
+            color: #aaaaaa;
+            line-height: 1.4;
+        }
+
+        /* Psychology Section */
+        .psychology-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 191, 255, 0.1));
+            margin: 80px 0;
+            border-radius: 20px;
+        }
+
+        .psychology-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .psychology-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: rgb(251, 246, 205);
+            text-shadow: 0 0 15px rgb(211, 162, 81);
+        }
+
+        /* Limited Spots */
+        .limited-spots {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 20px;
+            margin: 60px 0;
+            border: 2px solid #ffd700;
+        }
+
+        .spots-counter {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .counter-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 15px 20px;
+            min-width: 80px;
+        }
+
+        .counter-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffd700;
+        }
+
+        .counter-label {
+            font-size: 0.8rem;
+            color: #cccccc;
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 80px;
+        }
+
+        .hashtags {
+            color: #ffd700;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .feature-icons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .spots-counter {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .counter-box {
+                min-width: 60px;
+                padding: 10px 15px;
+            }
+            
+            /* Two-column layouts to single column */
+            .problem-agitation div,
+            .psychology-content,
+            .solution-overview div,
+            .product-features div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Success vs Failure section */
+            .success-vs-failure div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+            
+            /* Team section */
+            .meet-the-guide div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+            
+            /* Social Proof section - Fix testimonials and expert section */
+            .social-proof div[style*="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr))"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+            
+            .social-proof div[style*="grid-template-columns: 1fr 300px"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+            
+            .social-proof div[style*="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"] {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
+            
+            /* Final CTA trust signals */
+            .final-cta div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+                text-align: center !important;
+            }
+            
+            /* Video containers */
+            video {
+                width: 100% !important;
+                height: auto !important;
+            }
+            
+            /* Image containers */
+            img {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 200px !important;
+            }
+            
+            /* Padding adjustments */
+            .psychology-section,
+            .solution-overview,
+            .product-features,
+            .social-proof,
+            .meet-the-guide,
+            .success-vs-failure,
+            .faq,
+            .final-cta {
+                padding: 40px 10px !important;
+                margin: 20px 0 !important;
+            }
+            
+            /* Font size adjustments */
+            .psychology-title,
+            h2 {
+                font-size: 2rem !important;
+            }
+            
+            h3 {
+                font-size: 1.3rem !important;
+            }
+            
+            /* Button adjustments */
+            .cta-button {
+                padding: 14px 28px !important;
+                font-size: 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation" id="bgAnimation"></div>
+    
+    <header>
+        <nav class="container">
+            <div class="logo">BrandBanda</div>
+            <ul class="nav-menu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#psychology">Psychology</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#signup" class="cta-button">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="exclusive-badge">
+                        <span style="font-size: 14px; line-height: 1; vertical-align: middle;">🎁</span>
+                        <span style="line-height: 1;">Exclusive: Save 30%</span>
+                    </div>
+                    
+                    <h1>BrandBanda</h1>
+                    <p class="hero-subtitle">AI-POWERED BRANDING</p>
+                    <p class="hero-description">
+                        Harness the power of artificial intelligence and consumer psychology to create 
+                        compelling brand copy that converts. Join Egypt's premium entrepreneurs in 
+                        revolutionizing their brand messaging.
+                    </p>
+                    
+                    <a href="#learn-more" class="cta-button" style="font-size: 1.2rem; padding: 16px 32px;">
+                        Get Your Custom Brand Message Now
+                    </a>
+                    
+                    <div class="success-points" style="margin-top: 50px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        <ul style="list-style: none; padding: 0; space-y: 15px;">
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #cccccc; font-size: 1.1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">✓</span>
+                                Generate personalized brand messaging in under 60 seconds
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #cccccc; font-size: 1.1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">✓</span>
+                                Harness AI combined with marketing psychology for superior engagement
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #cccccc; font-size: 1.1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">✓</span>
+                                Save time and reduce branding costs without compromising quality
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #cccccc; font-size: 1.1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">✓</span>
+                                Stand out authentically in MENA's competitive premium market
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="problem-agitation" style="margin-top: 80px; padding: 50px 30px; background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(139, 0, 0, 0.15)); border-radius: 20px; border: 1px solid rgba(255, 100, 100, 0.3); max-width: 700px; margin-left: auto; margin-right: auto;">
+                        <h3 style="font-size: 1.8rem; color: #ff6b6b; margin-bottom: 25px; text-align: center; font-weight: 700;">Struggling with Ineffective Branding That Wastes Time and Money?</h3>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #ffffff; font-size: 1.1rem; line-height: 1.5;">
+                                    <span style="color: #ff6b6b; margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                    Spending excessive hours crafting generic brand messages that don't connect
+                                </li>
+                                <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #ffffff; font-size: 1.1rem; line-height: 1.5;">
+                                    <span style="color: #ff6b6b; margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                    Investing heavily in branding efforts with little customer engagement or retention
+                                </li>
+                                <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #ffffff; font-size: 1.1rem; line-height: 1.5;">
+                                    <span style="color: #ff6b6b; margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                    Failing to differentiate your premium business in a saturated MENA market
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div style="padding: 20px; background: rgba(139, 0, 0, 0.2); border-radius: 12px; border-left: 4px solid #ff6b6b;">
+                            <p style="color: #ffcccc; font-size: 1.1rem; line-height: 1.6; margin: 0; font-style: italic;">
+                                Without a precise, psychology-driven branding strategy, your premium business risks blending in, losing valuable customers, and draining resources on trial-and-error marketing campaigns. This inefficiency stalls growth and diminishes your professional pride.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="value-proposition">
+            <div class="container">
+                <div style="text-align: center; max-width: 900px; margin: 0 auto; padding: 80px 0;">
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 50px; color: rgb(239, 204, 126);">Why BrandBanda is the Game-Changer Your Premium Brand Needs</h2>
+                    
+                    <div style="text-align: left; max-width: 700px; margin: 0 auto;">
+                        <h3 style="font-size: 1.6rem; color: rgb(239, 204, 126); margin-bottom: 30px; text-align: center; font-weight: 600;">Clarity And Direction:</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 20px; color: #cccccc; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                Advanced AI algorithms tailored to your unique language, tone, and style
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 20px; color: #cccccc; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                Integration of proven marketing psychology principles for authentic emotional connection
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 20px; color: #cccccc; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                Rapid, daily generation of targeted social media copy and brand messaging
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 20px; color: #cccccc; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                Exclusive focus on MENA's premium entrepreneurial market segment
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="solution-overview" style="background: linear-gradient(135deg, rgba(239, 204, 126, 0.1), rgba(207, 157, 79, 0.15)); margin: 60px 0; border-radius: 20px;">
+            <div class="container">
+                <div style="text-align: center; max-width: 900px; margin: 0 auto; padding: 80px 20px;">
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 30px; color: rgb(239, 204, 126);">How BrandBanda Transforms Your Branding Journey</h2>
+                    
+                    <p style="font-size: 1.2rem; color: #cccccc; line-height: 1.6; margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        BrandBanda delivers a seamless, AI-powered platform that crafts scientifically grounded, individualized brand messages and compelling social media content—empowering you to engage your premium audience authentically and efficiently.
+                    </p>
+                    
+                    <div style="text-align: left; max-width: 700px; margin: 0 auto;">
+                        <h3 style="font-size: 1.6rem; color: rgb(239, 204, 126); margin-bottom: 30px; text-align: center; font-weight: 600;">Key Benefits:</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 20px; color: #ffffff; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                Achieve consistent, high-impact brand messaging customized to your business identity
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 20px; color: #ffffff; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                Significantly reduce time and financial investment in branding initiatives
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 20px; color: #ffffff; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                Enhance customer engagement and retention through psychologically informed content
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 20px; color: #ffffff; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">•</span>
+                                Gain confidence and market differentiation with data-driven branding strategies
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="psychology-section">
+            <div class="container">
+                <div class="psychology-content">
+                    <h2 class="psychology-title">The Psychology Behind The Power</h2>
+                    <p style="font-size: 1.2rem; color: #cccccc; line-height: 1.6; margin-bottom: 40px;">
+                        Our AI doesn't just write copy—it understands human psychology. Using principles of 
+                        persuasion, cognitive bias, and emotional triggers, BrandBanda creates messages that 
+                        move minds and drive action. Every word is strategically chosen to maximize impact.
+                    </p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 50px;">
+                        <div style="text-align: left; padding: 20px;">
+                            <h4 style="color: #ffd700; margin-bottom: 10px;">Scarcity Principle</h4>
+                            <p style="color: #aaaaaa;">Creates urgency and desire through limited availability messaging</p>
+                        </div>
+                        <div style="text-align: left; padding: 20px;">
+                            <h4 style="color: #ffd700; margin-bottom: 10px;">Social Proof</h4>
+                            <p style="color: #aaaaaa;">Leverages testimonials and success stories for credibility</p>
+                        </div>
+                        <div style="text-align: left; padding: 20px;">
+                            <h4 style="color: #ffd700; margin-bottom: 10px;">Emotional Triggers</h4>
+                            <p style="color: #aaaaaa;">Activates specific emotions that drive purchasing decisions</p>
+                        </div>
+                        <div style="text-align: left; padding: 20px;">
+                            <h4 style="color: #ffd700; margin-bottom: 10px;">Authority Positioning</h4>
+                            <p style="color: #aaaaaa;">Establishes your brand as the trusted expert in your field</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-features" style="padding: 80px 0;">
+            <div class="container">
+                <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 60px; color: rgb(239, 204, 126);">Platform Features Designed for Premium Success</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 40px; margin-bottom: 60px;">
+                        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 40px 30px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <span style="font-size: 2.5rem; margin-right: 15px;">🧠</span>
+                                <h3 style="font-size: 1.4rem; color: rgb(239, 204, 126); font-weight: 700; margin: 0;">AI-Driven Personalization</h3>
+                            </div>
+                            <p style="color: #cccccc; font-size: 1.1rem; line-height: 1.6; margin: 0;">
+                                Generates bespoke brand messaging aligned with your unique voice and style.
+                            </p>
+                        </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 40px 30px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <span style="font-size: 2.5rem; margin-right: 15px;">🧭</span>
+                                <h3 style="font-size: 1.4rem; color: rgb(239, 204, 126); font-weight: 700; margin: 0;">Marketing Psychology Integration</h3>
+                            </div>
+                            <p style="color: #cccccc; font-size: 1.1rem; line-height: 1.6; margin: 0;">
+                                Leverages cognitive triggers proven to boost customer engagement.
+                            </p>
+                        </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 40px 30px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <span style="font-size: 2.5rem; margin-right: 15px;">⚡</span>
+                                <h3 style="font-size: 1.4rem; color: rgb(239, 204, 126); font-weight: 700; margin: 0;">Rapid Output</h3>
+                            </div>
+                            <p style="color: #cccccc; font-size: 1.1rem; line-height: 1.6; margin: 0;">
+                                Produces precise brand and social media copy in under one minute, daily.
+                            </p>
+                        </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 40px 30px; text-align: left;">
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <span style="font-size: 2.5rem; margin-right: 15px;">📊</span>
+                                <h3 style="font-size: 1.4rem; color: rgb(239, 204, 126); font-weight: 700; margin: 0;">Data-Backed Insights</h3>
+                            </div>
+                            <p style="color: #cccccc; font-size: 1.1rem; line-height: 1.6; margin: 0;">
+                                Continuously refines messaging through performance analytics and client feedback.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-top: 50px;">
+                        <div style="border-radius: 16px; overflow: hidden; border: 2px solid rgba(239, 204, 126, 0.3);">
+                            <img src="https://brandbanda.com/assets/features-dashboard.png" alt="BrandBanda Dashboard Features" style="width: 100%; height: 250px; object-fit: cover; background: linear-gradient(45deg, #1a1a2e, #16213e);">
+                        </div>
+                        <div style="border-radius: 16px; overflow: hidden; border: 2px solid rgba(239, 204, 126, 0.3);">
+                            <img src="https://brandbanda.com/assets/features-ai-personalization.png" alt="AI Personalization Features" style="width: 100%; height: 250px; object-fit: cover; background: linear-gradient(45deg, #1a1a2e, #16213e);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="limited-spots">
+            <div class="container">
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Limited Spots for Egypt's Premium Entrepreneurs</h2>
+                <p style="font-size: 1.2rem; color: #cccccc; margin-bottom: 30px;">
+                    Exclusive access to revolutionary AI branding technology. Only serious entrepreneurs need apply.
+                </p>
+                
+                <div class="spots-counter">
+                    <div class="counter-box">
+                        <div class="counter-number" id="spotsLeft">47</div>
+                        <div class="counter-label">Spots Left</div>
+                    </div>
+                    <div class="counter-box">
+                        <div class="counter-number" id="hoursLeft">23</div>
+                        <div class="counter-label">Hours</div>
+                    </div>
+                    <div class="counter-box">
+                        <div class="counter-number" id="minutesLeft">45</div>
+                        <div class="counter-label">Minutes</div>
+                    </div>
+                    <div class="counter-box">
+                        <div class="counter-number" id="secondsLeft">30</div>
+                        <div class="counter-label">Seconds</div>
+                    </div>
+                </div>
+                
+                <a href="#apply" class="cta-button" style="font-size: 1.3rem; padding: 18px 36px; margin-top: 30px;">
+                    SECURE YOUR SPOT NOW
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <section class="social-proof" style="padding: 80px 0; background: linear-gradient(135deg, rgba(239, 204, 126, 0.05), rgba(207, 157, 79, 0.1)); margin: 60px 0; border-radius: 20px;">
+        <div class="container">
+            <div style="text-align: center; max-width: 1200px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 60px; color: rgb(239, 204, 126);">Trusted by MENA's Premium Entrepreneurs</h2>
+                
+                <!-- Testimonials Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 60px;">
+                    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; text-align: left;">
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; gap: 4px; margin-bottom: 15px;">
+                                <span style="color: rgb(239, 204, 126); font-size: 1.2rem;">⭐⭐⭐⭐⭐</span>
+                            </div>
+                            <p style="color: #ffffff; font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; font-style: italic;">
+                                "BrandBanda transformed our branding approach—our customer engagement soared by 40%, and we saved countless hours. The AI-generated messages resonate deeply with our audience."
+                            </p>
+                            <div style="color: rgb(239, 204, 126); font-weight: 600;">
+                                - Layla A., Dubai Startup Founder
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; text-align: left;">
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; gap: 4px; margin-bottom: 15px;">
+                                <span style="color: rgb(239, 204, 126); font-size: 1.2rem;">⭐⭐⭐⭐⭐</span>
+                            </div>
+                            <p style="color: #ffffff; font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; font-style: italic;">
+                                "The integration of psychology with AI is a game-changer. BrandBanda's service helped us differentiate in a crowded market and confidently launch our new product line."
+                            </p>
+                            <div style="color: rgb(239, 204, 126); font-weight: 600;">
+                                - Omar K., Riyadh Business Owner
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; text-align: left;">
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; gap: 4px; margin-bottom: 15px;">
+                                <span style="color: rgb(239, 204, 126); font-size: 1.2rem;">⭐⭐⭐⭐⭐</span>
+                            </div>
+                            <p style="color: #ffffff; font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; font-style: italic;">
+                                "Fast, reliable, and tailored perfectly to our brand's voice. BrandBanda is the premium branding partner every serious entrepreneur needs."
+                            </p>
+                            <div style="color: rgb(239, 204, 126); font-weight: 600;">
+                                - Nour H., Cairo Entrepreneur
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured Expert Testimonial -->
+                <div style="background: linear-gradient(135deg, rgba(239, 204, 126, 0.1), rgba(207, 157, 79, 0.15)); border: 2px solid rgba(239, 204, 126, 0.3); border-radius: 20px; padding: 40px; margin-bottom: 50px;">
+                    <div style="display: grid; grid-template-columns: 1fr 300px; gap: 30px; align-items: center;">
+                        <div style="text-align: left;">
+                            <h3 style="color: rgb(239, 204, 126); font-size: 1.4rem; font-weight: 700; margin-bottom: 10px;">Sarah Al-Mansouri</h3>
+                            <p style="color: #cccccc; font-size: 1rem; margin-bottom: 20px;">Marketing Strategist & Author</p>
+                            <p style="color: #ffffff; font-size: 1.2rem; line-height: 1.6; font-style: italic;">
+                                "BrandBanda sets a new standard by combining AI with deep marketing psychology—perfect for premium brands aiming for authentic connection and growth."
+                            </p>
+                        </div>
+                        <div>
+                            <video 
+                                controls 
+                                style="width: 100%; border-radius: 12px; border: 2px solid rgba(239, 204, 126, 0.3);"
+                                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%231a1a2e'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='%23EFCC7E' font-family='Arial' font-size='14'%3ESarah Al-Mansouri%3C/text%3E%3Ctext x='150' y='120' text-anchor='middle' fill='%23cccccc' font-family='Arial' font-size='12'%3EVideo Testimonial%3C/text%3E%3C/svg%3E">
+                                <source src="https://brandbanda.com/testimonials/sarah-al-mansouri.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured Media -->
+                <div>
+                    <h3 style="color: rgb(239, 204, 126); font-size: 1.6rem; font-weight: 700; margin-bottom: 30px;">Featured In</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <div style="border-radius: 12px; overflow: hidden; border: 2px solid rgba(239, 204, 126, 0.2);">
+                            <img src="https://brandbanda.com/assets/press-feature1.png" alt="Press Feature 1" style="width: 100%; height: 150px; object-fit: cover; background: linear-gradient(45deg, #1a1a2e, #16213e);">
+                        </div>
+                        <div style="border-radius: 12px; overflow: hidden; border: 2px solid rgba(239, 204, 126, 0.2);">
+                            <img src="https://brandbanda.com/assets/press-feature2.png" alt="Press Feature 2" style="width: 100%; height: 150px; object-fit: cover; background: linear-gradient(45deg, #1a1a2e, #16213e);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="meet-the-guide" style="padding: 80px 0;">
+        <div class="container">
+            <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 30px; color: rgb(239, 204, 126);">Meet The Experts Behind BrandBanda</h2>
+                
+                <p style="font-size: 1.2rem; color: #cccccc; line-height: 1.6; margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                    Our team of seasoned marketing psychologists and AI engineers bring decades of combined expertise dedicated to elevating premium brands in the MENA region.
+                </p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-bottom: 40px;">
+                    <div style="text-align: left;">
+                        <h3 style="color: rgb(239, 204, 126); font-size: 1.6rem; font-weight: 700; margin-bottom: 25px;">Our Credentials</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #ffffff; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">🎓</span>
+                                PhDs in Marketing Psychology
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #ffffff; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">🤖</span>
+                                AI Specialists with Fortune 500 Experience
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 15px; color: #ffffff; font-size: 1.1rem; line-height: 1.6;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 12px; font-weight: bold; font-size: 1.2rem;">🌍</span>
+                                MENA Market Experts
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <img 
+                            src="https://brandbanda.com/assets/team-experts.jpg" 
+                            alt="BrandBanda Expert Team" 
+                            style="width: 100%; border-radius: 16px; border: 2px solid rgba(239, 204, 126, 0.3); background: linear-gradient(45deg, #1a1a2e, #16213e); min-height: 250px; object-fit: cover;">
+                    </div>
+                </div>
+                
+                <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 20px; padding: 30px;">
+                    <h3 style="color: rgb(239, 204, 126); font-size: 1.4rem; font-weight: 700; margin-bottom: 20px;">Meet Our Team</h3>
+                    <video 
+                        controls 
+                        style="width: 100%; max-width: 600px; border-radius: 12px; border: 2px solid rgba(239, 204, 126, 0.3);"
+                        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Crect width='600' height='300' fill='%231a1a2e'/%3E%3Ctext x='300' y='140' text-anchor='middle' fill='%23EFCC7E' font-family='Arial' font-size='20'%3EBrandBanda Expert Team%3C/text%3E%3Ctext x='300' y='170' text-anchor='middle' fill='%23cccccc' font-family='Arial' font-size='16'%3ETeam Introduction Video%3C/text%3E%3C/svg%3E">
+                        <source src="https://brandbanda.com/assets/team-intro.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="success-vs-failure" style="padding: 80px 0; background: linear-gradient(135deg, rgba(0, 128, 0, 0.1), rgba(255, 0, 0, 0.1)); margin: 60px 0; border-radius: 20px;">
+        <div class="container">
+            <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch;">
+                    
+                    <!-- Success Side -->
+                    <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.15)); border: 2px solid rgba(34, 197, 94, 0.3); border-radius: 16px; padding: 40px; text-align: left;">
+                        <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                            <span style="font-size: 2.5rem; margin-right: 15px;">✅</span>
+                            <h3 style="font-size: 1.8rem; color: #22c55e; font-weight: 800; margin: 0;">SUCCESS</h3>
+                        </div>
+                        <p style="color: #ffffff; font-size: 1.2rem; line-height: 1.6; margin: 0;">
+                            With BrandBanda, you confidently launch compelling brands that resonate deeply, securing loyal customers and premium market positioning.
+                        </p>
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(34, 197, 94, 0.1); border-radius: 8px; border-left: 4px solid #22c55e;">
+                            <p style="color: #86efac; font-size: 1rem; margin: 0; font-weight: 600;">
+                                → Loyal Customers → Premium Positioning → Market Leadership
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Failure Side -->
+                    <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.15)); border: 2px solid rgba(239, 68, 68, 0.3); border-radius: 16px; padding: 40px; text-align: left;">
+                        <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                            <span style="font-size: 2.5rem; margin-right: 15px;">❌</span>
+                            <h3 style="font-size: 1.8rem; color: #ef4444; font-weight: 800; margin: 0;">FAILURE</h3>
+                        </div>
+                        <p style="color: #ffffff; font-size: 1.2rem; line-height: 1.6; margin: 0;">
+                            Without BrandBanda, continued reliance on generic branding risks wasted resources, weak engagement, and lost opportunities in a competitive premium market.
+                        </p>
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; border-left: 4px solid #ef4444;">
+                            <p style="color: #fca5a5; font-size: 1rem; margin: 0; font-weight: 600;">
+                                → Wasted Resources → Weak Engagement → Lost Opportunities
+                            </p>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Call to Action -->
+                <div style="margin-top: 40px;">
+                    <p style="color: rgb(239, 204, 126); font-size: 1.3rem; font-weight: 700; margin-bottom: 20px;">
+                        The Choice Is Yours
+                    </p>
+                    <a href="#apply" style="background: linear-gradient(180deg, rgb(207, 157, 79), rgb(239, 202, 126)); color: #000; padding: 18px 36px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; font-size: 1.2rem; transition: transform 0.3s ease;">
+                        Choose Success with BrandBanda
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-offers" style="padding: 80px 0; background: linear-gradient(135deg, rgba(239, 204, 126, 0.1), rgba(207, 157, 79, 0.15)); margin: 60px 0; border-radius: 20px;">
+        <div class="container">
+            <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 50px; color: rgb(239, 204, 126);">Premium Branding Solutions with Transparent Pricing</h2>
+                
+                <!-- Special Offer Banner -->
+                <div style="background: linear-gradient(135deg, rgba(239, 204, 126, 0.2), rgba(207, 157, 79, 0.25)); border: 2px solid rgba(239, 204, 126, 0.4); border-radius: 16px; padding: 30px; margin-bottom: 50px; position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: rgb(239, 204, 126); color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; font-weight: 700;">
+                        SPECIAL OFFER
+                    </div>
+                    <h3 style="color: rgb(239, 204, 126); font-size: 1.6rem; font-weight: 700; margin-bottom: 15px;">Limited Time Bonus</h3>
+                    <p style="color: #ffffff; font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">
+                        Sign up today and receive a complimentary brand audit report valued at <span style="color: rgb(239, 204, 126); font-weight: 700;">$500</span>.
+                    </p>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <div style="color: rgb(239, 204, 126); font-size: 2rem; font-weight: 800;">$500</div>
+                            <div style="color: #cccccc; font-size: 0.9rem;">Brand Audit Value</div>
+                        </div>
+                        <div style="color: rgb(239, 204, 126); font-size: 2rem;">+</div>
+                        <div style="text-align: center;">
+                            <div style="color: rgb(239, 204, 126); font-size: 2rem; font-weight: 800;">FREE</div>
+                            <div style="color: #cccccc; font-size: 0.9rem;">With Your Package</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing Benefits -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; text-align: left;">
+                        <h4 style="color: rgb(239, 204, 126); font-size: 1.4rem; font-weight: 700; margin-bottom: 20px;">✨ What's Included</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; color: #ffffff; font-size: 1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 10px;">•</span>
+                                AI-powered brand messaging generation
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; color: #ffffff; font-size: 1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 10px;">•</span>
+                                Marketing psychology integration
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; color: #ffffff; font-size: 1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 10px;">•</span>
+                                Daily social media copy creation
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; color: #ffffff; font-size: 1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 10px;">•</span>
+                                Performance analytics dashboard
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; text-align: left;">
+                        <h4 style="color: rgb(239, 204, 126); font-size: 1.4rem; font-weight: 700; margin-bottom: 20px;">🎯 Perfect For</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; color: #ffffff; font-size: 1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 10px;">•</span>
+                                Premium entrepreneurs in MENA
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; color: #ffffff; font-size: 1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 10px;">•</span>
+                                Businesses seeking authentic differentiation
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; color: #ffffff; font-size: 1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 10px;">•</span>
+                                Companies ready to scale their impact
+                            </li>
+                            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; color: #ffffff; font-size: 1rem; line-height: 1.5;">
+                                <span style="color: rgb(239, 204, 126); margin-right: 10px;">•</span>
+                                Leaders wanting competitive advantage
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div style="text-align: center;">
+                    <a href="#claim-package" style="background: linear-gradient(180deg, rgb(207, 157, 79), rgb(239, 202, 126)); color: #000; padding: 20px 40px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; text-decoration: none; display: inline-block; font-size: 1.3rem; margin-bottom: 20px;">
+                        Claim Your 2X Credits Now
+                    </a>
+                    <p style="color: #cccccc; font-size: 0.9rem; margin: 0;">
+                        Double credits expire end of month • Credit-based system • No hidden fees
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" style="padding: 80px 0;">
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 50px; color: rgb(239, 204, 126);">Frequently Asked Questions</h2>
+                
+                <div style="text-align: left;">
+                    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; margin-bottom: 20px;">
+                        <h3 style="color: rgb(239, 204, 126); font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center;">
+                            <span style="margin-right: 10px;">Q:</span>
+                            How does BrandBanda ensure my brand message is unique?
+                        </h3>
+                        <p style="color: #cccccc; font-size: 1.1rem; line-height: 1.6; margin: 0; padding-left: 25px;">
+                            <span style="color: rgb(239, 204, 126); font-weight: 600;">A:</span> Our AI combines your input with deep marketing psychology to craft messaging tailored exclusively to your brand's identity and audience.
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; margin-bottom: 20px;">
+                        <h3 style="color: rgb(239, 204, 126); font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center;">
+                            <span style="margin-right: 10px;">Q:</span>
+                            Can the platform adapt as my business grows?
+                        </h3>
+                        <p style="color: #cccccc; font-size: 1.1rem; line-height: 1.6; margin: 0; padding-left: 25px;">
+                            <span style="color: rgb(239, 204, 126); font-weight: 600;">A:</span> Yes, BrandBanda continuously refines your messaging based on performance data and your evolving brand profile.
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; margin-bottom: 20px;">
+                        <h3 style="color: rgb(239, 204, 126); font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center;">
+                            <span style="margin-right: 10px;">Q:</span>
+                            Is this service suitable for startups with limited branding experience?
+                        </h3>
+                        <p style="color: #cccccc; font-size: 1.1rem; line-height: 1.6; margin: 0; padding-left: 25px;">
+                            <span style="color: rgb(239, 204, 126); font-weight: 600;">A:</span> Absolutely. BrandBanda is designed to empower entrepreneurs at all stages with expert-level brand messaging instantly.
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(239, 204, 126, 0.2); border-radius: 16px; padding: 30px; margin-bottom: 20px;">
+                        <h3 style="color: rgb(239, 204, 126); font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center;">
+                            <span style="margin-right: 10px;">Q:</span>
+                            What support is available if I need help?
+                        </h3>
+                        <p style="color: #cccccc; font-size: 1.1rem; line-height: 1.6; margin: 0; padding-left: 25px;">
+                            <span style="color: rgb(239, 204, 126); font-weight: 600;">A:</span> Our dedicated support team and branding experts are available via chat, email, and scheduled consultations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta" style="padding: 80px 0; background: linear-gradient(135deg, rgba(239, 204, 126, 0.15), rgba(207, 157, 79, 0.2)); margin: 60px 0; border-radius: 20px; border: 2px solid rgba(239, 204, 126, 0.3);">
+        <div class="container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <h2 style="font-size: 2.8rem; font-weight: 900; margin-bottom: 30px; color: rgb(239, 204, 126); line-height: 1.2;">
+                    Elevate Your Premium Brand With BrandBanda Today
+                </h2>
+                
+                <a href="#get-started" style="background: linear-gradient(180deg, rgb(207, 157, 79), rgb(239, 202, 126)); color: #000; padding: 20px 50px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; text-decoration: none; display: inline-block; font-size: 1.4rem; margin-bottom: 40px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 8px 25px rgba(239, 204, 126, 0.3);">
+                    Get Started Now
+                </a>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 40px;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <span style="color: rgb(239, 204, 126); font-size: 1.3rem;">🔒</span>
+                        <span style="color: #ffffff; font-size: 1rem; font-weight: 600;">Secure Payment Processing</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <span style="color: rgb(239, 204, 126); font-size: 1.3rem;">✅</span>
+                        <span style="color: #ffffff; font-size: 1rem; font-weight: 600;">Trusted by 500+ MENA Entrepreneurs</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <span style="color: rgb(239, 204, 126); font-size: 1.3rem;">🎧</span>
+                        <span style="color: #ffffff; font-size: 1rem; font-weight: 600;">24/7 Dedicated Customer Support</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <span style="color: rgb(239, 204, 126); font-size: 1.3rem;">🛡️</span>
+                        <span style="color: #ffffff; font-size: 1rem; font-weight: 600;">Data Privacy Compliance</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(239, 204, 126, 0.1); border-radius: 12px; border: 1px solid rgba(239, 204, 126, 0.3);">
+                    <p style="color: #ffffff; font-size: 1.1rem; margin: 0; font-style: italic;">
+                        Join the exclusive community of premium entrepreneurs who've transformed their branding with AI-powered psychology
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 BrandBanda. Revolutionizing Brand Psychology with AI.</p>
+            <div class="hashtags">
+                #brandbanda #AIBranding #marketingpsychology
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animated background
+        function createNeuralNetwork() {
+            const container = document.getElementById('bgAnimation');
+            const nodeCount = 50;
+            
+            for (let i = 0; i < nodeCount; i++) {
+                const node = document.createElement('div');
+                node.className = 'neural-node';
+                node.style.left = Math.random() * 100 + '%';
+                node.style.top = Math.random() * 100 + '%';
+                node.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(node);
+                
+                if (i % 3 === 0) {
+                    const connection = document.createElement('div');
+                    connection.className = 'neural-connection';
+                    connection.style.left = Math.random() * 100 + '%';
+                    connection.style.top = Math.random() * 100 + '%';
+                    connection.style.width = Math.random() * 200 + 50 + 'px';
+                    connection.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    connection.style.animationDelay = Math.random() * 3 + 's';
+                    container.appendChild(connection);
+                }
+            }
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            const spots = document.getElementById('spotsLeft');
+            const hours = document.getElementById('hoursLeft');
+            const minutes = document.getElementById('minutesLeft');
+            const seconds = document.getElementById('secondsLeft');
+            
+            setInterval(() => {
+                let currentSeconds = parseInt(seconds.textContent);
+                currentSeconds--;
+                
+                if (currentSeconds < 0) {
+                    currentSeconds = 59;
+                    let currentMinutes = parseInt(minutes.textContent);
+                    currentMinutes--;
+                    
+                    if (currentMinutes < 0) {
+                        currentMinutes = 59;
+                        let currentHours = parseInt(hours.textContent);
+                        currentHours--;
+                        
+                        if (currentHours < 0) {
+                            currentHours = 23;
+                            let currentSpots = parseInt(spots.textContent);
+                            if (currentSpots > 0) {
+                                spots.textContent = currentSpots - 1;
+                            }
+                        }
+                        hours.textContent = currentHours;
+                    }
+                    minutes.textContent = currentMinutes;
+                }
+                seconds.textContent = currentSeconds;
+            }, 1000);
+        }
+
+        // Initialize
+        createNeuralNetwork();
+        updateCountdown();
+    </script>
+</body>
+</html>
