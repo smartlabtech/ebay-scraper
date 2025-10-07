@@ -34,10 +34,11 @@ class ApiService {
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
-          // Token expired or invalid
+          // Token expired or invalid - clear auth data but don't redirect
           localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
           localStorage.removeItem(STORAGE_KEYS.USER_DATA);
-          window.location.href = '/login';
+          // Let the component handle the error display
+          console.warn('Authentication error:', error.response?.data?.message || 'Unauthorized');
         }
         return Promise.reject(error);
       }

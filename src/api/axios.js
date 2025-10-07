@@ -36,20 +36,15 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      // Don't redirect for forgot-password endpoint (401 means email not found)
-      const isForgotPassword = error.config?.url?.includes('/auth/forgot-password');
-      
-      // Only redirect to login if we're not already on auth pages and it's not a forgot-password request
-      if (!window.location.pathname.includes('/login') && 
-          !window.location.pathname.includes('/forgot-password') &&
-          !window.location.pathname.includes('/register') &&
-          !isForgotPassword) {
-        localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-        localStorage.removeItem(STORAGE_KEYS.USER_DATA);
-        window.location.href = '/login';
-      }
+      // Clear auth data for 401 errors
+      localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+      localStorage.removeItem(STORAGE_KEYS.USER_DATA);
+
+      // Don't redirect - let the component handle the error
+      // This allows stores page to show error messages without redirecting
+      console.warn('Authentication error:', error.response?.data?.message || 'Unauthorized');
     }
-    
+
     return Promise.reject(error);
   }
 );
