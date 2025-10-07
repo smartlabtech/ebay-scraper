@@ -1,7 +1,7 @@
 {
-  "short_name": "BrandBanda",
-  "name": "BrandBanda - AI-Powered Branding Solution for Businesses",
-  "description": "Create targeted brand messaging, generate engaging social media copy, and build customer connections with BrandBanda. Get started now.",
+  "short_name": "Store Manager",
+  "name": "eBay Store Manager",
+  "description": "Private management system for eBay store operations",
   "icons": [
     {
       "src": "icons/favicon.ico",
@@ -23,38 +23,24 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#6366F1",
+  "theme_color": "#5046e6",
   "background_color": "#ffffff",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en-US",
-  "categories": ["business", "productivity", "utilities"],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop-view.png",
-      "type": "image/png",
-      "sizes": "1920x1080",
-      "label": "Desktop View"
-    },
-    {
-      "src": "/screenshots/mobile-view.png",
-      "type": "image/png",
-      "sizes": "375x812",
-      "label": "Mobile View"
-    }
-  ],
+  "categories": ["business", "productivity"],
   "shortcuts": [
     {
-      "name": "Create Brand Message",
-      "short_name": "New Message",
-      "description": "Create a new brand message",
-      "url": "/brand-messages?new=true"
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View control panel dashboard",
+      "url": "/control"
     },
     {
-      "name": "View Projects",
-      "short_name": "Projects",
-      "description": "View all your projects",
-      "url": "/projects"
+      "name": "Stores",
+      "short_name": "Stores",
+      "description": "Manage eBay stores",
+      "url": "/control/stores"
     }
   ],
   "prefer_related_applications": false,
