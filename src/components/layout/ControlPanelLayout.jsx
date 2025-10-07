@@ -30,7 +30,7 @@ import {
   MdNotifications,
   MdHelp
 } from 'react-icons/md';
-import { HiTag, HiCog, HiDocumentText } from 'react-icons/hi';
+import { HiTag, HiCog, HiDocumentText, HiShoppingCart } from 'react-icons/hi';
 import { selectUser, logout } from '../../store/slices/authSlice';
 import ToastContainer from '../common/Toast';
 
@@ -66,6 +66,12 @@ const ControlPanelLayout = () => {
       icon: HiTag,
       path: '/control/keywords',
       color: 'teal'
+    },
+    {
+      label: 'Items',
+      icon: HiShoppingCart,
+      path: '/control/items',
+      color: 'indigo'
     },
     {
       type: 'section',

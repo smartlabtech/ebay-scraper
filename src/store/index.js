@@ -9,6 +9,7 @@ import storesReducer from "./slices/storesSlice"
 import keywordsReducer from "./slices/keywordsSlice"
 import keywordPagesReducer from "./slices/keywordPagesSlice"
 import manifestsReducer from "./slices/manifestsSlice"
+import itemsReducer from "./slices/itemsSlice"
 import webscraperReducer from "./slices/webscraperSlice"
 import uiReducer from "./slices/uiSlice"
 
@@ -16,7 +17,7 @@ import uiReducer from "./slices/uiSlice"
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "stores", "keywords", "keywordPages", "manifests", "webscraper"] // Persist auth, stores, keywords, keywordPages, manifests and webscraper state
+  whitelist: ["auth", "stores", "keywords", "keywordPages", "manifests", "items", "webscraper"] // Persist auth, stores, keywords, keywordPages, manifests, items and webscraper state
 }
 
 // Combine reducers
@@ -26,6 +27,7 @@ const appReducer = combineReducers({
   keywords: keywordsReducer,
   keywordPages: keywordPagesReducer,
   manifests: manifestsReducer,
+  items: itemsReducer,
   webscraper: webscraperReducer,
   ui: uiReducer
 })

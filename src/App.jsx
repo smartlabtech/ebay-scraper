@@ -24,6 +24,7 @@ const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"))
 const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboard"))
 const StoresList = lazy(() => import("./pages/stores/StoresList"))
 const KeywordsList = lazy(() => import("./pages/keywords/KeywordsList"))
+const ItemsList = lazy(() => import("./pages/items/ItemsList"))
 const KeywordPagesList = lazy(() => import("./pages/middleWork/KeywordPagesList"))
 const ManifestsList = lazy(() => import("./pages/middleWork/ManifestsList"))
 const WebscraperList = lazy(() => import("./pages/webscraper/WebscraperList"))
@@ -113,6 +114,9 @@ function AppContent() {
 
             {/* Keywords Management */}
             <Route path="keywords" element={<KeywordsList />} />
+
+            {/* Items Management */}
+            <Route path="items" element={<ItemsList />} />
 
             {/* Middle Work - Keyword Pages */}
             <Route path="keyword-pages" element={<KeywordPagesList />} />
