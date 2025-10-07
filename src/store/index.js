@@ -5,45 +5,21 @@ import {combineReducers} from "redux"
 
 // Import slices
 import authReducer from "./slices/authSlice"
-import projectsReducer from "./slices/projectsSlice"
-import projectProductsReducer from "./slices/projectProductsSlice"
-import productsReducer from "./slices/productsSlice"
-import messagesReducer from "./slices/messagesSlice"
-import copiesReducer from "./slices/copiesSlice"
-import analyticsReducer from "./slices/analyticsSlice"
-import uiReducer from "./slices/uiSlice"
-import brandMessagesReducer from "./slices/brandMessagesSlice"
-import subscriptionReducer from "./slices/subscriptionSlice"
-import plansReducer from "./slices/plansSlice"
-import ordersReducer from "./slices/ordersSlice"
-import creditPackagesReducer from "./slices/creditPackagesSlice"
-import writingStylesReducer from "./slices/writingStylesSlice"
 import storesReducer from "./slices/storesSlice"
+import uiReducer from "./slices/uiSlice"
 
 // Redux persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"] // Only persist auth state
+  whitelist: ["auth", "stores"] // Persist auth and stores state
 }
 
 // Combine reducers
 const appReducer = combineReducers({
   auth: authReducer,
-  projects: projectsReducer,
-  projectProducts: projectProductsReducer,
-  products: productsReducer,
-  messages: messagesReducer,
-  copies: copiesReducer,
-  analytics: analyticsReducer,
-  ui: uiReducer,
-  brandMessages: brandMessagesReducer,
-  subscription: subscriptionReducer,
-  plans: plansReducer,
-  orders: ordersReducer,
-  creditPackages: creditPackagesReducer,
-  writingStyles: writingStylesReducer,
-  stores: storesReducer
+  stores: storesReducer,
+  ui: uiReducer
 })
 
 // Root reducer that handles logout action to reset entire store

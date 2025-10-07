@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from '../../services/auth';
-import firstOrderService from '../../services/firstOrderService';
 
 // Async thunks
 export const login = createAsyncThunk(
@@ -50,20 +49,6 @@ export const resendVerificationEmail = createAsyncThunk(
   }
 );
 
-export const signupWithPlan = createAsyncThunk(
-  'auth/signupWithPlan',
-  async (signupData) => {
-    const response = await firstOrderService.createFirstOrder(signupData);
-
-    // Save the token and user data
-    if (response.token) {
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-    }
-
-    return response;
-  }
-);
 
 // Initial state
 const initialState = {
@@ -73,8 +58,7 @@ const initialState = {
   loading: false,
   error: null,
   passwordChangeSuccess: false,
-  verificationEmailSent: false,
-  firstOrderResponse: null // Store orderId and subscriptionId
+  verificationEmailSent: false
 };
 
 // Auth slice
@@ -101,9 +85,6 @@ const authSlice = createSlice({
     },
     clearVerificationEmailSent: (state) => {
       state.verificationEmailSent = false;
-    },
-    clearFirstOrderResponse: (state) => {
-      state.firstOrderResponse = null;
     }
   },
   extraReducers: (builder) => {
@@ -204,37 +185,11 @@ const authSlice = createSlice({
         state.error = action.error.message || 'Failed to resend verification email';
         state.verificationEmailSent = false;
       });
-
-    // Signup with plan (first-order)
-    builder
-      .addCase(signupWithPlan.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.firstOrderResponse = null;
-      })
-      .addCase(signupWithPlan.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload.user;
-        state.isAuthenticated = true;
-        state.isEmailVerified = action.payload.user?.emailVerified || false;
-        state.firstOrderResponse = {
-          orderId: action.payload.orderId,
-          subscriptionId: action.payload.subscriptionId,
-          message: action.payload.message
-        };
-        state.error = null;
-      })
-      .addCase(signupWithPlan.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Signup failed';
-        state.isAuthenticated = false;
-        state.firstOrderResponse = null;
-      });
   }
 });
 
 // Export actions
-export const { clearError, clearPasswordChangeSuccess, updateUserSubscription, emailVerified, clearVerificationEmailSent, clearFirstOrderResponse } = authSlice.actions;
+export const { clearError, clearPasswordChangeSuccess, updateUserSubscription, emailVerified, clearVerificationEmailSent } = authSlice.actions;
 
 // Export selectors
 export const selectUser = (state) => state.auth.user;
