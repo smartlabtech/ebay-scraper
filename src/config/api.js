@@ -11,39 +11,24 @@ export const API_CONFIG = {
 export const API_ENDPOINTS = {
   // Auth
   LOGIN: '/auth/signin',
-  REGISTER: '/auth/signup',
   LOGOUT: '/auth/logout',
   REFRESH_TOKEN: '/auth/refresh',
-  
+  FORGOT_PASSWORD: '/auth/forgot-password',
+  RESET_PASSWORD: '/auth/reset-password',
+  VERIFY_EMAIL: '/auth/verify-email',
+
   // User
   PROFILE: '/user/profile',
   UPDATE_PROFILE: '/user/profile',
   CHANGE_PASSWORD: '/user/change-password',
-  
-  // Projects
-  PROJECTS: '/projects',
-  PROJECT_BY_ID: (id) => `/projects/${id}`,
-  
-  // Subscription
-  CURRENT_SUBSCRIPTION: '/subscription/current',
-  SUBSCRIPTION_USAGE: '/subscription/usage',
-  CANCEL_SUBSCRIPTION: (id) => `/subscription/${id}/cancel`,
-  REACTIVATE_SUBSCRIPTION: (id) => `/subscription/${id}/reactivate`,
-  
-  // Brand Messages
-  BRAND_MESSAGES: '/brand-messages',
-  BRAND_MESSAGE_BY_ID: (id) => `/brand-messages/${id}`,
-  
-  // Copies
-  COPIES: '/copies',
-  COPY_BY_ID: (id) => `/copies/${id}`,
-  
-  // Analytics
-  ANALYTICS_OVERVIEW: '/analytics/overview',
-  ANALYTICS_PERFORMANCE: '/analytics/performance',
-  
-  // Payments
-  CREATE_CHECKOUT: '/payments/create-checkout',
-  PAYMENT_SUCCESS: '/payments/success',
-  PAYMENT_CANCEL: '/payments/cancel',
+
+  // Stores
+  STORES: '/stores',
+  STORE_BY_ID: (id) => `/stores/${id}`,
+  CREATE_STORE: '/stores',
+  UPDATE_STORE: (id) => `/stores/${id}`,
+  DELETE_STORE: (id) => `/stores/${id}`,
+  SYNC_STORE: (id) => `/stores/${id}/sync`,
+  STORE_ANALYTICS: (id) => `/stores/${id}/analytics`,
+  IMPORT_STORES: '/stores/import',
 };
