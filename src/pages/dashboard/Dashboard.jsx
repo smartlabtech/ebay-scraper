@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react"
 import {Link, useNavigate} from "react-router-dom"
-import SiteMetaTags from "../../components/SEO/SiteMetaTags"
 import SubscriptionCard from "../../components/billing/SubscriptionCard"
 import {
   Title,
@@ -179,13 +178,7 @@ const Dashboard = () => {
   // Top projects removed - not needed for dashboard overview
 
   return (
-    <>
-      <SiteMetaTags
-        title="Dashboard"
-        description="Manage your brand content, analytics, and AI-powered tools"
-        noIndex={true}
-      />
-      <Stack gap="xl">
+    <Stack gap="xl">
       {/* Subscription Card */}
       <SubscriptionCard
         variant="dashboard"
@@ -299,7 +292,6 @@ const Dashboard = () => {
         </Grid>
       </Box>
     </Stack>
-    </>
   )
 }
 

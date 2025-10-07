@@ -1,9 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import PageSEO from '../../components/SEO/PageSEO';
-import SiteMetaTags from '../../components/SEO/SiteMetaTags';
-import { getSEOData } from '../../config/seo';
 import { Container, Grid, Title, Text, Stack, List, ThemeIcon, Box, Center, Progress, Paper, Badge, Group, Loader } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { HiSparkles as IconSparkles, HiCheck as IconCheck } from 'react-icons/hi';

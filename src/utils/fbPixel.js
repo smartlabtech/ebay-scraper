@@ -1,7 +1,5 @@
-import {siteMeta} from "../config/siteMeta"
-
-// Facebook Pixel ID from environment or siteMeta
-const FB_PIXEL_ID = siteMeta.analytics.FB_PIXEL_ID
+// Facebook Pixel ID from environment variable
+const FB_PIXEL_ID = import.meta.env.VITE_FB_PIXEL_ID || ''
 
 // Initialize Facebook Pixel
 export const initFBPixel = () => {
