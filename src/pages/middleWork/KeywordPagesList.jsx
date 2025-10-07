@@ -17,6 +17,7 @@ import {
   Loader,
   Alert,
   Paper,
+  Anchor,
   Collapse,
   ActionIcon,
   Tooltip,
@@ -29,29 +30,29 @@ import {
   HiSearch,
   HiFilter,
   HiRefresh,
+  HiExternalLink,
   HiChevronDown,
   HiChevronUp,
   HiCalendar,
-  HiCog,
   HiDocumentText
 } from 'react-icons/hi';
 import {
-  fetchWebscraperJobs,
+  fetchKeywordPages,
   setFilters,
   resetFilters,
   setPage,
   setSortProperty,
   setSortType,
-  selectWebscraperJobs,
+  selectKeywordPages,
   selectPagination,
   selectFilters,
   selectLoading,
   selectError
-} from '../../store/slices/webscraperSlice';
+} from '../../store/slices/keywordPagesSlice';
 
-const WebscraperList = () => {
+const KeywordPagesList = () => {
   const dispatch = useDispatch();
-  const jobs = useSelector(selectWebscraperJobs);
+  const keywordPages = useSelector(selectKeywordPages);
   const pagination = useSelector(selectPagination);
   const filters = useSelector(selectFilters);
   const loading = useSelector(selectLoading);
@@ -60,9 +61,9 @@ const WebscraperList = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState(filters);
 
-  // Fetch jobs on mount and when filters change
+  // Fetch keyword pages on mount and when filters change
   useEffect(() => {
-    dispatch(fetchWebscraperJobs({ ...filters, page: pagination.page, limit: pagination.limit }));
+    dispatch(fetchKeywordPages({ ...filters, page: pagination.page, limit: pagination.limit }));
   }, [dispatch, filters, pagination.page, pagination.limit]);
 
   // Handle filter change
@@ -79,14 +80,16 @@ const WebscraperList = () => {
   // Reset all filters
   const handleResetFilters = () => {
     const resetState = {
-      scrapingjob_id: '',
-      custom_id: '',
-      sitemap_id: '',
-      sitemap_name: '',
-      status: '',
-      scrapingResultMin: '',
-      scrapingResultMax: '',
+      link: '',
+      keywordId: '',
+      originManifestId: '',
+      manifestId: '',
+      pageNumber: '',
+      stage: '',
       createdAt: '',
+      pageNumberMin: '',
+      pageNumberMax: '',
+      search: '',
       sortProperty: 'createdAt',
       sortType: 'DESCENDING'
     };
@@ -114,10 +117,10 @@ const WebscraperList = () => {
 
   // Handle refresh
   const handleRefresh = () => {
-    dispatch(fetchWebscraperJobs({ ...filters, page: pagination.page, limit: pagination.limit }));
+    dispatch(fetchKeywordPages({ ...filters, page: pagination.page, limit: pagination.limit }));
     notifications.show({
       title: 'Refreshed',
-      message: 'Webscraper jobs list has been refreshed',
+      message: 'Keyword pages list has been refreshed',
       color: 'blue'
     });
   };
@@ -140,19 +143,30 @@ const WebscraperList = () => {
     return num.toLocaleString();
   };
 
-  // Get status badge color
-  const getStatusBadgeColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'closed':
-        return 'green';
-      case 'running':
+  // Get stage badge color
+  const getStageBadgeColor = (stage) => {
+    switch (stage?.toUpperCase()) {
+      case 'CREATED':
         return 'blue';
-      case 'pending':
+      case 'PROCESSING':
         return 'yellow';
-      case 'failed':
+      case 'COMPLETED':
+        return 'green';
+      case 'FAILED':
         return 'red';
       default:
         return 'gray';
+    }
+  };
+
+  // Extract keyword from link
+  const extractKeyword = (link) => {
+    try {
+      const url = new URL(link);
+      const keyword = url.searchParams.get('_nkw');
+      return keyword ? decodeURIComponent(keyword) : 'N/A';
+    } catch {
+      return 'N/A';
     }
   };
 
@@ -162,9 +176,9 @@ const WebscraperList = () => {
         {/* Header */}
         <Group justify="space-between" align="center">
           <div>
-            <Title order={2}>Webscraper Jobs</Title>
+            <Title order={2}>Keyword Pages</Title>
             <Text c="dimmed" size="sm">
-              Browse and filter {formatNumber(pagination.totalRecords)} scraping jobs
+              Browse and filter {formatNumber(pagination.totalRecords)} keyword pages
             </Text>
           </div>
           <Group>
@@ -194,56 +208,57 @@ const WebscraperList = () => {
         <Collapse in={showFilters}>
           <Paper shadow="sm" p="md" radius="md">
             <Stack gap="md">
-              <Title order={4}>Filter Scraping Jobs</Title>
+              <Title order={4}>Filter Keyword Pages</Title>
 
               <Grid>
-                {/* Scraping Job ID */}
+                {/* Search */}
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <TextInput
-                    label="Scraping Job ID"
-                    placeholder="e.g., 24308945"
-                    value={localFilters.scrapingjob_id}
-                    onChange={(e) => handleFilterChange('scrapingjob_id', e.target.value)}
+                    label="Search in Link"
+                    placeholder="Search in link URL"
+                    leftSection={<HiSearch />}
+                    value={localFilters.search}
+                    onChange={(e) => handleFilterChange('search', e.target.value)}
                   />
                 </Grid.Col>
 
-                {/* Custom ID */}
+                {/* Keyword ID */}
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <TextInput
-                    label="Custom ID"
-                    placeholder="e.g., store"
-                    value={localFilters.custom_id}
-                    onChange={(e) => handleFilterChange('custom_id', e.target.value)}
+                    label="Keyword ID"
+                    placeholder="MongoDB ObjectId"
+                    value={localFilters.keywordId}
+                    onChange={(e) => handleFilterChange('keywordId', e.target.value)}
                   />
                 </Grid.Col>
 
-                {/* Sitemap ID */}
+                {/* Origin Manifest ID */}
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <TextInput
-                    label="Sitemap ID"
-                    placeholder="e.g., 1150227"
-                    value={localFilters.sitemap_id}
-                    onChange={(e) => handleFilterChange('sitemap_id', e.target.value)}
+                    label="Origin Manifest ID"
+                    placeholder="MongoDB ObjectId"
+                    value={localFilters.originManifestId}
+                    onChange={(e) => handleFilterChange('originManifestId', e.target.value)}
                   />
                 </Grid.Col>
 
-                {/* Sitemap Name */}
+                {/* Manifest ID */}
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <TextInput
-                    label="Sitemap Name"
-                    placeholder="e.g., getStoreLocationAndSoldOrders"
-                    value={localFilters.sitemap_name}
-                    onChange={(e) => handleFilterChange('sitemap_name', e.target.value)}
+                    label="Manifest ID"
+                    placeholder="MongoDB ObjectId"
+                    value={localFilters.manifestId}
+                    onChange={(e) => handleFilterChange('manifestId', e.target.value)}
                   />
                 </Grid.Col>
 
-                {/* Status */}
+                {/* Stage */}
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <TextInput
-                    label="Status"
-                    placeholder="e.g., closed, running, pending"
-                    value={localFilters.status}
-                    onChange={(e) => handleFilterChange('status', e.target.value)}
+                    label="Stage"
+                    placeholder="e.g., CREATED, PROCESSING, COMPLETED"
+                    value={localFilters.stage}
+                    onChange={(e) => handleFilterChange('stage', e.target.value)}
                   />
                 </Grid.Col>
 
@@ -265,25 +280,25 @@ const WebscraperList = () => {
                   />
                 </Grid.Col>
 
-                {/* Scraping Result Min */}
+                {/* Page Number Min */}
                 <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
                   <NumberInput
-                    label="Min Results"
-                    placeholder="0"
+                    label="Min Page Number"
+                    placeholder="1"
                     min={0}
-                    value={localFilters.scrapingResultMin === '' ? '' : Number(localFilters.scrapingResultMin)}
-                    onChange={(value) => handleFilterChange('scrapingResultMin', value === '' ? '' : value)}
+                    value={localFilters.pageNumberMin === '' ? '' : Number(localFilters.pageNumberMin)}
+                    onChange={(value) => handleFilterChange('pageNumberMin', value === '' ? '' : value)}
                   />
                 </Grid.Col>
 
-                {/* Scraping Result Max */}
+                {/* Page Number Max */}
                 <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
                   <NumberInput
-                    label="Max Results"
-                    placeholder="999999"
+                    label="Max Page Number"
+                    placeholder="100"
                     min={0}
-                    value={localFilters.scrapingResultMax === '' ? '' : Number(localFilters.scrapingResultMax)}
-                    onChange={(value) => handleFilterChange('scrapingResultMax', value === '' ? '' : value)}
+                    value={localFilters.pageNumberMax === '' ? '' : Number(localFilters.pageNumberMax)}
+                    onChange={(value) => handleFilterChange('pageNumberMax', value === '' ? '' : value)}
                   />
                 </Grid.Col>
 
@@ -294,12 +309,10 @@ const WebscraperList = () => {
                     value={localFilters.sortProperty}
                     onChange={(value) => handleFilterChange('sortProperty', value)}
                     data={[
-                      { value: 'scrapingjob_id', label: 'Job ID' },
-                      { value: 'custom_id', label: 'Custom ID' },
-                      { value: 'sitemap_id', label: 'Sitemap ID' },
-                      { value: 'sitemap_name', label: 'Sitemap Name' },
-                      { value: 'status', label: 'Status' },
-                      { value: 'scrapingResult', label: 'Result Count' },
+                      { value: 'link', label: 'Link' },
+                      { value: 'keywordId', label: 'Keyword ID' },
+                      { value: 'pageNumber', label: 'Page Number' },
+                      { value: 'stage', label: 'Stage' },
                       { value: 'createdAt', label: 'Date Created' }
                     ]}
                   />
@@ -336,16 +349,16 @@ const WebscraperList = () => {
           <Paper shadow="sm" p="xl" radius="md">
             <Stack align="center" gap="md">
               <Loader size="lg" color="violet" />
-              <Text c="dimmed">Loading jobs...</Text>
+              <Text c="dimmed">Loading keyword pages...</Text>
             </Stack>
           </Paper>
         ) : (
           <>
-            {/* Jobs Grid */}
-            {jobs.length === 0 ? (
+            {/* Keyword Pages Grid */}
+            {keywordPages.length === 0 ? (
               <Paper shadow="sm" p="xl" radius="md">
                 <Stack align="center" gap="md">
-                  <Text size="lg" c="dimmed">No jobs found</Text>
+                  <Text size="lg" c="dimmed">No keyword pages found</Text>
                   <Text size="sm" c="dimmed">Try adjusting your filters</Text>
                   <Button variant="light" onClick={handleResetFilters}>
                     Reset Filters
@@ -354,53 +367,65 @@ const WebscraperList = () => {
               </Paper>
             ) : (
               <Grid>
-                {jobs.map((job) => (
-                  <Grid.Col key={job._id} span={{ base: 12, sm: 6, lg: 4 }}>
+                {keywordPages.map((keywordPage) => (
+                  <Grid.Col key={keywordPage._id} span={{ base: 12, sm: 6, lg: 4 }}>
                     <Card shadow="sm" radius="md" withBorder h="100%">
                       <Stack gap="sm">
-                        {/* Job ID and Status */}
+                        {/* Page Number and Stage */}
                         <Group justify="space-between" align="flex-start">
-                          <div style={{ flex: 1 }}>
+                          <div>
                             <Text fw={600} size="lg">
-                              Job #{job.scrapingjob_id}
+                              Page {keywordPage.page || 'N/A'}
                             </Text>
                             <Group gap={4} mt={4}>
                               <Badge
                                 variant="light"
-                                color={getStatusBadgeColor(job.status)}
+                                color={getStageBadgeColor(keywordPage.stage)}
                               >
-                                {job.status || 'Unknown'}
+                                {keywordPage.stage || 'Unknown'}
                               </Badge>
-                              {job.scrapingResult !== undefined && (
-                                <Badge variant="light" color="blue">
-                                  {formatNumber(job.scrapingResult)} results
-                                </Badge>
-                              )}
                             </Group>
                           </div>
+                          <Tooltip label="View on eBay">
+                            <ActionIcon
+                              component="a"
+                              href={keywordPage.link}
+                              target="_blank"
+                              variant="light"
+                              size="sm"
+                            >
+                              <HiExternalLink />
+                            </ActionIcon>
+                          </Tooltip>
                         </Group>
 
-                        {/* Custom ID */}
-                        {job.custom_id && (
-                          <Group gap="xs">
-                            <Text size="xs" c="dimmed">Custom ID:</Text>
-                            <Code size="xs">{job.custom_id}</Code>
-                          </Group>
-                        )}
-
-                        {/* Sitemap Info */}
+                        {/* Keyword */}
                         <Stack gap={4}>
-                          <Group gap={4}>
-                            <HiDocumentText size={14} />
-                            <Text size="xs" c="dimmed">Sitemap:</Text>
-                          </Group>
-                          <Text size="xs" fw={500} lineClamp={2}>
-                            {job.sitemap_name || 'N/A'}
+                          <Text size="xs" c="dimmed">Keyword:</Text>
+                          <Text size="sm" fw={500} lineClamp={2}>
+                            {extractKeyword(keywordPage.link)}
                           </Text>
-                          {job.sitemap_id && (
-                            <Text size="xs" c="dimmed">
-                              ID: {job.sitemap_id}
-                            </Text>
+                        </Stack>
+
+                        {/* IDs */}
+                        <Stack gap={4}>
+                          {keywordPage.keywordId && (
+                            <Group gap={4}>
+                              <Text size="xs" c="dimmed">Keyword ID:</Text>
+                              <Code size="xs">{keywordPage.keywordId.slice(-8)}</Code>
+                            </Group>
+                          )}
+                          {keywordPage.manifestId && (
+                            <Group gap={4}>
+                              <Text size="xs" c="dimmed">Manifest ID:</Text>
+                              <Code size="xs">{keywordPage.manifestId.slice(-8)}</Code>
+                            </Group>
+                          )}
+                          {keywordPage.originManifestId && (
+                            <Group gap={4}>
+                              <Text size="xs" c="dimmed">Origin:</Text>
+                              <Code size="xs">{keywordPage.originManifestId.slice(-8)}</Code>
+                            </Group>
                           )}
                         </Stack>
 
@@ -409,16 +434,27 @@ const WebscraperList = () => {
                           <Group gap={4}>
                             <Text size="xs" c="dimmed">Created:</Text>
                             <Text size="xs" fw={500}>
-                              {formatDate(job.createdAt)}
+                              {formatDate(keywordPage.createdAt)}
                             </Text>
                           </Group>
                           <Group gap={4}>
                             <Text size="xs" c="dimmed">Last Modified:</Text>
                             <Text size="xs" fw={500}>
-                              {formatDate(job.lastModify)}
+                              {formatDate(keywordPage.lastModify)}
                             </Text>
                           </Group>
                         </Stack>
+
+                        {/* Link */}
+                        <Anchor
+                          href={keywordPage.link}
+                          target="_blank"
+                          size="xs"
+                          c="blue"
+                          lineClamp={1}
+                        >
+                          View page on eBay →
+                        </Anchor>
                       </Stack>
                     </Card>
                   </Grid.Col>
@@ -446,4 +482,4 @@ const WebscraperList = () => {
   );
 };
 
-export default WebscraperList;
+export default KeywordPagesList;

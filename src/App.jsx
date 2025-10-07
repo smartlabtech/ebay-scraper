@@ -24,6 +24,8 @@ const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"))
 const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboard"))
 const StoresList = lazy(() => import("./pages/stores/StoresList"))
 const KeywordsList = lazy(() => import("./pages/keywords/KeywordsList"))
+const KeywordPagesList = lazy(() => import("./pages/middleWork/KeywordPagesList"))
+const ManifestsList = lazy(() => import("./pages/middleWork/ManifestsList"))
 const WebscraperList = lazy(() => import("./pages/webscraper/WebscraperList"))
 
 // Create query client
@@ -111,6 +113,12 @@ function AppContent() {
 
             {/* Keywords Management */}
             <Route path="keywords" element={<KeywordsList />} />
+
+            {/* Middle Work - Keyword Pages */}
+            <Route path="keyword-pages" element={<KeywordPagesList />} />
+
+            {/* Middle Work - Manifests */}
+            <Route path="manifests" element={<ManifestsList />} />
 
             {/* Webscraper Jobs */}
             <Route path="webscraper" element={<WebscraperList />} />

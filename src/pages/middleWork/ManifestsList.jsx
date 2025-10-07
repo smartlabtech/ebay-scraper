@@ -32,26 +32,25 @@ import {
   HiChevronDown,
   HiChevronUp,
   HiCalendar,
-  HiCog,
-  HiDocumentText
+  HiClock
 } from 'react-icons/hi';
 import {
-  fetchWebscraperJobs,
+  fetchManifests,
   setFilters,
   resetFilters,
   setPage,
   setSortProperty,
   setSortType,
-  selectWebscraperJobs,
+  selectManifests,
   selectPagination,
   selectFilters,
   selectLoading,
   selectError
-} from '../../store/slices/webscraperSlice';
+} from '../../store/slices/manifestsSlice';
 
-const WebscraperList = () => {
+const ManifestsList = () => {
   const dispatch = useDispatch();
-  const jobs = useSelector(selectWebscraperJobs);
+  const manifests = useSelector(selectManifests);
   const pagination = useSelector(selectPagination);
   const filters = useSelector(selectFilters);
   const loading = useSelector(selectLoading);
@@ -60,9 +59,9 @@ const WebscraperList = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState(filters);
 
-  // Fetch jobs on mount and when filters change
+  // Fetch manifests on mount and when filters change
   useEffect(() => {
-    dispatch(fetchWebscraperJobs({ ...filters, page: pagination.page, limit: pagination.limit }));
+    dispatch(fetchManifests({ ...filters, page: pagination.page, limit: pagination.limit }));
   }, [dispatch, filters, pagination.page, pagination.limit]);
 
   // Handle filter change
@@ -79,13 +78,13 @@ const WebscraperList = () => {
   // Reset all filters
   const handleResetFilters = () => {
     const resetState = {
-      scrapingjob_id: '',
-      custom_id: '',
-      sitemap_id: '',
-      sitemap_name: '',
+      type: '',
       status: '',
-      scrapingResultMin: '',
-      scrapingResultMax: '',
+      _id: '',
+      scrapingjobId: '',
+      scrapingjobStatus: '',
+      trialsMin: '',
+      trialsMax: '',
       createdAt: '',
       sortProperty: 'createdAt',
       sortType: 'DESCENDING'
@@ -114,10 +113,10 @@ const WebscraperList = () => {
 
   // Handle refresh
   const handleRefresh = () => {
-    dispatch(fetchWebscraperJobs({ ...filters, page: pagination.page, limit: pagination.limit }));
+    dispatch(fetchManifests({ ...filters, page: pagination.page, limit: pagination.limit }));
     notifications.show({
       title: 'Refreshed',
-      message: 'Webscraper jobs list has been refreshed',
+      message: 'Manifests list has been refreshed',
       color: 'blue'
     });
   };
@@ -142,15 +141,27 @@ const WebscraperList = () => {
 
   // Get status badge color
   const getStatusBadgeColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'closed':
-        return 'green';
-      case 'running':
-        return 'blue';
-      case 'pending':
+    switch (status?.toUpperCase()) {
+      case 'PENDING':
         return 'yellow';
-      case 'failed':
+      case 'PROCESSING':
+        return 'blue';
+      case 'COMPLETED':
+        return 'green';
+      case 'FAILED':
         return 'red';
+      default:
+        return 'gray';
+    }
+  };
+
+  // Get type badge color
+  const getTypeBadgeColor = (type) => {
+    switch (type?.toLowerCase()) {
+      case 'keyword':
+        return 'teal';
+      case 'store':
+        return 'violet';
       default:
         return 'gray';
     }
@@ -162,9 +173,9 @@ const WebscraperList = () => {
         {/* Header */}
         <Group justify="space-between" align="center">
           <div>
-            <Title order={2}>Webscraper Jobs</Title>
+            <Title order={2}>Manifests</Title>
             <Text c="dimmed" size="sm">
-              Browse and filter {formatNumber(pagination.totalRecords)} scraping jobs
+              Browse and filter {formatNumber(pagination.totalRecords)} manifests
             </Text>
           </div>
           <Group>
@@ -194,46 +205,16 @@ const WebscraperList = () => {
         <Collapse in={showFilters}>
           <Paper shadow="sm" p="md" radius="md">
             <Stack gap="md">
-              <Title order={4}>Filter Scraping Jobs</Title>
+              <Title order={4}>Filter Manifests</Title>
 
               <Grid>
-                {/* Scraping Job ID */}
+                {/* Type */}
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <TextInput
-                    label="Scraping Job ID"
-                    placeholder="e.g., 24308945"
-                    value={localFilters.scrapingjob_id}
-                    onChange={(e) => handleFilterChange('scrapingjob_id', e.target.value)}
-                  />
-                </Grid.Col>
-
-                {/* Custom ID */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
-                  <TextInput
-                    label="Custom ID"
-                    placeholder="e.g., store"
-                    value={localFilters.custom_id}
-                    onChange={(e) => handleFilterChange('custom_id', e.target.value)}
-                  />
-                </Grid.Col>
-
-                {/* Sitemap ID */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
-                  <TextInput
-                    label="Sitemap ID"
-                    placeholder="e.g., 1150227"
-                    value={localFilters.sitemap_id}
-                    onChange={(e) => handleFilterChange('sitemap_id', e.target.value)}
-                  />
-                </Grid.Col>
-
-                {/* Sitemap Name */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
-                  <TextInput
-                    label="Sitemap Name"
-                    placeholder="e.g., getStoreLocationAndSoldOrders"
-                    value={localFilters.sitemap_name}
-                    onChange={(e) => handleFilterChange('sitemap_name', e.target.value)}
+                    label="Type"
+                    placeholder="e.g., keyword, store"
+                    value={localFilters.type}
+                    onChange={(e) => handleFilterChange('type', e.target.value)}
                   />
                 </Grid.Col>
 
@@ -241,9 +222,39 @@ const WebscraperList = () => {
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <TextInput
                     label="Status"
-                    placeholder="e.g., closed, running, pending"
+                    placeholder="e.g., PENDING, PROCESSING, COMPLETED"
                     value={localFilters.status}
                     onChange={(e) => handleFilterChange('status', e.target.value)}
+                  />
+                </Grid.Col>
+
+                {/* Manifest ID */}
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <TextInput
+                    label="Manifest ID"
+                    placeholder="MongoDB ObjectId"
+                    value={localFilters._id}
+                    onChange={(e) => handleFilterChange('_id', e.target.value)}
+                  />
+                </Grid.Col>
+
+                {/* Scraping Job ID */}
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <TextInput
+                    label="Scraping Job ID"
+                    placeholder="Scraping job ID"
+                    value={localFilters.scrapingjobId}
+                    onChange={(e) => handleFilterChange('scrapingjobId', e.target.value)}
+                  />
+                </Grid.Col>
+
+                {/* Scraping Job Status */}
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <TextInput
+                    label="Scraping Job Status"
+                    placeholder="Scraping job status"
+                    value={localFilters.scrapingjobStatus}
+                    onChange={(e) => handleFilterChange('scrapingjobStatus', e.target.value)}
                   />
                 </Grid.Col>
 
@@ -265,25 +276,25 @@ const WebscraperList = () => {
                   />
                 </Grid.Col>
 
-                {/* Scraping Result Min */}
+                {/* Trials Min */}
                 <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
                   <NumberInput
-                    label="Min Results"
+                    label="Min Trials"
                     placeholder="0"
                     min={0}
-                    value={localFilters.scrapingResultMin === '' ? '' : Number(localFilters.scrapingResultMin)}
-                    onChange={(value) => handleFilterChange('scrapingResultMin', value === '' ? '' : value)}
+                    value={localFilters.trialsMin === '' ? '' : Number(localFilters.trialsMin)}
+                    onChange={(value) => handleFilterChange('trialsMin', value === '' ? '' : value)}
                   />
                 </Grid.Col>
 
-                {/* Scraping Result Max */}
+                {/* Trials Max */}
                 <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
                   <NumberInput
-                    label="Max Results"
-                    placeholder="999999"
+                    label="Max Trials"
+                    placeholder="100"
                     min={0}
-                    value={localFilters.scrapingResultMax === '' ? '' : Number(localFilters.scrapingResultMax)}
-                    onChange={(value) => handleFilterChange('scrapingResultMax', value === '' ? '' : value)}
+                    value={localFilters.trialsMax === '' ? '' : Number(localFilters.trialsMax)}
+                    onChange={(value) => handleFilterChange('trialsMax', value === '' ? '' : value)}
                   />
                 </Grid.Col>
 
@@ -294,13 +305,12 @@ const WebscraperList = () => {
                     value={localFilters.sortProperty}
                     onChange={(value) => handleFilterChange('sortProperty', value)}
                     data={[
-                      { value: 'scrapingjob_id', label: 'Job ID' },
-                      { value: 'custom_id', label: 'Custom ID' },
-                      { value: 'sitemap_id', label: 'Sitemap ID' },
-                      { value: 'sitemap_name', label: 'Sitemap Name' },
+                      { value: 'type', label: 'Type' },
                       { value: 'status', label: 'Status' },
-                      { value: 'scrapingResult', label: 'Result Count' },
-                      { value: 'createdAt', label: 'Date Created' }
+                      { value: 'trials', label: 'Trials' },
+                      { value: 'createdAt', label: 'Date Created' },
+                      { value: 'scrapingjobId', label: 'Scraping Job ID' },
+                      { value: 'scrapingjobStatus', label: 'Scraping Job Status' }
                     ]}
                   />
                 </Grid.Col>
@@ -336,16 +346,16 @@ const WebscraperList = () => {
           <Paper shadow="sm" p="xl" radius="md">
             <Stack align="center" gap="md">
               <Loader size="lg" color="violet" />
-              <Text c="dimmed">Loading jobs...</Text>
+              <Text c="dimmed">Loading manifests...</Text>
             </Stack>
           </Paper>
         ) : (
           <>
-            {/* Jobs Grid */}
-            {jobs.length === 0 ? (
+            {/* Manifests Grid */}
+            {manifests.length === 0 ? (
               <Paper shadow="sm" p="xl" radius="md">
                 <Stack align="center" gap="md">
-                  <Text size="lg" c="dimmed">No jobs found</Text>
+                  <Text size="lg" c="dimmed">No manifests found</Text>
                   <Text size="sm" c="dimmed">Try adjusting your filters</Text>
                   <Button variant="light" onClick={handleResetFilters}>
                     Reset Filters
@@ -354,68 +364,78 @@ const WebscraperList = () => {
               </Paper>
             ) : (
               <Grid>
-                {jobs.map((job) => (
-                  <Grid.Col key={job._id} span={{ base: 12, sm: 6, lg: 4 }}>
+                {manifests.map((manifest) => (
+                  <Grid.Col key={manifest._id} span={{ base: 12, sm: 6, lg: 4 }}>
                     <Card shadow="sm" radius="md" withBorder h="100%">
                       <Stack gap="sm">
-                        {/* Job ID and Status */}
+                        {/* Type and Status */}
                         <Group justify="space-between" align="flex-start">
                           <div style={{ flex: 1 }}>
                             <Text fw={600} size="lg">
-                              Job #{job.scrapingjob_id}
+                              Manifest
                             </Text>
                             <Group gap={4} mt={4}>
                               <Badge
                                 variant="light"
-                                color={getStatusBadgeColor(job.status)}
+                                color={getTypeBadgeColor(manifest.type)}
                               >
-                                {job.status || 'Unknown'}
+                                {manifest.type || 'Unknown'}
                               </Badge>
-                              {job.scrapingResult !== undefined && (
-                                <Badge variant="light" color="blue">
-                                  {formatNumber(job.scrapingResult)} results
-                                </Badge>
-                              )}
+                              <Badge
+                                variant="light"
+                                color={getStatusBadgeColor(manifest.status)}
+                              >
+                                {manifest.status || 'Unknown'}
+                              </Badge>
                             </Group>
                           </div>
                         </Group>
 
-                        {/* Custom ID */}
-                        {job.custom_id && (
-                          <Group gap="xs">
-                            <Text size="xs" c="dimmed">Custom ID:</Text>
-                            <Code size="xs">{job.custom_id}</Code>
-                          </Group>
-                        )}
+                        {/* Manifest ID */}
+                        <Group gap="xs">
+                          <Text size="xs" c="dimmed">ID:</Text>
+                          <Code size="xs">{manifest._id.slice(-12)}</Code>
+                        </Group>
 
-                        {/* Sitemap Info */}
-                        <Stack gap={4}>
-                          <Group gap={4}>
-                            <HiDocumentText size={14} />
-                            <Text size="xs" c="dimmed">Sitemap:</Text>
-                          </Group>
-                          <Text size="xs" fw={500} lineClamp={2}>
-                            {job.sitemap_name || 'N/A'}
-                          </Text>
-                          {job.sitemap_id && (
-                            <Text size="xs" c="dimmed">
-                              ID: {job.sitemap_id}
-                            </Text>
-                          )}
-                        </Stack>
+                        {/* Trials */}
+                        <Group gap="xs">
+                          <HiClock size={14} />
+                          <Text size="xs" c="dimmed">Trials:</Text>
+                          <Badge size="sm" variant="light" color="blue">
+                            {manifest.trials}
+                          </Badge>
+                        </Group>
+
+                        {/* Scraping Job Info */}
+                        {(manifest.scrapingjobId || manifest.scrapingjobStatus) && (
+                          <Stack gap={4}>
+                            {manifest.scrapingjobId && (
+                              <Group gap={4}>
+                                <Text size="xs" c="dimmed">Job ID:</Text>
+                                <Code size="xs">{manifest.scrapingjobId}</Code>
+                              </Group>
+                            )}
+                            {manifest.scrapingjobStatus && (
+                              <Group gap={4}>
+                                <Text size="xs" c="dimmed">Job Status:</Text>
+                                <Text size="xs" fw={500}>{manifest.scrapingjobStatus}</Text>
+                              </Group>
+                            )}
+                          </Stack>
+                        )}
 
                         {/* Dates */}
                         <Stack gap={4}>
                           <Group gap={4}>
                             <Text size="xs" c="dimmed">Created:</Text>
                             <Text size="xs" fw={500}>
-                              {formatDate(job.createdAt)}
+                              {formatDate(manifest.createdAt)}
                             </Text>
                           </Group>
                           <Group gap={4}>
                             <Text size="xs" c="dimmed">Last Modified:</Text>
                             <Text size="xs" fw={500}>
-                              {formatDate(job.lastModify)}
+                              {formatDate(manifest.lastModify)}
                             </Text>
                           </Group>
                         </Stack>
@@ -446,4 +466,4 @@ const WebscraperList = () => {
   );
 };
 
-export default WebscraperList;
+export default ManifestsList;

@@ -30,7 +30,7 @@ import {
   MdNotifications,
   MdHelp
 } from 'react-icons/md';
-import { HiTag, HiCog } from 'react-icons/hi';
+import { HiTag, HiCog, HiDocumentText } from 'react-icons/hi';
 import { selectUser, logout } from '../../store/slices/authSlice';
 import ToastContainer from '../common/Toast';
 
@@ -68,6 +68,14 @@ const ControlPanelLayout = () => {
       color: 'teal'
     },
     {
+      type: 'section',
+      label: 'Middle Work',
+      children: [
+        { label: 'Keyword Pages', path: '/control/keyword-pages' },
+        { label: 'Manifests', path: '/control/manifests' }
+      ]
+    },
+    {
       label: 'Webscraper',
       icon: HiCog,
       path: '/control/webscraper',
@@ -99,7 +107,34 @@ const ControlPanelLayout = () => {
     return false;
   };
 
-  const renderNavItem = (item) => {
+  const renderNavItem = (item, index) => {
+    // Render section divider with children
+    if (item.type === 'section') {
+      return (
+        <Box key={`section-${index}`} my="md">
+          <Divider
+            label={
+              <Text size="xs" c="dimmed" fw={600}>
+                {item.label}
+              </Text>
+            }
+            labelPosition="center"
+            mb="xs"
+          />
+          {item.children && item.children.map(child => (
+            <NavLink
+              key={child.path}
+              label={child.label}
+              active={location.pathname === child.path}
+              onClick={() => navigate(child.path)}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </Box>
+      );
+    }
+
+    // Render nav item with children
     if (item.children) {
       return (
         <NavLink
@@ -126,6 +161,7 @@ const ControlPanelLayout = () => {
       );
     }
 
+    // Render regular nav item
     return (
       <NavLink
         key={item.path}
@@ -250,7 +286,7 @@ const ControlPanelLayout = () => {
             <Divider mb="md" />
 
             {/* Navigation Items */}
-            {navigationItems.map(item => renderNavItem(item))}
+            {navigationItems.map((item, index) => renderNavItem(item, index))}
           </AppShell.Section>
 
           {/* Footer Section - Optional */}
