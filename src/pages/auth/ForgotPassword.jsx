@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import PageSEO from '../../components/SEO/PageSEO';
-import { getSEOData } from '../../config/seo';
 import { useForm } from '@mantine/form';
 import { motion } from 'framer-motion';
 import { 

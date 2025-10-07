@@ -2,8 +2,6 @@ import {useState} from "react"
 import {useNavigate} from "react-router-dom"
 import {useSelector} from "react-redux"
 import {usePlans} from "../../hooks/usePlans"
-import PageSEO from "../../components/SEO/PageSEO"
-import {getSEOData} from "../../config/seo"
 import {
   Container,
   Title,

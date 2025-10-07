@@ -38,8 +38,6 @@ import {
 } from "react-icons/md"
 
 // SEO components
-import SiteMetaTags from "../../../components/SEO/SiteMetaTags"
-import PageSEO from "../../../components/SEO/PageSEO"
 import trackingService from "../../../services/trackingService"
 
 // Theme utilities (we'll use these where appropriate but keep original styles)
@@ -194,10 +192,6 @@ const Landing1_DRY = () => {
 
   return (
     <Box style={{overflow: "hidden", maxWidth: "100%"}}>
-      {/* SEO Meta Tags */}
-      <SiteMetaTags {...landingData.seo} />
-      <PageSEO {...landingData.seo} url="/" />
-
       {/* Background with all original effects */}
       <HeroBackground isMobile={isMobile} styles={styles} />
 

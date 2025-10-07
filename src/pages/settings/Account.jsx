@@ -23,7 +23,6 @@ import {
 import {useAuth} from "../../hooks/useAuth"
 import {useLoading} from "../../contexts/LoadingContext"
 import {PageTransition} from "../../components/ui/AnimatedElements"
-import SiteMetaTags from "../../components/SEO/SiteMetaTags"
 
 const countryList = [
   {value: "AF", label: "Afghanistan"},
@@ -262,7 +261,7 @@ const Account = () => {
   })
 
   const handleSaveProfile = async (values) => {
-    showLoading('profile', 'Updating profile...')
+    showLoading("profile", "Updating profile...")
     try {
       // Find the full country name from the country code
       let locationName = values.location
@@ -304,18 +303,12 @@ const Account = () => {
         color: "red"
       })
     } finally {
-      hideLoading('profile')
+      hideLoading("profile")
     }
   }
 
   return (
     <PageTransition>
-      <SiteMetaTags
-        title="Account Settings"
-        description="Manage your BrandBanda account information and profile settings"
-        keywords="account settings, profile, user preferences, personal information"
-        canonicalUrl="https://www.brandbanda.com/settings/account"
-      />
       <Stack gap="xl">
         <Paper shadow="sm" radius="md" withBorder p="sm">
           <form onSubmit={form.onSubmit(handleSaveProfile)}>
@@ -372,10 +365,7 @@ const Account = () => {
                 <Button variant="default" onClick={() => form.reset()}>
                   Cancel
                 </Button>
-                <Button
-                  type="submit"
-                  leftSection={<IconSave size={16} />}
-                >
+                <Button type="submit" leftSection={<IconSave size={16} />}>
                   Save Changes
                 </Button>
               </Group>

@@ -18,7 +18,6 @@ import {
   MdArrowForward as IconArrowForward
 } from "react-icons/md"
 import {PageTransition} from "../../components/ui/AnimatedElements"
-import SiteMetaTags from "../../components/SEO/SiteMetaTags"
 
 const Settings = () => {
   const navigate = useNavigate()
@@ -42,12 +41,6 @@ const Settings = () => {
 
   return (
     <PageTransition>
-      <SiteMetaTags
-        title="Settings"
-        description="Manage your BrandBanda account settings, preferences, and subscription"
-        keywords="account settings, preferences, subscription management, BrandBanda settings"
-        canonicalUrl="https://www.brandbanda.com/settings"
-      />
       <Stack size="lg">
         {/* <Group justify="space-between" mb="xl">
           <Box>

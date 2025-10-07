@@ -1,8 +1,6 @@
 import { Container, Title, Text, Stack, Paper, List, Divider, Button, Group, Table } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { HiArrowLeft as IconArrowLeft } from 'react-icons/hi';
-import PageSEO from '../../components/SEO/PageSEO';
-import { getSEOData } from '../../config/seo';
 
 const Cookies = () => {
   const seoData = getSEOData('/cookies');

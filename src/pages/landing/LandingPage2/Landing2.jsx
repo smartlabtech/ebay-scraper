@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from "react"
 import {useSelector} from "react-redux"
-import SiteMetaTags from "../../../components/SEO/SiteMetaTags"
 import trackingService from "../../../services/trackingService"
 import {
   Container,
@@ -63,8 +62,6 @@ import {
   MdShowChart
 } from "react-icons/md"
 import {useNavigate} from "react-router-dom"
-import PageSEO from "../../../components/SEO/PageSEO"
-import {getSEOData} from "../../../config/seo"
 import plansService from "../../../services/plans"
 import SignupWithPlanModal from "../../../components/modals/SignupWithPlanModal"
 
@@ -514,12 +511,6 @@ const Landing2 = () => {
 
   return (
     <>
-      <SiteMetaTags
-        title="AI-Powered Brand Psychology Platform"
-        description="Transform your brand with AI-driven psychological insights. Create compelling content that resonates with your audience."
-        keywords="brand psychology, AI marketing, brand messaging, content creation"
-      />
-      <PageSEO {...seoData} url="/" />
       <Box style={styles.wrapper}>
         {/* Animated Background */}
         <div ref={bgAnimationRef} style={styles.bgAnimation} />

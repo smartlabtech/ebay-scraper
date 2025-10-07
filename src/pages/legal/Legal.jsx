@@ -6,8 +6,6 @@ import {
   HiShieldCheck as IconShield,
   HiFingerPrint as IconCookie
 } from 'react-icons/hi';
-import PageSEO from '../../components/SEO/PageSEO';
-import { getSEOData } from '../../config/seo';
 
 const Legal = () => {
   const seoData = getSEOData('/legal');
