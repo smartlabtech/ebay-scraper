@@ -6,19 +6,23 @@ import {combineReducers} from "redux"
 // Import slices
 import authReducer from "./slices/authSlice"
 import storesReducer from "./slices/storesSlice"
+import keywordsReducer from "./slices/keywordsSlice"
+import webscraperReducer from "./slices/webscraperSlice"
 import uiReducer from "./slices/uiSlice"
 
 // Redux persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "stores"] // Persist auth and stores state
+  whitelist: ["auth", "stores", "keywords", "webscraper"] // Persist auth, stores, keywords and webscraper state
 }
 
 // Combine reducers
 const appReducer = combineReducers({
   auth: authReducer,
   stores: storesReducer,
+  keywords: keywordsReducer,
+  webscraper: webscraperReducer,
   ui: uiReducer
 })
 

@@ -30,6 +30,7 @@ import {
   MdNotifications,
   MdHelp
 } from 'react-icons/md';
+import { HiTag, HiCog } from 'react-icons/hi';
 import { selectUser, logout } from '../../store/slices/authSlice';
 import ToastContainer from '../common/Toast';
 
@@ -59,6 +60,18 @@ const ControlPanelLayout = () => {
         { label: 'Import Stores', path: '/control/stores/import' },
         { label: 'Store Analytics', path: '/control/stores/analytics' }
       ]
+    },
+    {
+      label: 'Keywords',
+      icon: HiTag,
+      path: '/control/keywords',
+      color: 'teal'
+    },
+    {
+      label: 'Webscraper',
+      icon: HiCog,
+      path: '/control/webscraper',
+      color: 'orange'
     },
     // Future sections can be added here
     // {

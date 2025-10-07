@@ -21,6 +21,7 @@ const addPulseAnimation = () => {
 
 const FloatingActionButton = ({
   to,
+  onClick,
   icon: Icon,
   label,
   iconSize = 20,
@@ -36,6 +37,11 @@ const FloatingActionButton = ({
     return null;
   }
 
+  // Determine if this is a link or button
+  const isLink = !!to && !onClick;
+  const component = isLink ? Link : 'button';
+  const componentProps = isLink ? { to } : { onClick, type: 'button' };
+
   return (
     <Affix position={position}>
       <Transition
@@ -45,8 +51,8 @@ const FloatingActionButton = ({
       >
         {(transitionStyles) => (
           <ActionIcon
-            component={Link}
-            to={to}
+            component={component}
+            {...componentProps}
             size="auto"
             radius="xl"
             variant="gradient"

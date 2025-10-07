@@ -23,6 +23,8 @@ const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"))
 const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"))
 const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboard"))
 const StoresList = lazy(() => import("./pages/stores/StoresList"))
+const KeywordsList = lazy(() => import("./pages/keywords/KeywordsList"))
+const WebscraperList = lazy(() => import("./pages/webscraper/WebscraperList"))
 
 // Create query client
 const queryClient = new QueryClient({
@@ -106,6 +108,12 @@ function AppContent() {
             <Route path="stores/edit/:id" element={<StoresList />} />
             <Route path="stores/import" element={<StoresList />} />
             <Route path="stores/analytics" element={<StoresList />} />
+
+            {/* Keywords Management */}
+            <Route path="keywords" element={<KeywordsList />} />
+
+            {/* Webscraper Jobs */}
+            <Route path="webscraper" element={<WebscraperList />} />
 
             {/* Future routes can be added here */}
             {/* <Route path="inventory" element={<Inventory />} /> */}
