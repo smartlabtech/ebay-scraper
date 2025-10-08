@@ -435,20 +435,38 @@ const WebscraperList = () => {
                         </Stack>
 
                         {/* Dates */}
-                        <Stack gap={4}>
+                        <Group gap="xs" justify="space-between">
+                          <Group gap={4}>
+                            <Text size="xs" c="dimmed">Updated:</Text>
+                            <Text size="xs" fw={500}>
+                              {formatDate(job.lastModify)}
+                            </Text>
+                          </Group>
                           <Group gap={4}>
                             <Text size="xs" c="dimmed">Created:</Text>
                             <Text size="xs" fw={500}>
                               {formatDate(job.createdAt)}
                             </Text>
                           </Group>
+                        </Group>
+
+                        {/* Trials count if exists */}
+                        {job.trials !== undefined && job.trials > 0 && (
                           <Group gap={4}>
-                            <Text size="xs" c="dimmed">Last Modified:</Text>
-                            <Text size="xs" fw={500}>
-                              {formatDate(job.lastModify)}
-                            </Text>
+                            <Text size="xs" c="dimmed">Retry attempts:</Text>
+                            <Badge size="xs" color="orange" variant="light">
+                              {job.trials}
+                            </Badge>
                           </Group>
-                        </Stack>
+                        )}
+
+                        {/* Error Alert for failed jobs */}
+                        {job.error && (
+                          <Alert color="red" variant="light" p="xs">
+                            <Text size="xs" fw={500} mb={4}>Error:</Text>
+                            <Text size="xs">{job.error}</Text>
+                          </Alert>
+                        )}
                       </Stack>
                     </Card>
                   </Grid.Col>
