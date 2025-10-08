@@ -391,7 +391,8 @@ const ItemsList = () => {
                       { value: 'itemSold', label: 'Items Sold' },
                       { value: 'category', label: 'Category' },
                       { value: 'stage', label: 'Stage' },
-                      { value: 'createdAt', label: 'Date Created' }
+                      { value: 'createdAt', label: 'Date Created' },
+                      { value: 'lastModify', label: 'Last Modified' }
                     ]}
                   />
                 </Grid.Col>
