@@ -13,7 +13,9 @@ import {
 } from "@mantine/core"
 import {notifications} from "@mantine/notifications"
 import {HiInformationCircle, HiDocumentAdd, HiPlay} from "react-icons/hi"
+import {MdSettings} from "react-icons/md"
 import manifestsService from "../../services/manifests"
+import webscraperService from "../../services/webscraper"
 
 const FlowActionManagement = () => {
   const [loading, setLoading] = useState({
@@ -22,7 +24,8 @@ const FlowActionManagement = () => {
     keywordPage: false,
     scrapItem: false,
     scrapKeyword: false,
-    scrapKeywordPage: false
+    scrapKeywordPage: false,
+    handleScraped: false
   })
 
   // Handle manifest generation
@@ -77,6 +80,30 @@ const FlowActionManagement = () => {
       })
     } finally {
       setLoading((prev) => ({...prev, [loadingKey]: false}))
+    }
+  }
+
+  // Handle scraped data processing
+  const handleScrapedData = async () => {
+    setLoading((prev) => ({...prev, handleScraped: true}))
+
+    try {
+      const response = await webscraperService.handleScraped()
+
+      notifications.show({
+        title: "Success",
+        message: response.message || `Processing completed. Processed: ${response.processed || 0}`,
+        color: "green",
+        icon: <MdSettings />
+      })
+    } catch (error) {
+      notifications.show({
+        title: "Error",
+        message: error.message || "Failed to handle scraped data",
+        color: "red"
+      })
+    } finally {
+      setLoading((prev) => ({...prev, handleScraped: false}))
     }
   }
 
@@ -250,6 +277,57 @@ const FlowActionManagement = () => {
                   Send Item to Scrap
                 </Button>
               </Group>
+            </Stack>
+          </Stack>
+        </Paper>
+
+        {/* Handle Scraped Data Section */}
+        <Paper shadow="sm" p="lg" radius="md" withBorder>
+          <Stack gap="md">
+            {/* Section Header */}
+            <Group justify="space-between" align="center">
+              <div>
+                <Title order={3}>Handle Scraped Data</Title>
+                <Text size="sm" c="dimmed" mt={4}>
+                  Process and handle completed scraping results
+                </Text>
+              </div>
+              <Tooltip
+                label="This processes all scraped data and updates the system accordingly."
+                multiline
+                w={300}
+                withArrow
+                position="left"
+              >
+                <HiInformationCircle
+                  size={24}
+                  style={{color: "var(--mantine-color-blue-6)", cursor: "help"}}
+                />
+              </Tooltip>
+            </Group>
+
+            <Alert
+              icon={<HiInformationCircle />}
+              title="Processing"
+              color="orange"
+              variant="light"
+            >
+              Click the button below to process all completed scraping jobs and update the database.
+            </Alert>
+
+            <Divider />
+
+            {/* Handle Scraped Button */}
+            <Stack gap="sm">
+              <Button
+                leftSection={<MdSettings />}
+                color="orange"
+                size="lg"
+                loading={loading.handleScraped}
+                onClick={handleScrapedData}
+              >
+                Process Scraped Data
+              </Button>
             </Stack>
           </Stack>
         </Paper>

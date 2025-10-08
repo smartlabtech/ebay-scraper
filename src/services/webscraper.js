@@ -84,6 +84,19 @@ class WebscraperService {
       throw new Error('Failed to fetch webscraper jobs with filters');
     }
   }
+
+  // Handle scraped data
+  async handleScraped() {
+    try {
+      const response = await axiosInstance.post('/webscraper/handle-scraped');
+      return response.data;
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Failed to handle scraped data');
+    }
+  }
 }
 
 // Create and export webscraper service instance
