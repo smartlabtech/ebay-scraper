@@ -419,6 +419,18 @@ const StoresList = () => {
                               </Text>
                             </Group>
                           )}
+                          <Group gap={4}>
+                            <Text size="xs" c="dimmed">Created:</Text>
+                            <Text size="xs" fw={500}>
+                              {formatDate(store.createdAt)}
+                            </Text>
+                          </Group>
+                          <Group gap={4}>
+                            <Text size="xs" c="dimmed">Last Modified:</Text>
+                            <Text size="xs" fw={500}>
+                              {formatDate(store.lastModify)}
+                            </Text>
+                          </Group>
                         </Stack>
 
                         {/* Notice if exists */}
