@@ -98,7 +98,7 @@ const ItemsList = () => {
       itemSoldMin: '',
       itemSoldMax: '',
       search: '',
-      sortProperty: 'createdAt',
+      sortProperty: 'lastModify',
       sortType: 'DESCENDING'
     };
     setLocalFilters(resetState);

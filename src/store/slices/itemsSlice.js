@@ -31,7 +31,7 @@ const initialState = {
     itemSoldMin: '',
     itemSoldMax: '',
     search: '',
-    sortProperty: 'createdAt',
+    sortProperty: 'lastModify',
     sortType: 'DESCENDING'
   },
   loading: false,
