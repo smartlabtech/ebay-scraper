@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect, useState} from "react"
+import {useDispatch, useSelector} from "react-redux"
 import {
   Container,
   Title,
@@ -23,9 +23,9 @@ import {
   Tooltip,
   Box,
   Flex
-} from '@mantine/core';
-import { DateInput } from '@mantine/dates';
-import { notifications } from '@mantine/notifications';
+} from "@mantine/core"
+import {DateInput} from "@mantine/dates"
+import {notifications} from "@mantine/notifications"
 import {
   HiSearch,
   HiFilter,
@@ -37,7 +37,7 @@ import {
   HiCollection,
   HiChevronDown,
   HiChevronUp
-} from 'react-icons/hi';
+} from "react-icons/hi"
 import {
   fetchStores,
   setFilters,
@@ -50,98 +50,106 @@ import {
   selectFilters,
   selectLoading,
   selectError
-} from '../../store/slices/storesSlice';
+} from "../../store/slices/storesSlice"
 
 const StoresList = () => {
-  const dispatch = useDispatch();
-  const stores = useSelector(selectStores);
-  const pagination = useSelector(selectPagination);
-  const filters = useSelector(selectFilters);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  const dispatch = useDispatch()
+  const stores = useSelector(selectStores)
+  const pagination = useSelector(selectPagination)
+  const filters = useSelector(selectFilters)
+  const loading = useSelector(selectLoading)
+  const error = useSelector(selectError)
 
-  const [showFilters, setShowFilters] = useState(false);
-  const [localFilters, setLocalFilters] = useState(filters);
+  const [showFilters, setShowFilters] = useState(false)
+  const [localFilters, setLocalFilters] = useState(filters)
 
   // Fetch stores on mount and when filters change
   useEffect(() => {
-    dispatch(fetchStores({ ...filters, page: pagination.page, limit: pagination.limit }));
-  }, [dispatch, filters, pagination.page, pagination.limit]);
+    dispatch(
+      fetchStores({...filters, page: pagination.page, limit: pagination.limit})
+    )
+  }, [dispatch, filters, pagination.page, pagination.limit])
 
   // Handle filter change
   const handleFilterChange = (key, value) => {
-    setLocalFilters(prev => ({ ...prev, [key]: value }));
-  };
+    setLocalFilters((prev) => ({...prev, [key]: value}))
+  }
 
   // Apply filters
   const handleApplyFilters = () => {
-    dispatch(setFilters(localFilters));
-    dispatch(setPage(1)); // Reset to first page when applying filters
-  };
+    dispatch(setFilters(localFilters))
+    dispatch(setPage(1)) // Reset to first page when applying filters
+  }
 
   // Reset all filters
   const handleResetFilters = () => {
     const resetState = {
-      location: '',
-      storeLink: '',
-      createdAt: '',
-      memberSince: '',
-      memberSinceBefore: '',
-      soldMin: '',
-      soldMax: '',
-      searchAllMin: '',
-      searchAllMax: '',
-      search: '',
-      sortProperty: 'createdAt',
-      sortType: 'DESCENDING'
-    };
-    setLocalFilters(resetState);
-    dispatch(resetFilters());
-    dispatch(setPage(1));
-  };
+      location: "",
+      storeLink: "",
+      createdAt: "",
+      memberSince: "",
+      memberSinceBefore: "",
+      soldMin: "",
+      soldMax: "",
+      searchAllMin: "",
+      searchAllMax: "",
+      search: "",
+      sortProperty: "createdAt",
+      sortType: "DESCENDING"
+    }
+    setLocalFilters(resetState)
+    dispatch(resetFilters())
+    dispatch(setPage(1))
+  }
 
   // Handle page change
   const handlePageChange = (page) => {
-    dispatch(setPage(page));
-  };
+    dispatch(setPage(page))
+  }
 
   // Handle sort change
   const handleSortChange = (property) => {
     if (filters.sortProperty === property) {
       // Toggle sort direction if same property
-      dispatch(setSortType(filters.sortType === 'ASCENDING' ? 'DESCENDING' : 'ASCENDING'));
+      dispatch(
+        setSortType(
+          filters.sortType === "ASCENDING" ? "DESCENDING" : "ASCENDING"
+        )
+      )
     } else {
       // Set new property and default to descending
-      dispatch(setSortProperty(property));
-      dispatch(setSortType('DESCENDING'));
+      dispatch(setSortProperty(property))
+      dispatch(setSortType("DESCENDING"))
     }
-  };
+  }
 
   // Handle refresh
   const handleRefresh = () => {
-    dispatch(fetchStores({ ...filters, page: pagination.page, limit: pagination.limit }));
+    dispatch(
+      fetchStores({...filters, page: pagination.page, limit: pagination.limit})
+    )
     notifications.show({
-      title: 'Refreshed',
-      message: 'Stores list has been refreshed',
-      color: 'blue'
-    });
-  };
+      title: "Refreshed",
+      message: "Stores list has been refreshed",
+      color: "blue"
+    })
+  }
 
   // Format date for display
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
+    if (!dateString) return "N/A"
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    })
+  }
 
   // Format number with commas
   const formatNumber = (num) => {
-    if (num === null || num === undefined) return 'N/A';
-    return num.toLocaleString();
-  };
+    if (num === null || num === undefined) return "N/A"
+    return num.toLocaleString()
+  }
 
   return (
     <Container size="xl" py="xl">
@@ -162,7 +170,7 @@ const StoresList = () => {
             </Tooltip>
             <Button
               leftSection={<HiFilter />}
-              variant={showFilters ? 'filled' : 'light'}
+              variant={showFilters ? "filled" : "light"}
               onClick={() => setShowFilters(!showFilters)}
             >
               Filters {showFilters ? <HiChevronUp /> : <HiChevronDown />}
@@ -185,38 +193,54 @@ const StoresList = () => {
 
               <Grid>
                 {/* Search */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
+                <Grid.Col span={{base: 12, md: 6}}>
                   <TextInput
                     label="Search"
                     placeholder="Search in store link or location"
                     leftSection={<HiSearch />}
                     value={localFilters.search}
-                    onChange={(e) => handleFilterChange('search', e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("search", e.target.value)
+                    }
                   />
                 </Grid.Col>
 
                 {/* Location */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
+                <Grid.Col span={{base: 12, md: 6}}>
                   <TextInput
                     label="Location"
                     placeholder="e.g., United States, California"
                     leftSection={<HiLocationMarker />}
                     value={localFilters.location}
-                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("location", e.target.value)
+                    }
                   />
                 </Grid.Col>
 
                 {/* Member Since After */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
+                <Grid.Col span={{base: 12, md: 6}}>
                   <DateInput
                     label="Member Since (After)"
                     placeholder="Select date"
-                    value={localFilters.memberSince && localFilters.memberSince !== '' ? new Date(localFilters.memberSince) : null}
+                    value={
+                      localFilters.memberSince &&
+                      localFilters.memberSince !== ""
+                        ? new Date(localFilters.memberSince)
+                        : null
+                    }
                     onChange={(date) => {
-                      if (date && date instanceof Date && !isNaN(date.getTime())) {
-                        handleFilterChange('memberSince', date.toISOString().split('T')[0]);
+                      if (
+                        date &&
+                        date instanceof Date &&
+                        !isNaN(date.getTime())
+                      ) {
+                        handleFilterChange(
+                          "memberSince",
+                          date.toISOString().split("T")[0]
+                        )
                       } else {
-                        handleFilterChange('memberSince', '');
+                        handleFilterChange("memberSince", "")
                       }
                     }}
                     clearable
@@ -224,16 +248,28 @@ const StoresList = () => {
                 </Grid.Col>
 
                 {/* Member Since Before */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
+                <Grid.Col span={{base: 12, md: 6}}>
                   <DateInput
                     label="Member Since (Before)"
                     placeholder="Select date"
-                    value={localFilters.memberSinceBefore && localFilters.memberSinceBefore !== '' ? new Date(localFilters.memberSinceBefore) : null}
+                    value={
+                      localFilters.memberSinceBefore &&
+                      localFilters.memberSinceBefore !== ""
+                        ? new Date(localFilters.memberSinceBefore)
+                        : null
+                    }
                     onChange={(date) => {
-                      if (date && date instanceof Date && !isNaN(date.getTime())) {
-                        handleFilterChange('memberSinceBefore', date.toISOString().split('T')[0]);
+                      if (
+                        date &&
+                        date instanceof Date &&
+                        !isNaN(date.getTime())
+                      ) {
+                        handleFilterChange(
+                          "memberSinceBefore",
+                          date.toISOString().split("T")[0]
+                        )
                       } else {
-                        handleFilterChange('memberSinceBefore', '');
+                        handleFilterChange("memberSinceBefore", "")
                       }
                     }}
                     clearable
@@ -241,75 +277,107 @@ const StoresList = () => {
                 </Grid.Col>
 
                 {/* Sold Min */}
-                <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
+                <Grid.Col span={{base: 12, sm: 6, md: 3}}>
                   <NumberInput
                     label="Min Sold"
                     placeholder="0"
                     min={0}
-                    value={localFilters.soldMin === '' ? '' : Number(localFilters.soldMin)}
-                    onChange={(value) => handleFilterChange('soldMin', value === '' ? '' : value)}
+                    value={
+                      localFilters.soldMin === ""
+                        ? ""
+                        : Number(localFilters.soldMin)
+                    }
+                    onChange={(value) =>
+                      handleFilterChange("soldMin", value === "" ? "" : value)
+                    }
                   />
                 </Grid.Col>
 
                 {/* Sold Max */}
-                <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
+                <Grid.Col span={{base: 12, sm: 6, md: 3}}>
                   <NumberInput
                     label="Max Sold"
                     placeholder="999999"
                     min={0}
-                    value={localFilters.soldMax === '' ? '' : Number(localFilters.soldMax)}
-                    onChange={(value) => handleFilterChange('soldMax', value === '' ? '' : value)}
+                    value={
+                      localFilters.soldMax === ""
+                        ? ""
+                        : Number(localFilters.soldMax)
+                    }
+                    onChange={(value) =>
+                      handleFilterChange("soldMax", value === "" ? "" : value)
+                    }
                   />
                 </Grid.Col>
 
                 {/* Products Min */}
-                <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
+                <Grid.Col span={{base: 12, sm: 6, md: 3}}>
                   <NumberInput
                     label="Min Products"
                     placeholder="0"
                     min={0}
-                    value={localFilters.searchAllMin === '' ? '' : Number(localFilters.searchAllMin)}
-                    onChange={(value) => handleFilterChange('searchAllMin', value === '' ? '' : value)}
+                    value={
+                      localFilters.searchAllMin === ""
+                        ? ""
+                        : Number(localFilters.searchAllMin)
+                    }
+                    onChange={(value) =>
+                      handleFilterChange(
+                        "searchAllMin",
+                        value === "" ? "" : value
+                      )
+                    }
                   />
                 </Grid.Col>
 
                 {/* Products Max */}
-                <Grid.Col span={{ base: 12, sm: 6, md: 3 }}>
+                <Grid.Col span={{base: 12, sm: 6, md: 3}}>
                   <NumberInput
                     label="Max Products"
                     placeholder="999999"
                     min={0}
-                    value={localFilters.searchAllMax === '' ? '' : Number(localFilters.searchAllMax)}
-                    onChange={(value) => handleFilterChange('searchAllMax', value === '' ? '' : value)}
+                    value={
+                      localFilters.searchAllMax === ""
+                        ? ""
+                        : Number(localFilters.searchAllMax)
+                    }
+                    onChange={(value) =>
+                      handleFilterChange(
+                        "searchAllMax",
+                        value === "" ? "" : value
+                      )
+                    }
                   />
                 </Grid.Col>
 
                 {/* Sort Property */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
+                <Grid.Col span={{base: 12, md: 6}}>
                   <Select
                     label="Sort By"
                     value={localFilters.sortProperty}
-                    onChange={(value) => handleFilterChange('sortProperty', value)}
+                    onChange={(value) =>
+                      handleFilterChange("sortProperty", value)
+                    }
                     data={[
-                      { value: 'memberSince', label: 'Member Since' },
-                      { value: 'sold', label: 'Items Sold' },
-                      { value: 'searchAll', label: 'Total Products' },
-                      { value: 'location', label: 'Location' },
-                      { value: 'createdAt', label: 'Date Added' },
-                      { value: 'storeLink', label: 'Store Name' }
+                      {value: "memberSince", label: "Member Since"},
+                      {value: "sold", label: "Items Sold"},
+                      {value: "searchAll", label: "Total Products"},
+                      {value: "location", label: "Location"},
+                      {value: "createdAt", label: "Date Added"},
+                      {value: "storeLink", label: "Store Name"}
                     ]}
                   />
                 </Grid.Col>
 
                 {/* Sort Direction */}
-                <Grid.Col span={{ base: 12, md: 6 }}>
+                <Grid.Col span={{base: 12, md: 6}}>
                   <Select
                     label="Sort Direction"
                     value={localFilters.sortType}
-                    onChange={(value) => handleFilterChange('sortType', value)}
+                    onChange={(value) => handleFilterChange("sortType", value)}
                     data={[
-                      { value: 'ASCENDING', label: 'Ascending (A-Z, Low-High)' },
-                      { value: 'DESCENDING', label: 'Descending (Z-A, High-Low)' }
+                      {value: "ASCENDING", label: "Ascending (A-Z, Low-High)"},
+                      {value: "DESCENDING", label: "Descending (Z-A, High-Low)"}
                     ]}
                   />
                 </Grid.Col>
@@ -341,8 +409,12 @@ const StoresList = () => {
             {stores.length === 0 ? (
               <Paper shadow="sm" p="xl" radius="md">
                 <Stack align="center" gap="md">
-                  <Text size="lg" c="dimmed">No stores found</Text>
-                  <Text size="sm" c="dimmed">Try adjusting your filters</Text>
+                  <Text size="lg" c="dimmed">
+                    No stores found
+                  </Text>
+                  <Text size="sm" c="dimmed">
+                    Try adjusting your filters
+                  </Text>
                   <Button variant="light" onClick={handleResetFilters}>
                     Reset Filters
                   </Button>
@@ -351,19 +423,21 @@ const StoresList = () => {
             ) : (
               <Grid>
                 {stores.map((store) => (
-                  <Grid.Col key={store._id} span={{ base: 12, sm: 6, lg: 4 }}>
+                  <Grid.Col key={store._id} span={{base: 12, sm: 6, lg: 4}}>
                     <Card shadow="sm" radius="md" withBorder h="100%">
                       <Stack gap="sm">
                         {/* Store Name */}
                         <Group justify="space-between" align="flex-start">
                           <div>
                             <Text fw={600} size="lg" lineClamp={1}>
-                              {store.storeLink.split('/').pop()}
+                              {store.storeLink.split("/").pop()}
                             </Text>
                             <Group gap={4}>
                               <HiLocationMarker size={14} />
                               <Text size="xs" c="dimmed">
-                                {store.locatedIn || store.location || 'Unknown Location'}
+                                {store.locatedIn ||
+                                  store.location ||
+                                  "Unknown Location"}
                               </Text>
                             </Group>
                           </div>
@@ -406,30 +480,41 @@ const StoresList = () => {
                         {/* Additional Info */}
                         <Stack gap={4}>
                           <Group gap={4}>
-                            <Text size="xs" c="dimmed">Member since:</Text>
+                            <Text size="xs" c="dimmed">
+                              Member since:
+                            </Text>
                             <Text size="xs" fw={500}>
                               {formatDate(store.memberSince)}
                             </Text>
                           </Group>
                           {store.averageSold && (
                             <Group gap={4}>
-                              <Text size="xs" c="dimmed">Avg sold:</Text>
+                              <Text size="xs" c="dimmed">
+                                Avg sold:
+                              </Text>
                               <Text size="xs" fw={500}>
                                 {store.averageSold} items/month
                               </Text>
                             </Group>
                           )}
-                          <Group gap={4}>
-                            <Text size="xs" c="dimmed">Created:</Text>
-                            <Text size="xs" fw={500}>
-                              {formatDate(store.createdAt)}
-                            </Text>
-                          </Group>
-                          <Group gap={4}>
-                            <Text size="xs" c="dimmed">Last Modified:</Text>
-                            <Text size="xs" fw={500}>
-                              {formatDate(store.lastModify)}
-                            </Text>
+                          <Group gap="xs" justify="space-between">
+                            <Group gap={4}>
+                              <Text size="xs" c="dimmed">
+                                Updated:
+                              </Text>
+                              <Text size="xs" fw={500}>
+                                {formatDate(store.lastModify)}
+                              </Text>
+                            </Group>
+                            <Text size="xs" c="dimmed"></Text>
+                            <Group gap={4}>
+                              <Text size="xs" c="dimmed">
+                                Created:
+                              </Text>
+                              <Text size="xs" fw={500}>
+                                {formatDate(store.createdAt)}
+                              </Text>
+                            </Group>
                           </Group>
                         </Stack>
 
@@ -475,7 +560,7 @@ const StoresList = () => {
         )}
       </Stack>
     </Container>
-  );
-};
+  )
+}
 
-export default StoresList;
+export default StoresList
