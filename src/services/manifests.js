@@ -97,6 +97,19 @@ class ManifestsService {
       throw new Error('Failed to create manifest');
     }
   }
+
+  // Send manifest to scrape
+  async sendManifestToScrap(data) {
+    try {
+      const response = await axiosInstance.post('/manifests/manifest-to-scrap', data);
+      return response.data;
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Failed to send manifest to scrap');
+    }
+  }
 }
 
 // Create and export manifests service instance

@@ -69,6 +69,12 @@ const ControlPanelLayout = () => {
       color: 'teal'
     },
     {
+      label: 'Keyword Pages',
+      icon: HiDocumentText,
+      path: '/control/keyword-pages',
+      color: 'cyan'
+    },
+    {
       label: 'Items',
       icon: HiShoppingCart,
       path: '/control/items',
@@ -78,15 +84,12 @@ const ControlPanelLayout = () => {
       type: 'section',
       label: 'Middle Work',
       children: [
-        { label: 'Keyword Pages', path: '/control/keyword-pages', icon: HiDocumentText, color: 'cyan' },
-        { label: 'Manifests', path: '/control/manifests', icon: HiDocumentText, color: 'pink' }
+        { label: 'Manifests', path: '/control/manifests', icon: HiDocumentText, color: 'pink' },
+        { label: 'Webscraper', path: '/control/webscraper', icon: HiCog, color: 'orange' }
       ]
     },
     {
-      label: 'Webscraper',
-      icon: HiCog,
-      path: '/control/webscraper',
-      color: 'orange'
+      type: 'divider'
     },
     {
       label: 'Flow Actions',
@@ -121,6 +124,15 @@ const ControlPanelLayout = () => {
   };
 
   const renderNavItem = (item, index) => {
+    // Render simple divider
+    if (item.type === 'divider') {
+      return (
+        <Box key={`divider-${index}`} my="md">
+          <Divider />
+        </Box>
+      );
+    }
+
     // Render section divider with children
     if (item.type === 'section') {
       return (

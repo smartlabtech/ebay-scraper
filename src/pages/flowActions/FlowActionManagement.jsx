@@ -19,7 +19,10 @@ const FlowActionManagement = () => {
   const [loading, setLoading] = useState({
     item: false,
     keyword: false,
-    keywordPage: false
+    keywordPage: false,
+    scrapItem: false,
+    scrapKeyword: false,
+    scrapKeywordPage: false
   })
 
   // Handle manifest generation
@@ -45,6 +48,35 @@ const FlowActionManagement = () => {
       })
     } finally {
       setLoading((prev) => ({...prev, [type]: false}))
+    }
+  }
+
+  // Handle manifest to scrap
+  const handleManifestToScrap = async (type, loadingKey) => {
+    setLoading((prev) => ({...prev, [loadingKey]: true}))
+
+    try {
+      const response = await manifestsService.sendManifestToScrap({
+        type,
+        status: "PENDING"
+      })
+
+      notifications.show({
+        title: "Success",
+        message: `${
+          type.charAt(0).toUpperCase() + type.slice(1)
+        } manifest sent to scraping`,
+        color: "green",
+        icon: <HiPlay />
+      })
+    } catch (error) {
+      notifications.show({
+        title: "Error",
+        message: error.message || `Failed to send ${type} manifest to scrap`,
+        color: "red"
+      })
+    } finally {
+      setLoading((prev) => ({...prev, [loadingKey]: false}))
     }
   }
 
@@ -140,7 +172,87 @@ const FlowActionManagement = () => {
           </Stack>
         </Paper>
 
-        {/* Future sections can be added here */}
+        {/* Manifest to Scrap Section */}
+        <Paper shadow="sm" p="lg" radius="md" withBorder>
+          <Stack gap="md">
+            {/* Section Header */}
+            <Group justify="space-between" align="center">
+              <div>
+                <Title order={3}>Manifest to Scraping</Title>
+                <Text size="sm" c="dimmed" mt={4}>
+                  Send pending manifests to the scraping queue
+                </Text>
+              </div>
+              <Tooltip
+                label="This action sends pending manifests to the scraping queue for processing."
+                multiline
+                w={300}
+                withArrow
+                position="left"
+              >
+                <HiInformationCircle
+                  size={24}
+                  style={{color: "var(--mantine-color-blue-6)", cursor: "help"}}
+                />
+              </Tooltip>
+            </Group>
+
+            <Alert
+              icon={<HiInformationCircle />}
+              title="Note"
+              color="cyan"
+              variant="light"
+            >
+              Send manifests with PENDING status to the scraping queue for processing.
+            </Alert>
+
+            <Divider />
+
+            {/* Manifest to Scrap Buttons */}
+            <Stack gap="sm">
+              <Text size="sm" fw={500}>
+                Select manifest type to send to scraping:
+              </Text>
+
+              <Group>
+                {/* Keyword Manifest to Scrap */}
+                <Button
+                  leftSection={<HiPlay />}
+                  color="teal"
+                  size="md"
+                  loading={loading.scrapKeyword}
+                  onClick={() => handleManifestToScrap("keyword", "scrapKeyword")}
+                >
+                  Send Keyword to Scrap
+                </Button>
+
+                {/* Keyword Page Manifest to Scrap */}
+                <Button
+                  leftSection={<HiPlay />}
+                  color="violet"
+                  size="md"
+                  loading={loading.scrapKeywordPage}
+                  onClick={() =>
+                    handleManifestToScrap("keywordPage", "scrapKeywordPage")
+                  }
+                >
+                  Send Keyword Page to Scrap
+                </Button>
+
+                {/* Item Manifest to Scrap */}
+                <Button
+                  leftSection={<HiPlay />}
+                  color="indigo"
+                  size="md"
+                  loading={loading.scrapItem}
+                  onClick={() => handleManifestToScrap("item", "scrapItem")}
+                >
+                  Send Item to Scrap
+                </Button>
+              </Group>
+            </Stack>
+          </Stack>
+        </Paper>
       </Stack>
     </Container>
   )
