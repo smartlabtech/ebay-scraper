@@ -10,7 +10,14 @@ class ManifestsService {
       // Add all parameters to query string
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {
-          queryParams.append(key, value);
+          // Handle array parameters (e.g., excludeStatus)
+          if (Array.isArray(value)) {
+            value.forEach(item => {
+              queryParams.append(key, item);
+            });
+          } else {
+            queryParams.append(key, value);
+          }
         }
       });
 
@@ -45,6 +52,7 @@ class ManifestsService {
         limit = 50,
         type,
         status,
+        excludeStatus,
         _id,
         scrapingjobId,
         scrapingjobStatus,
@@ -60,6 +68,7 @@ class ManifestsService {
         limit,
         ...(type && { type }),
         ...(status && { status }),
+        ...(excludeStatus && excludeStatus.length > 0 && { excludeStatus }),
         ...(_id && { _id }),
         ...(scrapingjobId && { scrapingjobId }),
         ...(scrapingjobStatus && { scrapingjobStatus }),
@@ -73,6 +82,19 @@ class ManifestsService {
       return await this.getManifests(params);
     } catch (error) {
       throw new Error('Failed to fetch manifests with filters');
+    }
+  }
+
+  // Create a new manifest
+  async createManifest(data) {
+    try {
+      const response = await axiosInstance.post('/manifests', data);
+      return response.data;
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Failed to create manifest');
     }
   }
 }

@@ -93,6 +93,19 @@ class KeywordsService {
       throw new Error('Failed to create keyword');
     }
   }
+
+  // Rescrape a keyword
+  async rescrapeKeyword(id) {
+    try {
+      const response = await axiosInstance.get(`/keywords/${id}/rescrape`);
+      return response.data;
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Failed to rescrape keyword');
+    }
+  }
 }
 
 // Create and export keywords service instance

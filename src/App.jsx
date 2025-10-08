@@ -28,6 +28,7 @@ const ItemsList = lazy(() => import("./pages/items/ItemsList"))
 const KeywordPagesList = lazy(() => import("./pages/middleWork/KeywordPagesList"))
 const ManifestsList = lazy(() => import("./pages/middleWork/ManifestsList"))
 const WebscraperList = lazy(() => import("./pages/webscraper/WebscraperList"))
+const FlowActionManagement = lazy(() => import("./pages/flowActions/FlowActionManagement"))
 
 // Create query client
 const queryClient = new QueryClient({
@@ -126,6 +127,9 @@ function AppContent() {
 
             {/* Webscraper Jobs */}
             <Route path="webscraper" element={<WebscraperList />} />
+
+            {/* Flow Action Management */}
+            <Route path="flow-actions" element={<FlowActionManagement />} />
 
             {/* Future routes can be added here */}
             {/* <Route path="inventory" element={<Inventory />} /> */}

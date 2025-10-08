@@ -28,7 +28,8 @@ import {
   MdAnalytics,
   MdInventory,
   MdNotifications,
-  MdHelp
+  MdHelp,
+  MdPlayCircleOutline
 } from 'react-icons/md';
 import { HiTag, HiCog, HiDocumentText, HiShoppingCart } from 'react-icons/hi';
 import { selectUser, logout } from '../../store/slices/authSlice';
@@ -77,8 +78,8 @@ const ControlPanelLayout = () => {
       type: 'section',
       label: 'Middle Work',
       children: [
-        { label: 'Keyword Pages', path: '/control/keyword-pages' },
-        { label: 'Manifests', path: '/control/manifests' }
+        { label: 'Keyword Pages', path: '/control/keyword-pages', icon: HiDocumentText, color: 'cyan' },
+        { label: 'Manifests', path: '/control/manifests', icon: HiDocumentText, color: 'pink' }
       ]
     },
     {
@@ -86,6 +87,12 @@ const ControlPanelLayout = () => {
       icon: HiCog,
       path: '/control/webscraper',
       color: 'orange'
+    },
+    {
+      label: 'Flow Actions',
+      icon: MdPlayCircleOutline,
+      path: '/control/flow-actions',
+      color: 'grape'
     },
     // Future sections can be added here
     // {
@@ -131,6 +138,13 @@ const ControlPanelLayout = () => {
             <NavLink
               key={child.path}
               label={child.label}
+              leftSection={
+                child.icon && child.color ? (
+                  <ThemeIcon size="sm" variant="light" color={child.color}>
+                    <child.icon size={16} />
+                  </ThemeIcon>
+                ) : undefined
+              }
               active={location.pathname === child.path}
               onClick={() => navigate(child.path)}
               style={{ cursor: 'pointer' }}

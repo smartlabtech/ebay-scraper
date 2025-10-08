@@ -16,6 +16,7 @@ const initialState = {
   filters: {
     type: '',
     status: '',
+    excludeStatus: ['SUCCESS'],
     _id: '',
     scrapingjobId: '',
     scrapingjobStatus: '',

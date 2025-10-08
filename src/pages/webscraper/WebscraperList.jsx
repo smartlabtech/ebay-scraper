@@ -9,6 +9,7 @@ import {
   Stack,
   TextInput,
   Select,
+  MultiSelect,
   NumberInput,
   Button,
   Grid,
@@ -84,6 +85,7 @@ const WebscraperList = () => {
       sitemap_id: '',
       sitemap_name: '',
       status: '',
+      excludeStatus: ['closed', 'stopped'],
       scrapingResultMin: '',
       scrapingResultMax: '',
       createdAt: '',
@@ -239,11 +241,39 @@ const WebscraperList = () => {
 
                 {/* Status */}
                 <Grid.Col span={{ base: 12, md: 6 }}>
-                  <TextInput
+                  <Select
                     label="Status"
-                    placeholder="e.g., closed, running, pending"
+                    placeholder="Select status"
                     value={localFilters.status}
-                    onChange={(e) => handleFilterChange('status', e.target.value)}
+                    onChange={(value) => handleFilterChange('status', value)}
+                    data={[
+                      { value: '', label: 'All Statuses' },
+                      { value: 'closed', label: 'Closed' },
+                      { value: 'processing', label: 'Processing' },
+                      { value: 'stopped', label: 'Stopped' },
+                      { value: 'finished', label: 'Finished' },
+                      { value: 'failed', label: 'Failed' }
+                    ]}
+                    clearable
+                  />
+                </Grid.Col>
+
+                {/* Exclude Status */}
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <MultiSelect
+                    label="Exclude Statuses"
+                    placeholder="Select statuses to exclude"
+                    description="Select one or more statuses to exclude"
+                    value={localFilters.excludeStatus}
+                    onChange={(value) => handleFilterChange('excludeStatus', value)}
+                    data={[
+                      { value: 'closed', label: 'Closed' },
+                      { value: 'processing', label: 'Processing' },
+                      { value: 'stopped', label: 'Stopped' },
+                      { value: 'finished', label: 'Finished' },
+                      { value: 'failed', label: 'Failed' }
+                    ]}
+                    clearable
                   />
                 </Grid.Col>
 

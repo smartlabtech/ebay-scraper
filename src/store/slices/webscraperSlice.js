@@ -19,6 +19,7 @@ const initialState = {
     sitemap_id: '',
     sitemap_name: '',
     status: '',
+    excludeStatus: ['closed', 'stopped'],
     scrapingResultMin: '',
     scrapingResultMax: '',
     createdAt: '',

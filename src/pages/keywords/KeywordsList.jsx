@@ -34,8 +34,10 @@ import {
   HiChevronUp,
   HiTag,
   HiCalendar,
-  HiPlus
+  HiPlus,
+  HiClipboardCopy
 } from 'react-icons/hi';
+import { MdRefresh } from 'react-icons/md';
 import {
   fetchKeywords,
   setFilters,
@@ -51,6 +53,7 @@ import {
 } from '../../store/slices/keywordsSlice';
 import FloatingActionButton from '../../components/common/FloatingActionButton';
 import AddKeywordModal from './AddKeywordModal';
+import keywordsService from '../../services/keywords';
 
 const KeywordsList = () => {
   const dispatch = useDispatch();
@@ -153,6 +156,41 @@ const KeywordsList = () => {
         return 'red';
       default:
         return 'gray';
+    }
+  };
+
+  // Handle copy keyword ID
+  const handleCopyId = (id) => {
+    navigator.clipboard.writeText(id).then(() => {
+      notifications.show({
+        title: 'Copied',
+        message: 'Keyword ID copied to clipboard',
+        color: 'green'
+      });
+    }).catch(() => {
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to copy ID',
+        color: 'red'
+      });
+    });
+  };
+
+  // Handle rescrape keyword
+  const handleRescrape = async (id) => {
+    try {
+      const response = await keywordsService.rescrapeKeyword(id);
+      notifications.show({
+        title: 'Success',
+        message: response.message || 'Keyword rescraping started',
+        color: 'green'
+      });
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error.message || 'Failed to rescrape keyword',
+        color: 'red'
+      });
     }
   };
 
@@ -343,17 +381,39 @@ const KeywordsList = () => {
                               </Badge>
                             </Group>
                           </div>
-                          <Tooltip label="View on eBay">
-                            <ActionIcon
-                              component="a"
-                              href={keyword.keywordLink}
-                              target="_blank"
-                              variant="light"
-                              size="sm"
-                            >
-                              <HiExternalLink />
-                            </ActionIcon>
-                          </Tooltip>
+                          <Group gap={4}>
+                            <Tooltip label="Rescrape">
+                              <ActionIcon
+                                variant="light"
+                                size="sm"
+                                color="blue"
+                                onClick={() => handleRescrape(keyword._id)}
+                              >
+                                <MdRefresh size={16} />
+                              </ActionIcon>
+                            </Tooltip>
+                            <Tooltip label="Copy ID">
+                              <ActionIcon
+                                variant="light"
+                                size="sm"
+                                color="teal"
+                                onClick={() => handleCopyId(keyword._id)}
+                              >
+                                <HiClipboardCopy size={16} />
+                              </ActionIcon>
+                            </Tooltip>
+                            <Tooltip label="View on eBay">
+                              <ActionIcon
+                                component="a"
+                                href={keyword.keywordLink}
+                                target="_blank"
+                                variant="light"
+                                size="sm"
+                              >
+                                <HiExternalLink size={16} />
+                              </ActionIcon>
+                            </Tooltip>
+                          </Group>
                         </Group>
 
                         {/* Stats */}

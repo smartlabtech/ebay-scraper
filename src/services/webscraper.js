@@ -10,7 +10,14 @@ class WebscraperService {
       // Add all parameters to query string
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {
-          queryParams.append(key, value);
+          // Handle array parameters (e.g., excludeStatus)
+          if (Array.isArray(value)) {
+            value.forEach(item => {
+              queryParams.append(key, item);
+            });
+          } else {
+            queryParams.append(key, value);
+          }
         }
       });
 
@@ -48,6 +55,7 @@ class WebscraperService {
         sitemap_id,
         sitemap_name,
         status,
+        excludeStatus,
         scrapingResultMin,
         scrapingResultMax,
         createdAt,
@@ -63,6 +71,7 @@ class WebscraperService {
         ...(sitemap_id && { sitemap_id }),
         ...(sitemap_name && { sitemap_name }),
         ...(status && { status }),
+        ...(excludeStatus && excludeStatus.length > 0 && { excludeStatus }),
         ...(scrapingResultMin !== undefined && { scrapingResultMin }),
         ...(scrapingResultMax !== undefined && { scrapingResultMax }),
         ...(createdAt && { createdAt }),

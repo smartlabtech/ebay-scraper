@@ -9,6 +9,7 @@ import {
   Stack,
   TextInput,
   Select,
+  MultiSelect,
   NumberInput,
   Button,
   Grid,
@@ -80,6 +81,7 @@ const ManifestsList = () => {
     const resetState = {
       type: '',
       status: '',
+      excludeStatus: ['SUCCESS'],
       _id: '',
       scrapingjobId: '',
       scrapingjobStatus: '',
@@ -146,7 +148,7 @@ const ManifestsList = () => {
         return 'yellow';
       case 'PROCESSING':
         return 'blue';
-      case 'COMPLETED':
+      case 'SUCCESS':
         return 'green';
       case 'FAILED':
         return 'red';
@@ -220,11 +222,35 @@ const ManifestsList = () => {
 
                 {/* Status */}
                 <Grid.Col span={{ base: 12, md: 6 }}>
-                  <TextInput
+                  <Select
                     label="Status"
-                    placeholder="e.g., PENDING, PROCESSING, COMPLETED"
+                    placeholder="Select status"
                     value={localFilters.status}
-                    onChange={(e) => handleFilterChange('status', e.target.value)}
+                    onChange={(value) => handleFilterChange('status', value)}
+                    data={[
+                      { value: '', label: 'All Statuses' },
+                      { value: 'SUCCESS', label: 'Success' },
+                      { value: 'PROCESSING', label: 'Processing' },
+                      { value: 'PENDING', label: 'Pending' }
+                    ]}
+                    clearable
+                  />
+                </Grid.Col>
+
+                {/* Exclude Status */}
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <MultiSelect
+                    label="Exclude Statuses"
+                    placeholder="Select statuses to exclude"
+                    description="Select one or more statuses to exclude"
+                    value={localFilters.excludeStatus}
+                    onChange={(value) => handleFilterChange('excludeStatus', value)}
+                    data={[
+                      { value: 'SUCCESS', label: 'Success' },
+                      { value: 'PROCESSING', label: 'Processing' },
+                      { value: 'PENDING', label: 'Pending' }
+                    ]}
+                    clearable
                   />
                 </Grid.Col>
 
