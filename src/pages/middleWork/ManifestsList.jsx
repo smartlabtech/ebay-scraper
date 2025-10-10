@@ -34,7 +34,8 @@ import {
   HiChevronUp,
   HiCalendar,
   HiClock,
-  HiPlay
+  HiPlay,
+  HiClipboardCopy
 } from 'react-icons/hi';
 import {
   fetchManifests,
@@ -151,6 +152,23 @@ const ManifestsList = () => {
         color: 'red'
       });
     }
+  };
+
+  // Handle copy manifest ID
+  const handleCopyId = (id) => {
+    navigator.clipboard.writeText(id).then(() => {
+      notifications.show({
+        title: 'Copied',
+        message: 'Manifest ID copied to clipboard',
+        color: 'green'
+      });
+    }).catch(() => {
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to copy ID',
+        color: 'red'
+      });
+    });
   };
 
   // Format date for display
@@ -461,9 +479,21 @@ const ManifestsList = () => {
                         </Group>
 
                         {/* Manifest ID */}
-                        <Group gap="xs">
-                          <Text size="xs" c="dimmed">ID:</Text>
-                          <Code size="xs">{manifest._id.slice(-12)}</Code>
+                        <Group gap="xs" justify="space-between">
+                          <Group gap="xs">
+                            <Text size="xs" c="dimmed">ID:</Text>
+                            <Code size="xs">{manifest._id.slice(-12)}</Code>
+                          </Group>
+                          <Tooltip label="Copy full ID">
+                            <ActionIcon
+                              variant="subtle"
+                              size="xs"
+                              color="gray"
+                              onClick={() => handleCopyId(manifest._id)}
+                            >
+                              <HiClipboardCopy size={14} />
+                            </ActionIcon>
+                          </Tooltip>
                         </Group>
 
                         {/* Trials */}
