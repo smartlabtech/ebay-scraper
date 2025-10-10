@@ -36,7 +36,10 @@ import {
   HiShoppingCart,
   HiCollection,
   HiChevronDown,
-  HiChevronUp
+  HiChevronUp,
+  HiTrendingUp,
+  HiTrendingDown,
+  HiClock
 } from "react-icons/hi"
 import {
   fetchStores,
@@ -86,6 +89,7 @@ const StoresList = () => {
     const resetState = {
       location: "",
       storeLink: "",
+      stage: "",
       createdAt: "",
       memberSince: "",
       memberSinceBefore: "",
@@ -93,6 +97,12 @@ const StoresList = () => {
       soldMax: "",
       searchAllMin: "",
       searchAllMax: "",
+      soldDeltaMin: "",
+      soldDeltaMax: "",
+      searchAllDeltaMin: "",
+      searchAllDeltaMax: "",
+      lastScrapedAt: "",
+      lastScrapedAtBefore: "",
       search: "",
       sortProperty: "createdAt",
       sortType: "DESCENDING"
@@ -149,6 +159,19 @@ const StoresList = () => {
   const formatNumber = (num) => {
     if (num === null || num === undefined) return "N/A"
     return num.toLocaleString()
+  }
+
+  // Format delta with sign
+  const formatDelta = (num) => {
+    if (num === null || num === undefined) return null
+    if (num === 0) return "0"
+    return num > 0 ? `+${num.toLocaleString()}` : num.toLocaleString()
+  }
+
+  // Get delta color
+  const getDeltaColor = (num) => {
+    if (num === null || num === undefined || num === 0) return "gray"
+    return num > 0 ? "green" : "red"
   }
 
   return (
@@ -350,6 +373,128 @@ const StoresList = () => {
                   />
                 </Grid.Col>
 
+                {/* Sold Delta Min */}
+                <Grid.Col span={{base: 12, sm: 6, md: 3}}>
+                  <NumberInput
+                    label="Min Sold Delta"
+                    placeholder="Change in sold items"
+                    value={
+                      localFilters.soldDeltaMin === ""
+                        ? ""
+                        : Number(localFilters.soldDeltaMin)
+                    }
+                    onChange={(value) =>
+                      handleFilterChange("soldDeltaMin", value === "" ? "" : value)
+                    }
+                  />
+                </Grid.Col>
+
+                {/* Sold Delta Max */}
+                <Grid.Col span={{base: 12, sm: 6, md: 3}}>
+                  <NumberInput
+                    label="Max Sold Delta"
+                    placeholder="Change in sold items"
+                    value={
+                      localFilters.soldDeltaMax === ""
+                        ? ""
+                        : Number(localFilters.soldDeltaMax)
+                    }
+                    onChange={(value) =>
+                      handleFilterChange("soldDeltaMax", value === "" ? "" : value)
+                    }
+                  />
+                </Grid.Col>
+
+                {/* Inventory Delta Min */}
+                <Grid.Col span={{base: 12, sm: 6, md: 3}}>
+                  <NumberInput
+                    label="Min Inventory Delta"
+                    placeholder="Change in inventory"
+                    value={
+                      localFilters.searchAllDeltaMin === ""
+                        ? ""
+                        : Number(localFilters.searchAllDeltaMin)
+                    }
+                    onChange={(value) =>
+                      handleFilterChange("searchAllDeltaMin", value === "" ? "" : value)
+                    }
+                  />
+                </Grid.Col>
+
+                {/* Inventory Delta Max */}
+                <Grid.Col span={{base: 12, sm: 6, md: 3}}>
+                  <NumberInput
+                    label="Max Inventory Delta"
+                    placeholder="Change in inventory"
+                    value={
+                      localFilters.searchAllDeltaMax === ""
+                        ? ""
+                        : Number(localFilters.searchAllDeltaMax)
+                    }
+                    onChange={(value) =>
+                      handleFilterChange("searchAllDeltaMax", value === "" ? "" : value)
+                    }
+                  />
+                </Grid.Col>
+
+                {/* Last Scraped After */}
+                <Grid.Col span={{base: 12, md: 6}}>
+                  <DateInput
+                    label="Last Scraped (After)"
+                    placeholder="Select date"
+                    value={
+                      localFilters.lastScrapedAt &&
+                      localFilters.lastScrapedAt !== ""
+                        ? new Date(localFilters.lastScrapedAt)
+                        : null
+                    }
+                    onChange={(date) => {
+                      if (
+                        date &&
+                        date instanceof Date &&
+                        !isNaN(date.getTime())
+                      ) {
+                        handleFilterChange(
+                          "lastScrapedAt",
+                          date.toISOString().split("T")[0]
+                        )
+                      } else {
+                        handleFilterChange("lastScrapedAt", "")
+                      }
+                    }}
+                    clearable
+                  />
+                </Grid.Col>
+
+                {/* Last Scraped Before */}
+                <Grid.Col span={{base: 12, md: 6}}>
+                  <DateInput
+                    label="Last Scraped (Before)"
+                    placeholder="Select date"
+                    value={
+                      localFilters.lastScrapedAtBefore &&
+                      localFilters.lastScrapedAtBefore !== ""
+                        ? new Date(localFilters.lastScrapedAtBefore)
+                        : null
+                    }
+                    onChange={(date) => {
+                      if (
+                        date &&
+                        date instanceof Date &&
+                        !isNaN(date.getTime())
+                      ) {
+                        handleFilterChange(
+                          "lastScrapedAtBefore",
+                          date.toISOString().split("T")[0]
+                        )
+                      } else {
+                        handleFilterChange("lastScrapedAtBefore", "")
+                      }
+                    }}
+                    clearable
+                  />
+                </Grid.Col>
+
                 {/* Sort Property */}
                 <Grid.Col span={{base: 12, md: 6}}>
                   <Select
@@ -362,7 +507,11 @@ const StoresList = () => {
                       {value: "memberSince", label: "Member Since"},
                       {value: "sold", label: "Items Sold"},
                       {value: "searchAll", label: "Total Products"},
+                      {value: "soldDelta", label: "Sold Delta"},
+                      {value: "searchAllDelta", label: "Inventory Delta"},
+                      {value: "lastScrapedAt", label: "Last Scraped"},
                       {value: "location", label: "Location"},
+                      {value: "stage", label: "Stage"},
                       {value: "createdAt", label: "Date Added"},
                       {value: "storeLink", label: "Store Name"}
                     ]}
@@ -477,6 +626,31 @@ const StoresList = () => {
                           )}
                         </Group>
 
+                        {/* Delta Stats */}
+                        {(store.soldDelta !== null && store.soldDelta !== undefined) ||
+                         (store.searchAllDelta !== null && store.searchAllDelta !== undefined) ? (
+                          <Group gap="xs">
+                            {store.soldDelta !== null && store.soldDelta !== undefined && (
+                              <Badge
+                                leftSection={store.soldDelta > 0 ? <HiTrendingUp size={12} /> : store.soldDelta < 0 ? <HiTrendingDown size={12} /> : null}
+                                variant="light"
+                                color={getDeltaColor(store.soldDelta)}
+                              >
+                                {formatDelta(store.soldDelta)} sold
+                              </Badge>
+                            )}
+                            {store.searchAllDelta !== null && store.searchAllDelta !== undefined && (
+                              <Badge
+                                leftSection={store.searchAllDelta > 0 ? <HiTrendingUp size={12} /> : store.searchAllDelta < 0 ? <HiTrendingDown size={12} /> : null}
+                                variant="light"
+                                color={getDeltaColor(store.searchAllDelta)}
+                              >
+                                {formatDelta(store.searchAllDelta)} inv
+                              </Badge>
+                            )}
+                          </Group>
+                        ) : null}
+
                         {/* Additional Info */}
                         <Stack gap={4}>
                           <Group gap={4}>
@@ -495,6 +669,27 @@ const StoresList = () => {
                               <Text size="xs" fw={500}>
                                 {store.averageSold} items/month
                               </Text>
+                            </Group>
+                          )}
+                          {store.lastScrapedAt && (
+                            <Group gap={4}>
+                              <HiClock size={12} />
+                              <Text size="xs" c="dimmed">
+                                Last scraped:
+                              </Text>
+                              <Text size="xs" fw={500}>
+                                {formatDate(store.lastScrapedAt)}
+                              </Text>
+                            </Group>
+                          )}
+                          {store.stage && (
+                            <Group gap={4}>
+                              <Text size="xs" c="dimmed">
+                                Stage:
+                              </Text>
+                              <Badge size="xs" variant="dot">
+                                {store.stage}
+                              </Badge>
                             </Group>
                           )}
                           <Group gap="xs" justify="space-between">

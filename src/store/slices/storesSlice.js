@@ -16,6 +16,7 @@ const initialState = {
   filters: {
     location: '',
     storeLink: '',
+    stage: '',
     createdAt: '',
     memberSince: '',
     memberSinceBefore: '',
@@ -23,6 +24,12 @@ const initialState = {
     soldMax: '',
     searchAllMin: '',
     searchAllMax: '',
+    soldDeltaMin: '',
+    soldDeltaMax: '',
+    searchAllDeltaMin: '',
+    searchAllDeltaMax: '',
+    lastScrapedAt: '',
+    lastScrapedAtBefore: '',
     search: '',
     sortProperty: 'createdAt',
     sortType: 'DESCENDING'
