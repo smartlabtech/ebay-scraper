@@ -111,6 +111,19 @@ class StoresService {
       throw new Error('Failed to fetch stores with filters');
     }
   }
+
+  // Rescrape stale stores
+  async rescrapeStaleStores(months = 7) {
+    try {
+      const response = await axiosInstance.post(`/stores/rescrape-stale?months=${months}`);
+      return response.data;
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Failed to rescrape stale stores');
+    }
+  }
 }
 
 // Create and export stores service instance

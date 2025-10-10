@@ -9,13 +9,15 @@ import {
   Button,
   Tooltip,
   Alert,
-  Divider
+  Divider,
+  NumberInput
 } from "@mantine/core"
 import {notifications} from "@mantine/notifications"
 import {HiInformationCircle, HiDocumentAdd, HiPlay} from "react-icons/hi"
-import {MdSettings} from "react-icons/md"
+import {MdSettings, MdRefresh} from "react-icons/md"
 import manifestsService from "../../services/manifests"
 import webscraperService from "../../services/webscraper"
+import storesService from "../../services/stores"
 
 const FlowActionManagement = () => {
   const [loading, setLoading] = useState({
@@ -27,8 +29,10 @@ const FlowActionManagement = () => {
     scrapKeyword: false,
     scrapKeywordPage: false,
     scrapStore: false,
-    handleScraped: false
+    handleScraped: false,
+    rescrapeStale: false
   })
+  const [monthsThreshold, setMonthsThreshold] = useState(7)
 
   // Handle manifest generation
   const handleGenerateManifest = async (type) => {
@@ -106,6 +110,30 @@ const FlowActionManagement = () => {
       })
     } finally {
       setLoading((prev) => ({...prev, handleScraped: false}))
+    }
+  }
+
+  // Handle rescrape stale stores
+  const handleRescrapeStale = async () => {
+    setLoading((prev) => ({...prev, rescrapeStale: true}))
+
+    try {
+      const response = await storesService.rescrapeStaleStores(monthsThreshold)
+
+      notifications.show({
+        title: "Success",
+        message: response.message || `${response.storesReset || 0} stores reset for rescraping`,
+        color: response.storesReset > 0 ? "green" : "blue",
+        icon: <MdRefresh />
+      })
+    } catch (error) {
+      notifications.show({
+        title: "Error",
+        message: error.message || "Failed to rescrape stale stores",
+        color: "red"
+      })
+    } finally {
+      setLoading((prev) => ({...prev, rescrapeStale: false}))
     }
   }
 
@@ -351,6 +379,67 @@ const FlowActionManagement = () => {
                 onClick={handleScrapedData}
               >
                 Process Scraped Data
+              </Button>
+            </Stack>
+          </Stack>
+        </Paper>
+
+        {/* Rescrape Stale Stores Section */}
+        <Paper shadow="sm" p="lg" radius="md" withBorder>
+          <Stack gap="md">
+            {/* Section Header */}
+            <Group justify="space-between" align="center">
+              <div>
+                <Title order={3}>Rescrape Stale Stores</Title>
+                <Text size="sm" c="dimmed" mt={4}>
+                  Reset stores that haven't been scraped recently
+                </Text>
+              </div>
+              <Tooltip
+                label="This resets stores that are older than the specified number of months to be rescraped."
+                multiline
+                w={300}
+                withArrow
+                position="left"
+              >
+                <HiInformationCircle
+                  size={24}
+                  style={{color: "var(--mantine-color-blue-6)", cursor: "help"}}
+                />
+              </Tooltip>
+            </Group>
+
+            <Alert
+              icon={<HiInformationCircle />}
+              title="Stale Store Detection"
+              color="grape"
+              variant="light"
+            >
+              Stores that haven't been updated in the specified number of months will be reset and marked for rescraping.
+            </Alert>
+
+            <Divider />
+
+            {/* Rescrape Stale Controls */}
+            <Stack gap="sm">
+              <NumberInput
+                label="Months Threshold"
+                description="Stores older than this many months will be reset"
+                value={monthsThreshold}
+                onChange={(value) => setMonthsThreshold(value || 7)}
+                min={1}
+                max={24}
+                size="md"
+                style={{maxWidth: 300}}
+              />
+              <Button
+                leftSection={<MdRefresh />}
+                color="grape"
+                size="lg"
+                loading={loading.rescrapeStale}
+                onClick={handleRescrapeStale}
+              >
+                Rescrape Stale Stores
               </Button>
             </Stack>
           </Stack>
