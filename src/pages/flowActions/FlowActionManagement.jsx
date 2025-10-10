@@ -22,9 +22,11 @@ const FlowActionManagement = () => {
     item: false,
     keyword: false,
     keywordPage: false,
+    store: false,
     scrapItem: false,
     scrapKeyword: false,
     scrapKeywordPage: false,
+    scrapStore: false,
     handleScraped: false
   })
 
@@ -194,6 +196,17 @@ const FlowActionManagement = () => {
                 >
                   Generate Item Manifest
                 </Button>
+
+                {/* Store Manifest Button */}
+                <Button
+                  leftSection={<HiPlay />}
+                  color="orange"
+                  size="md"
+                  loading={loading.store}
+                  onClick={() => handleGenerateManifest("store")}
+                >
+                  Generate Store Manifest
+                </Button>
               </Group>
             </Stack>
           </Stack>
@@ -275,6 +288,17 @@ const FlowActionManagement = () => {
                   onClick={() => handleManifestToScrap("item", "scrapItem")}
                 >
                   Send Item to Scrap
+                </Button>
+
+                {/* Store Manifest to Scrap */}
+                <Button
+                  leftSection={<HiPlay />}
+                  color="orange"
+                  size="md"
+                  loading={loading.scrapStore}
+                  onClick={() => handleManifestToScrap("store", "scrapStore")}
+                >
+                  Send Store to Scrap
                 </Button>
               </Group>
             </Stack>
