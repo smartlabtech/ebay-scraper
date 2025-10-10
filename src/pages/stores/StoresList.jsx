@@ -251,9 +251,8 @@ const StoresList = () => {
                     data={[
                       { value: "", label: "All Stages" },
                       { value: "CREATED", label: "Created" },
-                      { value: "PROCESSING", label: "Processing" },
-                      { value: "COMPLETED", label: "Completed" },
-                      { value: "FAILED", label: "Failed" }
+                      { value: "TOSCRAP", label: "To Scrap" },
+                      { value: "SCRAPED", label: "Scraped" }
                     ]}
                     clearable
                   />
