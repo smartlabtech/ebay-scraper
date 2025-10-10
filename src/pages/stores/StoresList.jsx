@@ -241,6 +241,24 @@ const StoresList = () => {
                   />
                 </Grid.Col>
 
+                {/* Stage */}
+                <Grid.Col span={{base: 12, md: 6}}>
+                  <Select
+                    label="Stage"
+                    placeholder="Select workflow stage"
+                    value={localFilters.stage}
+                    onChange={(value) => handleFilterChange("stage", value)}
+                    data={[
+                      { value: "", label: "All Stages" },
+                      { value: "CREATED", label: "Created" },
+                      { value: "PROCESSING", label: "Processing" },
+                      { value: "COMPLETED", label: "Completed" },
+                      { value: "FAILED", label: "Failed" }
+                    ]}
+                    clearable
+                  />
+                </Grid.Col>
+
                 {/* Member Since After */}
                 <Grid.Col span={{base: 12, md: 6}}>
                   <DateInput
