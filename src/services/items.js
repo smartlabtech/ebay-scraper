@@ -93,6 +93,19 @@ class ItemsService {
       throw new Error('Failed to fetch items with filters');
     }
   }
+
+  // Get store recommendations for a keyword
+  async getStoreRecommendations(keywordId) {
+    try {
+      const response = await axiosInstance.get(`/items/keyword/${keywordId}/store-recommendations`);
+      return response.data;
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Failed to fetch store recommendations');
+    }
+  }
 }
 
 // Create and export items service instance

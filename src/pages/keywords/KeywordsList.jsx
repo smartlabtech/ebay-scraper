@@ -21,7 +21,11 @@ import {
   Collapse,
   ActionIcon,
   Tooltip,
-  Flex
+  Flex,
+  Drawer,
+  Table,
+  ScrollArea,
+  Divider
 } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
@@ -35,7 +39,8 @@ import {
   HiTag,
   HiCalendar,
   HiPlus,
-  HiClipboardCopy
+  HiClipboardCopy,
+  HiLightBulb
 } from 'react-icons/hi';
 import { MdRefresh } from 'react-icons/md';
 import {
@@ -54,6 +59,7 @@ import {
 import FloatingActionButton from '../../components/common/FloatingActionButton';
 import AddKeywordModal from './AddKeywordModal';
 import keywordsService from '../../services/keywords';
+import itemsService from '../../services/items';
 
 const KeywordsList = () => {
   const dispatch = useDispatch();
@@ -66,6 +72,10 @@ const KeywordsList = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState(filters);
   const [modalOpened, setModalOpened] = useState(false);
+  const [drawerOpened, setDrawerOpened] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(false);
+  const [selectedKeyword, setSelectedKeyword] = useState(null);
 
   // Fetch keywords on mount and when filters change
   useEffect(() => {
@@ -191,6 +201,27 @@ const KeywordsList = () => {
         message: error.message || 'Failed to rescrape keyword',
         color: 'red'
       });
+    }
+  };
+
+  // Handle store recommendations
+  const handleShowRecommendations = async (keyword) => {
+    setSelectedKeyword(keyword);
+    setDrawerOpened(true);
+    setLoadingRecommendations(true);
+
+    try {
+      const data = await itemsService.getStoreRecommendations(keyword._id);
+      setRecommendations(data);
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error.message || 'Failed to fetch store recommendations',
+        color: 'red'
+      });
+      setRecommendations([]);
+    } finally {
+      setLoadingRecommendations(false);
     }
   };
 
@@ -382,6 +413,16 @@ const KeywordsList = () => {
                             </Group>
                           </div>
                           <Group gap={4}>
+                            <Tooltip label="Store Recommendations">
+                              <ActionIcon
+                                variant="light"
+                                size="sm"
+                                color="yellow"
+                                onClick={() => handleShowRecommendations(keyword)}
+                              >
+                                <HiLightBulb size={16} />
+                              </ActionIcon>
+                            </Tooltip>
                             <Tooltip label="Rescrape">
                               <ActionIcon
                                 variant="light"
@@ -498,6 +539,201 @@ const KeywordsList = () => {
       opened={modalOpened}
       onClose={() => setModalOpened(false)}
     />
+
+    {/* Store Recommendations Drawer */}
+    <Drawer
+      opened={drawerOpened}
+      onClose={() => setDrawerOpened(false)}
+      title={
+        <div>
+          <Title order={4}>Store Recommendations</Title>
+          {selectedKeyword && (
+            <Text size="sm" c="dimmed">
+              for "{selectedKeyword.keyword}"
+            </Text>
+          )}
+        </div>
+      }
+      position="right"
+      size="xl"
+      padding="md"
+    >
+      {loadingRecommendations ? (
+        <Stack align="center" gap="md" py="xl">
+          <Loader size="lg" color="violet" />
+          <Text c="dimmed">Loading recommendations...</Text>
+        </Stack>
+      ) : recommendations.length === 0 ? (
+        <Stack align="center" gap="md" py="xl">
+          <Text size="lg" c="dimmed">No recommendations found</Text>
+          <Text size="sm" c="dimmed">
+            There are no store recommendations available for this keyword
+          </Text>
+        </Stack>
+      ) : (
+        <ScrollArea>
+          <Stack gap="md">
+            {recommendations.map((rec, index) => (
+              <Card key={rec._id} shadow="sm" padding="md" radius="md" withBorder>
+                <Stack gap="xs">
+                  {/* Store Name & Link */}
+                  <Group justify="space-between" align="flex-start">
+                    <div>
+                      <Text fw={600} size="lg">
+                        {rec.storeName}
+                      </Text>
+                      <Anchor
+                        href={rec.storeLink}
+                        target="_blank"
+                        size="xs"
+                        c="blue"
+                      >
+                        Visit Store →
+                      </Anchor>
+                    </div>
+                    <Badge variant="light" color="violet">
+                      #{index + 1}
+                    </Badge>
+                  </Group>
+
+                  <Divider />
+
+                  {/* Product Info */}
+                  <div>
+                    <Text size="sm" fw={500} lineClamp={2}>
+                      {rec.title}
+                    </Text>
+                    <Anchor
+                      href={rec.productLink}
+                      target="_blank"
+                      size="xs"
+                      c="dimmed"
+                    >
+                      View Product →
+                    </Anchor>
+                  </div>
+
+                  {/* Key Metrics */}
+                  <Grid gutter="xs">
+                    <Grid.Col span={6}>
+                      <Paper p="xs" radius="sm" withBorder>
+                        <Text size="xs" c="dimmed">Price</Text>
+                        <Text fw={600} size="sm" c="green">
+                          ${rec.price}
+                        </Text>
+                      </Paper>
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Paper p="xs" radius="sm" withBorder>
+                        <Text size="xs" c="dimmed">Available</Text>
+                        <Text fw={600} size="sm">
+                          {rec.available}
+                        </Text>
+                      </Paper>
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Paper p="xs" radius="sm" withBorder>
+                        <Text size="xs" c="dimmed">Total Sold</Text>
+                        <Text fw={600} size="sm" c="blue">
+                          {formatNumber(rec.sold)}
+                        </Text>
+                      </Paper>
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Paper p="xs" radius="sm" withBorder>
+                        <Text size="xs" c="dimmed">Avg Sold</Text>
+                        <Text fw={600} size="sm">
+                          {rec.averageSold}
+                        </Text>
+                      </Paper>
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Paper p="xs" radius="sm" withBorder>
+                        <Text size="xs" c="dimmed">Reviews</Text>
+                        <Text fw={600} size="sm">
+                          {formatNumber(rec.review)}
+                        </Text>
+                      </Paper>
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Paper p="xs" radius="sm" withBorder>
+                        <Text size="xs" c="dimmed">Search Results</Text>
+                        <Text fw={600} size="sm">
+                          {formatNumber(rec.searchAll)}
+                        </Text>
+                      </Paper>
+                    </Grid.Col>
+                  </Grid>
+
+                  {/* Store Details */}
+                  <Stack gap={4}>
+                    <Group gap={4}>
+                      <Text size="xs" c="dimmed">Member Since:</Text>
+                      <Text size="xs" fw={500}>
+                        {formatDate(rec.memberSince)}
+                      </Text>
+                    </Group>
+                    <Group gap={4}>
+                      <Text size="xs" c="dimmed">Months in Market:</Text>
+                      <Text size="xs" fw={500}>
+                        {rec.monthsInMarket}
+                      </Text>
+                    </Group>
+                    <Group gap={4}>
+                      <Text size="xs" c="dimmed">Located In:</Text>
+                      <Text size="xs" fw={500}>
+                        {rec.locatedIn}
+                      </Text>
+                    </Group>
+                    <Group gap={4}>
+                      <Text size="xs" c="dimmed">Found on Page:</Text>
+                      <Badge size="xs" variant="light">
+                        {rec.page}
+                      </Badge>
+                    </Group>
+                  </Stack>
+
+                  {/* Category */}
+                  {rec.category && (
+                    <div>
+                      <Text size="xs" c="dimmed">Category:</Text>
+                      <Text size="xs" lineClamp={2}>
+                        {rec.category}
+                      </Text>
+                    </div>
+                  )}
+
+                  {/* Actions */}
+                  <Group gap="xs" mt="xs">
+                    <Button
+                      component="a"
+                      href={rec.storeLink}
+                      target="_blank"
+                      variant="light"
+                      size="xs"
+                      fullWidth
+                      leftSection={<HiExternalLink size={14} />}
+                    >
+                      Visit Store
+                    </Button>
+                    <Button
+                      component="a"
+                      href={rec.storeOtherItems}
+                      target="_blank"
+                      variant="subtle"
+                      size="xs"
+                      fullWidth
+                    >
+                      Other Items
+                    </Button>
+                  </Group>
+                </Stack>
+              </Card>
+            ))}
+          </Stack>
+        </ScrollArea>
+      )}
+    </Drawer>
   </>
   );
 };
