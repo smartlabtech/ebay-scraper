@@ -83,6 +83,13 @@ const manifestsSlice = createSlice({
     },
     clearCurrentManifest: (state) => {
       state.currentManifest = null;
+    },
+    updateManifestStatus: (state, action) => {
+      const { manifestId, status } = action.payload;
+      const manifest = state.manifests.find(m => m._id === manifestId);
+      if (manifest) {
+        manifest.status = status;
+      }
     }
   },
   extraReducers: (builder) => {
@@ -126,7 +133,8 @@ export const {
   setSortProperty,
   setSortType,
   clearError,
-  clearCurrentManifest
+  clearCurrentManifest,
+  updateManifestStatus
 } = manifestsSlice.actions;
 
 // Selectors

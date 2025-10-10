@@ -33,7 +33,8 @@ import {
   HiChevronDown,
   HiChevronUp,
   HiCalendar,
-  HiClock
+  HiClock,
+  HiPlay
 } from 'react-icons/hi';
 import {
   fetchManifests,
@@ -42,12 +43,14 @@ import {
   setPage,
   setSortProperty,
   setSortType,
+  updateManifestStatus,
   selectManifests,
   selectPagination,
   selectFilters,
   selectLoading,
   selectError
 } from '../../store/slices/manifestsSlice';
+import manifestsService from '../../services/manifests';
 
 const ManifestsList = () => {
   const dispatch = useDispatch();
@@ -121,6 +124,33 @@ const ManifestsList = () => {
       message: 'Manifests list has been refreshed',
       color: 'blue'
     });
+  };
+
+  // Handle start scraping
+  const handleStartScraping = async (manifestId) => {
+    try {
+      // Optimistically update the status to PROCESSING
+      dispatch(updateManifestStatus({ manifestId, status: 'PROCESSING' }));
+
+      const response = await manifestsService.sendManifestToScrap({ _id: manifestId });
+
+      if (response.success) {
+        notifications.show({
+          title: 'Success',
+          message: response.message || 'Scraping process started',
+          color: 'green'
+        });
+      }
+    } catch (error) {
+      // Revert back to PENDING on error
+      dispatch(updateManifestStatus({ manifestId, status: 'PENDING' }));
+
+      notifications.show({
+        title: 'Error',
+        message: error.message || 'Failed to start scraping process',
+        color: 'red'
+      });
+    }
   };
 
   // Format date for display
@@ -415,6 +445,19 @@ const ManifestsList = () => {
                               </Badge>
                             </Group>
                           </div>
+                          {/* Start Scraping Button - Only for PENDING status */}
+                          {manifest.status?.toUpperCase() === 'PENDING' && (
+                            <Tooltip label="Start Scraping">
+                              <ActionIcon
+                                variant="filled"
+                                color="green"
+                                size="lg"
+                                onClick={() => handleStartScraping(manifest._id)}
+                              >
+                                <HiPlay size={18} />
+                              </ActionIcon>
+                            </Tooltip>
+                          )}
                         </Group>
 
                         {/* Manifest ID */}
