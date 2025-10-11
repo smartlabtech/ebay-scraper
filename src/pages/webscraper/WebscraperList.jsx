@@ -36,6 +36,7 @@ import {
   HiCog,
   HiDocumentText
 } from 'react-icons/hi';
+import { MdRestartAlt } from 'react-icons/md';
 import {
   fetchWebscraperJobs,
   setFilters,
@@ -49,6 +50,7 @@ import {
   selectLoading,
   selectError
 } from '../../store/slices/webscraperSlice';
+import webscraperService from '../../services/webscraper';
 
 const WebscraperList = () => {
   const dispatch = useDispatch();
@@ -60,6 +62,7 @@ const WebscraperList = () => {
 
   const [showFilters, setShowFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState(filters);
+  const [resettingJobs, setResettingJobs] = useState({});
 
   // Fetch jobs on mount and when filters change
   useEffect(() => {
@@ -140,6 +143,41 @@ const WebscraperList = () => {
   const formatNumber = (num) => {
     if (num === null || num === undefined) return 'N/A';
     return num.toLocaleString();
+  };
+
+  // Check if job is stuck (lastModify > 1 hour ago)
+  const isJobStuck = (job) => {
+    if (!job.lastModify) return false;
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    const lastModifyDate = new Date(job.lastModify);
+    return lastModifyDate < oneHourAgo && job.status === 'processing';
+  };
+
+  // Handle reset stuck job
+  const handleResetStuckJob = async (job) => {
+    setResettingJobs(prev => ({ ...prev, [job._id]: true }));
+
+    try {
+      const response = await webscraperService.resetStuckJob(job._id);
+
+      notifications.show({
+        title: 'Success',
+        message: response.message || `Job #${job.scrapingjob_id} has been reset`,
+        color: 'green',
+        icon: <MdRestartAlt />
+      });
+
+      // Refresh the jobs list
+      dispatch(fetchWebscraperJobs({ ...filters, page: pagination.page, limit: pagination.limit }));
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error.message || 'Failed to reset stuck job',
+        color: 'red'
+      });
+    } finally {
+      setResettingJobs(prev => ({ ...prev, [job._id]: false }));
+    }
   };
 
   // Get status badge color
@@ -406,8 +444,25 @@ const WebscraperList = () => {
                                   {formatNumber(job.scrapingResult)} results
                                 </Badge>
                               )}
+                              {isJobStuck(job) && (
+                                <Badge variant="light" color="orange">
+                                  Stuck
+                                </Badge>
+                              )}
                             </Group>
                           </div>
+                          {isJobStuck(job) && (
+                            <Tooltip label="Reset stuck job">
+                              <ActionIcon
+                                variant="light"
+                                color="orange"
+                                loading={resettingJobs[job._id]}
+                                onClick={() => handleResetStuckJob(job)}
+                              >
+                                <MdRestartAlt size={18} />
+                              </ActionIcon>
+                            </Tooltip>
+                          )}
                         </Group>
 
                         {/* Custom ID */}

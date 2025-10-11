@@ -97,6 +97,19 @@ class WebscraperService {
       throw new Error('Failed to handle scraped data');
     }
   }
+
+  // Reset stuck job
+  async resetStuckJob(id) {
+    try {
+      const response = await axiosInstance.post(`/webscraper/reset-stuck-job/${id}`);
+      return response.data;
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Failed to reset stuck job');
+    }
+  }
 }
 
 // Create and export webscraper service instance
