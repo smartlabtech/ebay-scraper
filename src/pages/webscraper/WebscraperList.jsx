@@ -154,7 +154,10 @@ const WebscraperList = () => {
   };
 
   // Handle reset stuck job
-  const handleResetStuckJob = async (job) => {
+  const handleResetStuckJob = async (event, job) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     setResettingJobs(prev => ({ ...prev, [job._id]: true }));
 
     try {
@@ -457,7 +460,7 @@ const WebscraperList = () => {
                                 variant="light"
                                 color="orange"
                                 loading={resettingJobs[job._id]}
-                                onClick={() => handleResetStuckJob(job)}
+                                onClick={(e) => handleResetStuckJob(e, job)}
                               >
                                 <MdRestartAlt size={18} />
                               </ActionIcon>
