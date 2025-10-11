@@ -546,25 +546,27 @@ const StoresList = () => {
                     <Card shadow="sm" radius="md" withBorder h="100%">
                       <Stack gap="sm">
                         {/* Store Name and Location */}
-                        <Group justify="space-between" align="flex-start">
+                        <Group justify="space-between" align="flex-start" wrap="nowrap">
                           <Stack gap={4} style={{flex: 1, minWidth: 0}}>
-                            <Text fw={600} size="lg" lineClamp={1}>
-                              {store.storeLink.split("/").pop()}
-                            </Text>
-                            <Group gap={4}>
-                              <HiLocationMarker size={14} style={{flexShrink: 0}} />
-                              <Text size="xs" c="dimmed" lineClamp={1}>
-                                {store.locatedIn || "Unknown Address"}
+                            <Group gap="xs" wrap="nowrap" align="center">
+                              <Text fw={600} size="lg" lineClamp={1} style={{flex: 1, minWidth: 0}}>
+                                {store.storeLink.split("/").pop()}
                               </Text>
-                            </Group>
-                            {store.location && store.location !== store.locatedIn && (
-                              <Group gap={4}>
-                                <Text size="xs" c="dimmed" fw={500}>
-                                  Seller Location:
+                              <Group gap={4} wrap="nowrap" style={{flexShrink: 0}}>
+                                <HiLocationMarker size={14} style={{flexShrink: 0}} />
+                                <Text size="xs" c="dimmed" lineClamp={1}>
+                                  {store.location || store.locatedIn || "Unknown"}
                                 </Text>
-                                <Badge size="xs" variant="light" color="blue">
-                                  {store.location}
-                                </Badge>
+                              </Group>
+                            </Group>
+                            {store.location && store.locatedIn && store.location !== store.locatedIn && (
+                              <Group gap={4}>
+                                <Text size="xs" c="dimmed">
+                                  eBay Address:
+                                </Text>
+                                <Text size="xs" c="dimmed" lineClamp={1}>
+                                  {store.locatedIn}
+                                </Text>
                               </Group>
                             )}
                           </Stack>
@@ -575,6 +577,7 @@ const StoresList = () => {
                               target="_blank"
                               variant="light"
                               size="sm"
+                              style={{flexShrink: 0}}
                             >
                               <HiExternalLink />
                             </ActionIcon>
