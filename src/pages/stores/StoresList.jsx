@@ -103,6 +103,8 @@ const StoresList = () => {
       searchAllDeltaMax: "",
       lastScrapedAt: "",
       lastScrapedAtBefore: "",
+      lastSoldDeltaAt: "",
+      lastSoldDeltaAtBefore: "",
       search: "",
       sortProperty: "createdAt",
       sortType: "DESCENDING"
@@ -465,6 +467,42 @@ const StoresList = () => {
                   />
                 </Grid.Col>
 
+                {/* Last Sales Activity After */}
+                <Grid.Col span={{base: 12, md: 6}}>
+                  <DateInput
+                    label="Last Sales Activity (After)"
+                    placeholder="Select date"
+                    description="When soldDelta was last non-zero"
+                    value={localFilters.lastSoldDeltaAt && localFilters.lastSoldDeltaAt !== '' ? new Date(localFilters.lastSoldDeltaAt) : null}
+                    onChange={(date) => {
+                      if (date && date instanceof Date && !isNaN(date.getTime())) {
+                        handleFilterChange('lastSoldDeltaAt', date.toISOString().split('T')[0])
+                      } else {
+                        handleFilterChange('lastSoldDeltaAt', '')
+                      }
+                    }}
+                    clearable
+                  />
+                </Grid.Col>
+
+                {/* Last Sales Activity Before */}
+                <Grid.Col span={{base: 12, md: 6}}>
+                  <DateInput
+                    label="Last Sales Activity (Before)"
+                    placeholder="Select date"
+                    description="When soldDelta was last non-zero"
+                    value={localFilters.lastSoldDeltaAtBefore && localFilters.lastSoldDeltaAtBefore !== '' ? new Date(localFilters.lastSoldDeltaAtBefore) : null}
+                    onChange={(date) => {
+                      if (date && date instanceof Date && !isNaN(date.getTime())) {
+                        handleFilterChange('lastSoldDeltaAtBefore', date.toISOString().split('T')[0])
+                      } else {
+                        handleFilterChange('lastSoldDeltaAtBefore', '')
+                      }
+                    }}
+                    clearable
+                  />
+                </Grid.Col>
+
                 {/* Sort Property */}
                 <Grid.Col span={{base: 12, md: 6}}>
                   <Select
@@ -480,6 +518,7 @@ const StoresList = () => {
                       {value: "soldDelta", label: "Sold Delta"},
                       {value: "searchAllDelta", label: "Inventory Delta"},
                       {value: "lastScrapedAt", label: "Last Scraped"},
+                      {value: "lastSoldDeltaAt", label: "Last Sales Activity"},
                       {value: "location", label: "Location"},
                       {value: "stage", label: "Stage"},
                       {value: "createdAt", label: "Date Added"},

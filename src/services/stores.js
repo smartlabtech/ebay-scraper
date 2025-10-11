@@ -77,6 +77,8 @@ class StoresService {
         searchAllDeltaMax,
         lastScrapedAt,
         lastScrapedAtBefore,
+        lastSoldDeltaAt,
+        lastSoldDeltaAtBefore,
         search,
         sortProperty,
         sortType
@@ -101,6 +103,8 @@ class StoresService {
         ...(searchAllDeltaMax !== undefined && { searchAllDeltaMax }),
         ...(lastScrapedAt && { lastScrapedAt }),
         ...(lastScrapedAtBefore && { lastScrapedAtBefore }),
+        ...(lastSoldDeltaAt && { lastSoldDeltaAt }),
+        ...(lastSoldDeltaAtBefore && { lastSoldDeltaAtBefore }),
         ...(search && { search }),
         ...(sortProperty && { sortProperty }),
         ...(sortType && { sortType })

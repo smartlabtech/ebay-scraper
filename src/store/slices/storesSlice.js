@@ -30,6 +30,8 @@ const initialState = {
     searchAllDeltaMax: '',
     lastScrapedAt: '',
     lastScrapedAtBefore: '',
+    lastSoldDeltaAt: '',
+    lastSoldDeltaAtBefore: '',
     search: '',
     sortProperty: 'createdAt',
     sortType: 'DESCENDING'
