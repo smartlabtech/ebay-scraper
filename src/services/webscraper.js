@@ -101,7 +101,7 @@ class WebscraperService {
   // Reset stuck job
   async resetStuckJob(id) {
     try {
-      const response = await axiosInstance.post(`/webscraper/reset-stuck-job/${id}`);
+      const response = await axiosInstance.patch(`/webscraper/reset-stuck-job/${id}`);
       return response.data;
     } catch (error) {
       if (error.response?.data?.message) {
