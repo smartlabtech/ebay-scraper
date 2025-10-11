@@ -32,7 +32,7 @@ const FlowActionManagement = () => {
     handleScraped: false,
     rescrapeStale: false
   })
-  const [monthsThreshold, setMonthsThreshold] = useState(7)
+  const [monthsThreshold, setMonthsThreshold] = useState(6)
 
   // Handle manifest generation
   const handleGenerateManifest = async (type) => {
@@ -390,15 +390,15 @@ const FlowActionManagement = () => {
             {/* Section Header */}
             <Group justify="space-between" align="center">
               <div>
-                <Title order={3}>Rescrape Stale Stores</Title>
+                <Title order={3}>Rescrape Dormant Stores</Title>
                 <Text size="sm" c="dimmed" mt={4}>
-                  Reset stores that haven't been scraped recently
+                  Reset SCRAPED stores with no recent sales activity
                 </Text>
               </div>
               <Tooltip
-                label="This resets stores that are older than the specified number of months to be rescraped."
+                label="Finds SCRAPED stores with no sales activity (lastSoldDeltaAt) in the specified months and resets them to CREATED stage for rescraping. Minimum 6 months enforced by backend."
                 multiline
-                w={300}
+                w={350}
                 withArrow
                 position="left"
               >
@@ -411,11 +411,11 @@ const FlowActionManagement = () => {
 
             <Alert
               icon={<HiInformationCircle />}
-              title="Stale Store Detection"
+              title="Sales Activity Detection"
               color="grape"
               variant="light"
             >
-              Stores that haven't been updated in the specified number of months will be reset and marked for rescraping.
+              Targets SCRAPED stores with no sales activity (lastSoldDeltaAt) in the specified months. Resets them to CREATED stage and clears manifestId. Minimum threshold: 6 months.
             </Alert>
 
             <Divider />
@@ -424,10 +424,10 @@ const FlowActionManagement = () => {
             <Stack gap="sm">
               <NumberInput
                 label="Months Threshold"
-                description="Stores older than this many months will be reset"
+                description="SCRAPED stores with no sales activity for this many months will be reset (min: 6)"
                 value={monthsThreshold}
-                onChange={(value) => setMonthsThreshold(value || 7)}
-                min={1}
+                onChange={(value) => setMonthsThreshold(value || 6)}
+                min={6}
                 max={24}
                 size="md"
                 style={{maxWidth: 300}}
@@ -439,7 +439,7 @@ const FlowActionManagement = () => {
                 loading={loading.rescrapeStale}
                 onClick={handleRescrapeStale}
               >
-                Rescrape Stale Stores
+                Reset Dormant Stores
               </Button>
             </Stack>
           </Stack>
