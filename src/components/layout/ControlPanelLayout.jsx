@@ -51,18 +51,6 @@ const ControlPanelLayout = () => {
       color: 'blue'
     },
     {
-      label: 'Stores',
-      icon: MdStore,
-      path: '/control/stores',
-      color: 'violet',
-      children: [
-        { label: 'All Stores', path: '/control/stores' },
-        { label: 'Add Store', path: '/control/stores/new' },
-        { label: 'Import Stores', path: '/control/stores/import' },
-        { label: 'Store Analytics', path: '/control/stores/analytics' }
-      ]
-    },
-    {
       label: 'Keywords',
       icon: HiTag,
       path: '/control/keywords',
@@ -79,6 +67,12 @@ const ControlPanelLayout = () => {
       icon: HiShoppingCart,
       path: '/control/items',
       color: 'indigo'
+    },
+    {
+      label: 'Stores',
+      icon: MdStore,
+      path: '/control/stores',
+      color: 'violet'
     },
     {
       type: 'section',
