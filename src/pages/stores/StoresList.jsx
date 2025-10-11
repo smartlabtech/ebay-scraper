@@ -177,6 +177,27 @@ const StoresList = () => {
     return num > 0 ? "green" : "red"
   }
 
+  // Convert date string to Date object for DateInput
+  const parseDateForInput = (dateStr) => {
+    if (!dateStr || dateStr === '') return null
+    try {
+      // Parse as YYYY-MM-DD in local timezone
+      const [year, month, day] = dateStr.split('-').map(Number)
+      return new Date(year, month - 1, day)
+    } catch {
+      return null
+    }
+  }
+
+  // Convert Date object to YYYY-MM-DD string
+  const formatDateForAPI = (date) => {
+    if (!date || !(date instanceof Date) || isNaN(date.getTime())) return ''
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
   return (
     <Container size="xl" py="xl">
       <Stack gap="lg">
@@ -266,14 +287,8 @@ const StoresList = () => {
                   <DateInput
                     label="Member Since (After)"
                     placeholder="Select date"
-                    value={localFilters.memberSince && localFilters.memberSince !== '' ? new Date(localFilters.memberSince) : null}
-                    onChange={(date) => {
-                      if (date && date instanceof Date && !isNaN(date.getTime())) {
-                        handleFilterChange('memberSince', date.toISOString().split('T')[0])
-                      } else {
-                        handleFilterChange('memberSince', '')
-                      }
-                    }}
+                    value={parseDateForInput(localFilters.memberSince)}
+                    onChange={(date) => handleFilterChange('memberSince', formatDateForAPI(date))}
                     clearable
                   />
                 </Grid.Col>
@@ -283,14 +298,8 @@ const StoresList = () => {
                   <DateInput
                     label="Member Since (Before)"
                     placeholder="Select date"
-                    value={localFilters.memberSinceBefore && localFilters.memberSinceBefore !== '' ? new Date(localFilters.memberSinceBefore) : null}
-                    onChange={(date) => {
-                      if (date && date instanceof Date && !isNaN(date.getTime())) {
-                        handleFilterChange('memberSinceBefore', date.toISOString().split('T')[0])
-                      } else {
-                        handleFilterChange('memberSinceBefore', '')
-                      }
-                    }}
+                    value={parseDateForInput(localFilters.memberSinceBefore)}
+                    onChange={(date) => handleFilterChange('memberSinceBefore', formatDateForAPI(date))}
                     clearable
                   />
                 </Grid.Col>
@@ -438,14 +447,8 @@ const StoresList = () => {
                   <DateInput
                     label="Last Scraped (After)"
                     placeholder="Select date"
-                    value={localFilters.lastScrapedAt && localFilters.lastScrapedAt !== '' ? new Date(localFilters.lastScrapedAt) : null}
-                    onChange={(date) => {
-                      if (date && date instanceof Date && !isNaN(date.getTime())) {
-                        handleFilterChange('lastScrapedAt', date.toISOString().split('T')[0])
-                      } else {
-                        handleFilterChange('lastScrapedAt', '')
-                      }
-                    }}
+                    value={parseDateForInput(localFilters.lastScrapedAt)}
+                    onChange={(date) => handleFilterChange('lastScrapedAt', formatDateForAPI(date))}
                     clearable
                   />
                 </Grid.Col>
@@ -455,14 +458,8 @@ const StoresList = () => {
                   <DateInput
                     label="Last Scraped (Before)"
                     placeholder="Select date"
-                    value={localFilters.lastScrapedAtBefore && localFilters.lastScrapedAtBefore !== '' ? new Date(localFilters.lastScrapedAtBefore) : null}
-                    onChange={(date) => {
-                      if (date && date instanceof Date && !isNaN(date.getTime())) {
-                        handleFilterChange('lastScrapedAtBefore', date.toISOString().split('T')[0])
-                      } else {
-                        handleFilterChange('lastScrapedAtBefore', '')
-                      }
-                    }}
+                    value={parseDateForInput(localFilters.lastScrapedAtBefore)}
+                    onChange={(date) => handleFilterChange('lastScrapedAtBefore', formatDateForAPI(date))}
                     clearable
                   />
                 </Grid.Col>
@@ -473,14 +470,8 @@ const StoresList = () => {
                     label="Last Sales Activity (After)"
                     placeholder="Select date"
                     description="When soldDelta was last non-zero"
-                    value={localFilters.lastSoldDeltaAt && localFilters.lastSoldDeltaAt !== '' ? new Date(localFilters.lastSoldDeltaAt) : null}
-                    onChange={(date) => {
-                      if (date && date instanceof Date && !isNaN(date.getTime())) {
-                        handleFilterChange('lastSoldDeltaAt', date.toISOString().split('T')[0])
-                      } else {
-                        handleFilterChange('lastSoldDeltaAt', '')
-                      }
-                    }}
+                    value={parseDateForInput(localFilters.lastSoldDeltaAt)}
+                    onChange={(date) => handleFilterChange('lastSoldDeltaAt', formatDateForAPI(date))}
                     clearable
                   />
                 </Grid.Col>
@@ -491,14 +482,8 @@ const StoresList = () => {
                     label="Last Sales Activity (Before)"
                     placeholder="Select date"
                     description="When soldDelta was last non-zero"
-                    value={localFilters.lastSoldDeltaAtBefore && localFilters.lastSoldDeltaAtBefore !== '' ? new Date(localFilters.lastSoldDeltaAtBefore) : null}
-                    onChange={(date) => {
-                      if (date && date instanceof Date && !isNaN(date.getTime())) {
-                        handleFilterChange('lastSoldDeltaAtBefore', date.toISOString().split('T')[0])
-                      } else {
-                        handleFilterChange('lastSoldDeltaAtBefore', '')
-                      }
-                    }}
+                    value={parseDateForInput(localFilters.lastSoldDeltaAtBefore)}
+                    onChange={(date) => handleFilterChange('lastSoldDeltaAtBefore', formatDateForAPI(date))}
                     clearable
                   />
                 </Grid.Col>
