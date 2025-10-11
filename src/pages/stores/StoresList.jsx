@@ -555,9 +555,7 @@ const StoresList = () => {
                               <Group gap={4} wrap="nowrap" style={{flexShrink: 0}}>
                                 <HiLocationMarker size={14} style={{flexShrink: 0}} />
                                 <Text size="xs" c="dimmed" lineClamp={1}>
-                                  {store.locatedIn ||
-                                    store.location ||
-                                    "Unknown"}
+                                  {store.location || "Unknown"}
                                 </Text>
                               </Group>
                             </Group>
