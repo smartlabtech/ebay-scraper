@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useMemo} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {
   Container,
@@ -65,6 +65,7 @@ const StoresList = () => {
 
   const [showFilters, setShowFilters] = useState(false)
   const [localFilters, setLocalFilters] = useState(filters)
+  const [quickLocationFilter, setQuickLocationFilter] = useState("")
 
   // Fetch stores on mount and when filters change
   useEffect(() => {
@@ -174,6 +175,21 @@ const StoresList = () => {
     if (num === null || num === undefined || num === 0) return "gray"
     return num > 0 ? "green" : "red"
   }
+
+  // Get unique locations from current stores
+  const uniqueLocations = useMemo(() => {
+    const locations = new Set()
+    stores.forEach(store => {
+      if (store.location) locations.add(store.location)
+    })
+    return Array.from(locations).sort()
+  }, [stores])
+
+  // Filter stores by quick location filter
+  const filteredStores = useMemo(() => {
+    if (!quickLocationFilter) return stores
+    return stores.filter(store => store.location === quickLocationFilter)
+  }, [stores, quickLocationFilter])
 
   return (
     <Container size="xl" py="xl">
@@ -514,6 +530,28 @@ const StoresList = () => {
           </Paper>
         </Collapse>
 
+        {/* Quick Location Filter */}
+        {!loading && stores.length > 0 && uniqueLocations.length > 1 && (
+          <Paper shadow="sm" p="md" radius="md">
+            <Group gap="md" align="flex-end">
+              <Select
+                label="Quick Filter by Location"
+                placeholder="All Locations"
+                leftSection={<HiLocationMarker />}
+                value={quickLocationFilter}
+                onChange={(value) => setQuickLocationFilter(value || "")}
+                data={uniqueLocations.map(loc => ({ value: loc, label: loc }))}
+                clearable
+                searchable
+                style={{flex: 1, maxWidth: 400}}
+              />
+              <Text size="sm" c="dimmed">
+                Showing {filteredStores.length} of {stores.length} stores
+              </Text>
+            </Group>
+          </Paper>
+        )}
+
         {/* Loading State */}
         {loading ? (
           <Paper shadow="sm" p="xl" radius="md">
@@ -525,23 +563,29 @@ const StoresList = () => {
         ) : (
           <>
             {/* Stores Grid */}
-            {stores.length === 0 ? (
+            {filteredStores.length === 0 ? (
               <Paper shadow="sm" p="xl" radius="md">
                 <Stack align="center" gap="md">
                   <Text size="lg" c="dimmed">
                     No stores found
                   </Text>
                   <Text size="sm" c="dimmed">
-                    Try adjusting your filters
+                    {quickLocationFilter ? 'No stores match the selected location' : 'Try adjusting your filters'}
                   </Text>
-                  <Button variant="light" onClick={handleResetFilters}>
-                    Reset Filters
-                  </Button>
+                  {quickLocationFilter ? (
+                    <Button variant="light" onClick={() => setQuickLocationFilter("")}>
+                      Clear Location Filter
+                    </Button>
+                  ) : (
+                    <Button variant="light" onClick={handleResetFilters}>
+                      Reset Filters
+                    </Button>
+                  )}
                 </Stack>
               </Paper>
             ) : (
               <Grid>
-                {stores.map((store) => (
+                {filteredStores.map((store) => (
                   <Grid.Col key={store._id} span={{base: 12, sm: 6, lg: 4}}>
                     <Card shadow="sm" radius="md" withBorder h="100%">
                       <Stack gap="sm">
