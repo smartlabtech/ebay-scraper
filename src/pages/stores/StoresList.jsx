@@ -547,19 +547,27 @@ const StoresList = () => {
                       <Stack gap="sm">
                         {/* Store Name and Location */}
                         <Group justify="space-between" align="flex-start">
-                          <div style={{flex: 1, minWidth: 0}}>
-                            <Group gap="xs" wrap="nowrap">
-                              <Text fw={600} size="lg" lineClamp={1} style={{flex: 1, minWidth: 0}}>
-                                {store.storeLink.split("/").pop()}
+                          <Stack gap={4} style={{flex: 1, minWidth: 0}}>
+                            <Text fw={600} size="lg" lineClamp={1}>
+                              {store.storeLink.split("/").pop()}
+                            </Text>
+                            <Group gap={4}>
+                              <HiLocationMarker size={14} style={{flexShrink: 0}} />
+                              <Text size="xs" c="dimmed" lineClamp={1}>
+                                {store.locatedIn || "Unknown Address"}
                               </Text>
-                              <Group gap={4} wrap="nowrap" style={{flexShrink: 0}}>
-                                <HiLocationMarker size={14} style={{flexShrink: 0}} />
-                                <Text size="xs" c="dimmed" lineClamp={1}>
-                                  {store.location || "Unknown"}
-                                </Text>
-                              </Group>
                             </Group>
-                          </div>
+                            {store.location && store.location !== store.locatedIn && (
+                              <Group gap={4}>
+                                <Text size="xs" c="dimmed" fw={500}>
+                                  Seller Location:
+                                </Text>
+                                <Badge size="xs" variant="light" color="blue">
+                                  {store.location}
+                                </Badge>
+                              </Group>
+                            )}
+                          </Stack>
                           <Tooltip label="View on eBay">
                             <ActionIcon
                               component="a"
