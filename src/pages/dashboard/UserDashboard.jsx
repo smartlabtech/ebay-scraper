@@ -15,7 +15,8 @@ import {
   RingProgress,
   Timeline,
   Paper,
-  SimpleGrid
+  SimpleGrid,
+  Loader
 } from '@mantine/core';
 import {
   MdStore,
@@ -28,8 +29,11 @@ import {
   MdArrowUpward,
   MdArrowDownward,
   MdSync,
-  MdNotifications
+  MdNotifications,
+  MdStorage,
+  MdCloudQueue
 } from 'react-icons/md';
+import s3Service from '../../services/s3';
 
 const UserDashboard = () => {
   const navigate = useNavigate();
@@ -97,6 +101,27 @@ const UserDashboard = () => {
       { day: 'Sun', sales: 423 }
     ]
   });
+
+  const [s3Storage, setS3Storage] = useState(null);
+  const [s3Loading, setS3Loading] = useState(true);
+
+  // Fetch S3 storage information
+  useEffect(() => {
+    const fetchS3Storage = async () => {
+      try {
+        setS3Loading(true);
+        const data = await s3Service.getFolderSize('web-scraper/');
+        setS3Storage(data);
+      } catch (error) {
+        console.error('Failed to fetch S3 storage info:', error);
+        setS3Storage(null);
+      } finally {
+        setS3Loading(false);
+      }
+    };
+
+    fetchS3Storage();
+  }, []);
 
   const StatCard = ({ title, value, icon: Icon, color, subtitle, trend }) => (
     <Card shadow="sm" radius="md" withBorder>
@@ -376,6 +401,132 @@ const UserDashboard = () => {
             </Group>
           </Paper>
         </SimpleGrid>
+      </Card>
+
+      {/* S3 Storage Information */}
+      <Card shadow="sm" radius="md" withBorder>
+        <Group justify="space-between" mb="md">
+          <Group gap="xs">
+            <ThemeIcon size="md" color="cyan" variant="light">
+              <MdCloudQueue size={20} />
+            </ThemeIcon>
+            <Title order={4}>S3 Storage (Web Scraper)</Title>
+          </Group>
+          {s3Loading && <Loader size="sm" />}
+        </Group>
+
+        {s3Storage ? (
+          <SimpleGrid cols={{base: 1, sm: 2, md: 5}} spacing="md">
+            {/* Total Size GB */}
+            <Paper p="md" radius="md" bg="cyan.0" withBorder>
+              <Group gap="xs" align="flex-start">
+                <ThemeIcon size="md" color="cyan" variant="light">
+                  <MdStorage size={18} />
+                </ThemeIcon>
+                <Box style={{flex: 1}}>
+                  <Text size="xs" c="dimmed" fw={600}>Total Size</Text>
+                  <Text size="lg" fw={700} mt={4}>
+                    {s3Storage.totalSizeGB?.toFixed(2)} GB
+                  </Text>
+                  <Text size="xs" c="dimmed" mt={2}>
+                    {s3Storage.totalSizeMB?.toFixed(2)} MB
+                  </Text>
+                </Box>
+              </Group>
+            </Paper>
+
+            {/* File Count */}
+            <Paper p="md" radius="md" bg="blue.0" withBorder>
+              <Group gap="xs" align="flex-start">
+                <ThemeIcon size="md" color="blue" variant="light">
+                  <MdInventory size={18} />
+                </ThemeIcon>
+                <Box style={{flex: 1}}>
+                  <Text size="xs" c="dimmed" fw={600}>Files</Text>
+                  <Text size="lg" fw={700} mt={4}>
+                    {s3Storage.fileCount?.toLocaleString()}
+                  </Text>
+                  <Text size="xs" c="dimmed" mt={2}>
+                    Total files
+                  </Text>
+                </Box>
+              </Group>
+            </Paper>
+
+            {/* Monthly Cost */}
+            <Paper p="md" radius="md" bg="green.0" withBorder>
+              <Group gap="xs" align="flex-start">
+                <ThemeIcon size="md" color="green" variant="light">
+                  <MdAttachMoney size={18} />
+                </ThemeIcon>
+                <Box style={{flex: 1}}>
+                  <Text size="xs" c="dimmed" fw={600}>Est. Monthly Cost</Text>
+                  <Text size="lg" fw={700} mt={4}>
+                    ${s3Storage.estimatedMonthlyCost?.toFixed(2)}
+                  </Text>
+                  <Text size="xs" c="dimmed" mt={2}>
+                    {s3Storage.currency || 'USD'}
+                  </Text>
+                </Box>
+              </Group>
+            </Paper>
+
+            {/* Folder Path */}
+            <Paper p="md" radius="md" bg="violet.0" withBorder>
+              <Group gap="xs" align="flex-start">
+                <ThemeIcon size="md" color="violet" variant="light">
+                  <MdCloudQueue size={18} />
+                </ThemeIcon>
+                <Box style={{flex: 1}}>
+                  <Text size="xs" c="dimmed" fw={600}>Folder</Text>
+                  <Text size="sm" fw={600} mt={4} lineClamp={1}>
+                    {s3Storage.folderPath}
+                  </Text>
+                  <Text size="xs" c="dimmed" mt={2}>
+                    S3 path
+                  </Text>
+                </Box>
+              </Group>
+            </Paper>
+
+            {/* Last Calculated */}
+            <Paper p="md" radius="md" bg="gray.0" withBorder>
+              <Group gap="xs" align="flex-start">
+                <ThemeIcon size="md" color="gray" variant="light">
+                  <MdSchedule size={18} />
+                </ThemeIcon>
+                <Box style={{flex: 1}}>
+                  <Text size="xs" c="dimmed" fw={600}>Last Updated</Text>
+                  <Text size="xs" fw={600} mt={4}>
+                    {s3Storage.calculatedAt ? new Date(s3Storage.calculatedAt).toLocaleString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    }) : 'N/A'}
+                  </Text>
+                  <Text size="xs" c="dimmed" mt={2}>
+                    Calculated at
+                  </Text>
+                </Box>
+              </Group>
+            </Paper>
+          </SimpleGrid>
+        ) : (
+          !s3Loading && (
+            <Paper p="md" radius="md" bg="red.0" withBorder>
+              <Group gap="xs">
+                <ThemeIcon size="md" color="red" variant="light">
+                  <MdWarning size={18} />
+                </ThemeIcon>
+                <Box>
+                  <Text size="sm" fw={600}>Unable to fetch S3 storage information</Text>
+                  <Text size="xs" c="dimmed">Please check your connection or try again later</Text>
+                </Box>
+              </Group>
+            </Paper>
+          )
+        )}
       </Card>
     </Stack>
   );
