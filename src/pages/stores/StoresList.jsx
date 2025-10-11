@@ -145,6 +145,26 @@ const StoresList = () => {
     })
   }
 
+  // Parse date string to Date object for DateInput
+  const parseFilterDate = (dateString) => {
+    if (!dateString || dateString === "") return null
+    try {
+      const date = new Date(dateString + "T00:00:00")
+      return isNaN(date.getTime()) ? null : date
+    } catch {
+      return null
+    }
+  }
+
+  // Format date for storage (YYYY-MM-DD)
+  const formatDateForFilter = (date) => {
+    if (!date || !(date instanceof Date) || isNaN(date.getTime())) return ""
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, "0")
+    const day = String(date.getDate()).padStart(2, "0")
+    return `${year}-${month}-${day}`
+  }
+
   // Format date for display
   const formatDate = (dateString) => {
     if (!dateString) return "N/A"
@@ -263,25 +283,9 @@ const StoresList = () => {
                   <DateInput
                     label="Member Since (After)"
                     placeholder="Select date"
-                    value={
-                      localFilters.memberSince &&
-                      localFilters.memberSince !== ""
-                        ? new Date(localFilters.memberSince)
-                        : null
-                    }
+                    value={parseFilterDate(localFilters.memberSince)}
                     onChange={(date) => {
-                      if (
-                        date &&
-                        date instanceof Date &&
-                        !isNaN(date.getTime())
-                      ) {
-                        handleFilterChange(
-                          "memberSince",
-                          date.toISOString().split("T")[0]
-                        )
-                      } else {
-                        handleFilterChange("memberSince", "")
-                      }
+                      handleFilterChange("memberSince", formatDateForFilter(date))
                     }}
                     clearable
                   />
@@ -292,25 +296,9 @@ const StoresList = () => {
                   <DateInput
                     label="Member Since (Before)"
                     placeholder="Select date"
-                    value={
-                      localFilters.memberSinceBefore &&
-                      localFilters.memberSinceBefore !== ""
-                        ? new Date(localFilters.memberSinceBefore)
-                        : null
-                    }
+                    value={parseFilterDate(localFilters.memberSinceBefore)}
                     onChange={(date) => {
-                      if (
-                        date &&
-                        date instanceof Date &&
-                        !isNaN(date.getTime())
-                      ) {
-                        handleFilterChange(
-                          "memberSinceBefore",
-                          date.toISOString().split("T")[0]
-                        )
-                      } else {
-                        handleFilterChange("memberSinceBefore", "")
-                      }
+                      handleFilterChange("memberSinceBefore", formatDateForFilter(date))
                     }}
                     clearable
                   />
@@ -459,25 +447,9 @@ const StoresList = () => {
                   <DateInput
                     label="Last Scraped (After)"
                     placeholder="Select date"
-                    value={
-                      localFilters.lastScrapedAt &&
-                      localFilters.lastScrapedAt !== ""
-                        ? new Date(localFilters.lastScrapedAt)
-                        : null
-                    }
+                    value={parseFilterDate(localFilters.lastScrapedAt)}
                     onChange={(date) => {
-                      if (
-                        date &&
-                        date instanceof Date &&
-                        !isNaN(date.getTime())
-                      ) {
-                        handleFilterChange(
-                          "lastScrapedAt",
-                          date.toISOString().split("T")[0]
-                        )
-                      } else {
-                        handleFilterChange("lastScrapedAt", "")
-                      }
+                      handleFilterChange("lastScrapedAt", formatDateForFilter(date))
                     }}
                     clearable
                   />
@@ -488,25 +460,9 @@ const StoresList = () => {
                   <DateInput
                     label="Last Scraped (Before)"
                     placeholder="Select date"
-                    value={
-                      localFilters.lastScrapedAtBefore &&
-                      localFilters.lastScrapedAtBefore !== ""
-                        ? new Date(localFilters.lastScrapedAtBefore)
-                        : null
-                    }
+                    value={parseFilterDate(localFilters.lastScrapedAtBefore)}
                     onChange={(date) => {
-                      if (
-                        date &&
-                        date instanceof Date &&
-                        !isNaN(date.getTime())
-                      ) {
-                        handleFilterChange(
-                          "lastScrapedAtBefore",
-                          date.toISOString().split("T")[0]
-                        )
-                      } else {
-                        handleFilterChange("lastScrapedAtBefore", "")
-                      }
+                      handleFilterChange("lastScrapedAtBefore", formatDateForFilter(date))
                     }}
                     clearable
                   />
