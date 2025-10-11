@@ -83,6 +83,13 @@ const webscraperSlice = createSlice({
     },
     clearCurrentJob: (state) => {
       state.currentJob = null;
+    },
+    updateJob: (state, action) => {
+      const { jobId, updates } = action.payload;
+      const jobIndex = state.jobs.findIndex(job => job._id === jobId);
+      if (jobIndex !== -1) {
+        state.jobs[jobIndex] = { ...state.jobs[jobIndex], ...updates };
+      }
     }
   },
   extraReducers: (builder) => {
@@ -126,7 +133,8 @@ export const {
   setSortProperty,
   setSortType,
   clearError,
-  clearCurrentJob
+  clearCurrentJob,
+  updateJob
 } = webscraperSlice.actions;
 
 // Selectors

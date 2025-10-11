@@ -44,6 +44,7 @@ import {
   setPage,
   setSortProperty,
   setSortType,
+  updateJob,
   selectWebscraperJobs,
   selectPagination,
   selectFilters,
@@ -163,9 +164,18 @@ const WebscraperList = () => {
     try {
       const response = await webscraperService.resetStuckJob(job._id);
 
+      // Update the job in Redux store with new status
+      dispatch(updateJob({
+        jobId: job._id,
+        updates: {
+          status: response.newStatus || 'finished',
+          lastModify: response.resetAt || new Date().toISOString()
+        }
+      }));
+
       notifications.show({
         title: 'Success',
-        message: response.message || `Job #${job.scrapingjob_id} has been reset. Refresh to see updated status.`,
+        message: response.message || `Job #${job.scrapingjob_id} has been reset to ${response.newStatus || 'finished'}`,
         color: 'green',
         icon: <MdRestartAlt />
       });
