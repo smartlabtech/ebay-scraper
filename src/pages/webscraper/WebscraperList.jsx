@@ -165,13 +165,10 @@ const WebscraperList = () => {
 
       notifications.show({
         title: 'Success',
-        message: response.message || `Job #${job.scrapingjob_id} has been reset`,
+        message: response.message || `Job #${job.scrapingjob_id} has been reset. Refresh to see updated status.`,
         color: 'green',
         icon: <MdRestartAlt />
       });
-
-      // Refresh the jobs list
-      dispatch(fetchWebscraperJobs({ ...filters, page: pagination.page, limit: pagination.limit }));
     } catch (error) {
       notifications.show({
         title: 'Error',
