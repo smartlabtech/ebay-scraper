@@ -545,19 +545,21 @@ const StoresList = () => {
                   <Grid.Col key={store._id} span={{base: 12, sm: 6, lg: 4}}>
                     <Card shadow="sm" radius="md" withBorder h="100%">
                       <Stack gap="sm">
-                        {/* Store Name */}
+                        {/* Store Name and Location */}
                         <Group justify="space-between" align="flex-start">
-                          <div>
-                            <Text fw={600} size="lg" lineClamp={1}>
-                              {store.storeLink.split("/").pop()}
-                            </Text>
-                            <Group gap={4}>
-                              <HiLocationMarker size={14} />
-                              <Text size="xs" c="dimmed">
-                                {store.locatedIn ||
-                                  store.location ||
-                                  "Unknown Location"}
+                          <div style={{flex: 1, minWidth: 0}}>
+                            <Group gap="xs" wrap="nowrap">
+                              <Text fw={600} size="lg" lineClamp={1} style={{flex: 1, minWidth: 0}}>
+                                {store.storeLink.split("/").pop()}
                               </Text>
+                              <Group gap={4} wrap="nowrap" style={{flexShrink: 0}}>
+                                <HiLocationMarker size={14} style={{flexShrink: 0}} />
+                                <Text size="xs" c="dimmed" lineClamp={1}>
+                                  {store.locatedIn ||
+                                    store.location ||
+                                    "Unknown"}
+                                </Text>
+                              </Group>
                             </Group>
                           </div>
                           <Tooltip label="View on eBay">
