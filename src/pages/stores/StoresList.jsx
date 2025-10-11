@@ -189,13 +189,24 @@ const StoresList = () => {
     }
   }
 
-  // Convert Date object to YYYY-MM-DD string
+  // Convert Date object or string to YYYY-MM-DD string
   const formatDateForAPI = (date) => {
-    if (!date || !(date instanceof Date) || isNaN(date.getTime())) return ''
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
+    if (!date) return ''
+
+    // If already a string in YYYY-MM-DD format, return it
+    if (typeof date === 'string') {
+      return date
+    }
+
+    // If it's a Date object, format it
+    if (date instanceof Date && !isNaN(date.getTime())) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return `${year}-${month}-${day}`
+    }
+
+    return ''
   }
 
   return (
@@ -289,6 +300,7 @@ const StoresList = () => {
                     placeholder="Select date"
                     value={parseDateForInput(localFilters.memberSince)}
                     onChange={(date) => handleFilterChange('memberSince', formatDateForAPI(date))}
+                    valueFormat="YYYY-MM-DD"
                     clearable
                   />
                 </Grid.Col>
@@ -300,6 +312,7 @@ const StoresList = () => {
                     placeholder="Select date"
                     value={parseDateForInput(localFilters.memberSinceBefore)}
                     onChange={(date) => handleFilterChange('memberSinceBefore', formatDateForAPI(date))}
+                    valueFormat="YYYY-MM-DD"
                     clearable
                   />
                 </Grid.Col>
@@ -449,6 +462,7 @@ const StoresList = () => {
                     placeholder="Select date"
                     value={parseDateForInput(localFilters.lastScrapedAt)}
                     onChange={(date) => handleFilterChange('lastScrapedAt', formatDateForAPI(date))}
+                    valueFormat="YYYY-MM-DD"
                     clearable
                   />
                 </Grid.Col>
@@ -460,6 +474,7 @@ const StoresList = () => {
                     placeholder="Select date"
                     value={parseDateForInput(localFilters.lastScrapedAtBefore)}
                     onChange={(date) => handleFilterChange('lastScrapedAtBefore', formatDateForAPI(date))}
+                    valueFormat="YYYY-MM-DD"
                     clearable
                   />
                 </Grid.Col>
@@ -472,6 +487,7 @@ const StoresList = () => {
                     description="When soldDelta was last non-zero"
                     value={parseDateForInput(localFilters.lastSoldDeltaAt)}
                     onChange={(date) => handleFilterChange('lastSoldDeltaAt', formatDateForAPI(date))}
+                    valueFormat="YYYY-MM-DD"
                     clearable
                   />
                 </Grid.Col>
@@ -484,6 +500,7 @@ const StoresList = () => {
                     description="When soldDelta was last non-zero"
                     value={parseDateForInput(localFilters.lastSoldDeltaAtBefore)}
                     onChange={(date) => handleFilterChange('lastSoldDeltaAtBefore', formatDateForAPI(date))}
+                    valueFormat="YYYY-MM-DD"
                     clearable
                   />
                 </Grid.Col>
