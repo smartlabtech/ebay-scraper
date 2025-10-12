@@ -22,7 +22,10 @@ import {
   ActionIcon,
   Tooltip,
   Flex,
-  Code
+  Code,
+  ThemeIcon,
+  Box,
+  SimpleGrid
 } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
@@ -37,6 +40,7 @@ import {
   HiPlay,
   HiClipboardCopy
 } from 'react-icons/hi';
+import { MdTimer, MdPeople } from 'react-icons/md';
 import {
   fetchManifests,
   setFilters,
@@ -63,6 +67,7 @@ const ManifestsList = () => {
 
   const [showFilters, setShowFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState(filters);
+  const [workerCount, setWorkerCount] = useState(3);
 
   // Fetch manifests on mount and when filters change
   useEffect(() => {
@@ -217,6 +222,27 @@ const ManifestsList = () => {
     }
   };
 
+  // Calculate estimated completion time for PROCESSING manifests
+  const calculateEstimatedTime = () => {
+    const processingCount = manifests.filter(m => m.status?.toUpperCase() === 'PROCESSING').length;
+
+    if (processingCount === 0 || workerCount === 0) {
+      return { days: 0, hours: 0, minutes: 0, processingCount };
+    }
+
+    const minutesPerManifest = 45; // Average time per manifest
+    const totalMinutes = (processingCount * minutesPerManifest) / workerCount;
+
+    const days = Math.floor(totalMinutes / (24 * 60));
+    const remainingMinutes = totalMinutes % (24 * 60);
+    const hours = Math.floor(remainingMinutes / 60);
+    const minutes = Math.floor(remainingMinutes % 60);
+
+    return { days, hours, minutes, processingCount, totalMinutes };
+  };
+
+  const estimatedTime = calculateEstimatedTime();
+
   return (
     <Container size="xl" py="xl">
       <Stack gap="lg">
@@ -243,6 +269,96 @@ const ManifestsList = () => {
             </Button>
           </Group>
         </Group>
+
+        {/* Estimated Completion Time Calculator */}
+        {!loading && manifests.length > 0 && (
+          <Paper shadow="sm" p="lg" radius="md" withBorder style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+            <Stack gap="md">
+              <Group justify="space-between" align="center">
+                <Group gap="md">
+                  <ThemeIcon size="xl" radius="xl" variant="white" color="white">
+                    <MdTimer size={24} style={{ color: '#667eea' }} />
+                  </ThemeIcon>
+                  <div>
+                    <Title order={3} c="white">Estimated Completion Time</Title>
+                    <Text size="sm" c="white" opacity={0.9}>
+                      For {estimatedTime.processingCount} PROCESSING manifest{estimatedTime.processingCount !== 1 ? 's' : ''}
+                    </Text>
+                  </div>
+                </Group>
+              </Group>
+
+              <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+                {/* Worker Count Control */}
+                <Paper p="md" radius="md" bg="white" withBorder>
+                  <Stack gap="xs">
+                    <Group gap="xs">
+                      <ThemeIcon size="sm" color="violet" variant="light">
+                        <MdPeople size={16} />
+                      </ThemeIcon>
+                      <Text size="sm" fw={600}>Workers</Text>
+                    </Group>
+                    <NumberInput
+                      value={workerCount}
+                      onChange={(value) => setWorkerCount(value || 3)}
+                      min={1}
+                      max={20}
+                      size="md"
+                      placeholder="Workers"
+                    />
+                    <Text size="xs" c="dimmed">Adjust worker count</Text>
+                  </Stack>
+                </Paper>
+
+                {/* Days */}
+                <Paper p="md" radius="md" bg="white" withBorder>
+                  <Stack gap="xs" align="center">
+                    <Text size="xs" c="dimmed" fw={600} tt="uppercase">Days</Text>
+                    <Text size="2rem" fw={700} c="violet">
+                      {estimatedTime.days}
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      {estimatedTime.days === 1 ? 'day' : 'days'}
+                    </Text>
+                  </Stack>
+                </Paper>
+
+                {/* Hours */}
+                <Paper p="md" radius="md" bg="white" withBorder>
+                  <Stack gap="xs" align="center">
+                    <Text size="xs" c="dimmed" fw={600} tt="uppercase">Hours</Text>
+                    <Text size="2rem" fw={700} c="blue">
+                      {estimatedTime.hours}
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      {estimatedTime.hours === 1 ? 'hour' : 'hours'}
+                    </Text>
+                  </Stack>
+                </Paper>
+
+                {/* Minutes */}
+                <Paper p="md" radius="md" bg="white" withBorder>
+                  <Stack gap="xs" align="center">
+                    <Text size="xs" c="dimmed" fw={600} tt="uppercase">Minutes</Text>
+                    <Text size="2rem" fw={700} c="teal">
+                      {estimatedTime.minutes}
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      {estimatedTime.minutes === 1 ? 'minute' : 'minutes'}
+                    </Text>
+                  </Stack>
+                </Paper>
+              </SimpleGrid>
+
+              <Alert color="violet" variant="light">
+                <Text size="sm">
+                  <strong>Note:</strong> Calculation based on 45 minutes average per manifest (≈1000 links).
+                  Actual time may vary based on network conditions and scraper performance.
+                </Text>
+              </Alert>
+            </Stack>
+          </Paper>
+        )}
 
         {/* Error Alert */}
         {error && (
