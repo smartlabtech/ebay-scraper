@@ -107,6 +107,12 @@ const ControlPanelLayout = () => {
     navigate('/login');
   };
 
+  // Handle navigation and close mobile menu
+  const handleNavigate = (path) => {
+    navigate(path);
+    setMobileOpened(false);
+  };
+
   const isActive = (path) => {
     if (path === '/control' && location.pathname === '/control') return true;
     if (path !== '/control' && location.pathname.startsWith(path)) return true;
@@ -148,7 +154,7 @@ const ControlPanelLayout = () => {
                 ) : undefined
               }
               active={location.pathname === child.path}
-              onClick={() => navigate(child.path)}
+              onClick={() => handleNavigate(child.path)}
               style={{ cursor: 'pointer' }}
             />
           ))}
@@ -175,7 +181,7 @@ const ControlPanelLayout = () => {
               key={child.path}
               label={child.label}
               active={location.pathname === child.path}
-              onClick={() => navigate(child.path)}
+              onClick={() => handleNavigate(child.path)}
               style={{ cursor: 'pointer' }}
             />
           ))}
@@ -194,7 +200,7 @@ const ControlPanelLayout = () => {
           </ThemeIcon>
         }
         active={isActive(item.path)}
-        onClick={() => navigate(item.path)}
+        onClick={() => handleNavigate(item.path)}
         style={{ cursor: 'pointer' }}
       />
     );
