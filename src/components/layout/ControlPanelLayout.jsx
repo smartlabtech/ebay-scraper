@@ -13,7 +13,6 @@ import {
   UnstyledButton,
   Avatar,
   Menu,
-  rem,
   Divider,
   Burger,
   ScrollArea
@@ -23,8 +22,6 @@ import {
   MdStore,
   MdLogout,
   MdKeyboardArrowDown,
-  MdAnalytics,
-  MdInventory,
   MdPlayCircleOutline
 } from 'react-icons/md';
 import { HiTag, HiCog, HiDocumentText, HiShoppingCart } from 'react-icons/hi';
