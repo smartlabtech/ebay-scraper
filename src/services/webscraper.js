@@ -10,11 +10,9 @@ class WebscraperService {
       // Add all parameters to query string
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {
-          // Handle array parameters (e.g., excludeStatus)
+          // Handle array parameters (e.g., excludeStatus) - join with comma
           if (Array.isArray(value)) {
-            value.forEach(item => {
-              queryParams.append(key, item);
-            });
+            queryParams.append(key, value.join(','));
           } else {
             queryParams.append(key, value);
           }
