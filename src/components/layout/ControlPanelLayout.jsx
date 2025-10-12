@@ -21,14 +21,10 @@ import {
 import {
   MdDashboard,
   MdStore,
-  MdSettings,
   MdLogout,
-  MdPerson,
   MdKeyboardArrowDown,
   MdAnalytics,
   MdInventory,
-  MdNotifications,
-  MdHelp,
   MdPlayCircleOutline
 } from 'react-icons/md';
 import { HiTag, HiCog, HiDocumentText, HiShoppingCart } from 'react-icons/hi';
@@ -250,37 +246,6 @@ const ControlPanelLayout = () => {
               </Menu.Target>
 
               <Menu.Dropdown>
-                <Menu.Label>Account</Menu.Label>
-                <Menu.Item
-                  leftSection={<MdPerson size={16} />}
-                  onClick={() => navigate('/control/profile')}
-                >
-                  Profile
-                </Menu.Item>
-                <Menu.Item
-                  leftSection={<MdSettings size={16} />}
-                  onClick={() => navigate('/control/settings')}
-                >
-                  Settings
-                </Menu.Item>
-                <Menu.Item
-                  leftSection={<MdNotifications size={16} />}
-                  onClick={() => navigate('/control/notifications')}
-                >
-                  Notifications
-                </Menu.Item>
-
-                <Menu.Divider />
-
-                <Menu.Item
-                  leftSection={<MdHelp size={16} />}
-                  onClick={() => navigate('/control/help')}
-                >
-                  Help & Support
-                </Menu.Item>
-
-                <Menu.Divider />
-
                 <Menu.Item
                   color="red"
                   leftSection={<MdLogout size={16} />}
