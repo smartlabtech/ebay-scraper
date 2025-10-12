@@ -10,7 +10,9 @@ import {
   Tooltip,
   Alert,
   Divider,
-  NumberInput
+  NumberInput,
+  Badge,
+  ThemeIcon
 } from "@mantine/core"
 import {notifications} from "@mantine/notifications"
 import {HiInformationCircle, HiDocumentAdd, HiPlay} from "react-icons/hi"
@@ -153,12 +155,17 @@ const FlowActionManagement = () => {
           <Stack gap="md">
             {/* Section Header */}
             <Group justify="space-between" align="center">
-              <div>
-                <Title order={3}>Manifest Generation</Title>
-                <Text size="sm" c="dimmed" mt={4}>
-                  Generate manifests to initiate scraping jobs
-                </Text>
-              </div>
+              <Group gap="md">
+                <ThemeIcon size="xl" radius="xl" variant="filled" color="blue">
+                  <Text size="lg" fw={700}>1</Text>
+                </ThemeIcon>
+                <div>
+                  <Title order={3}>Manifest Generation</Title>
+                  <Text size="sm" c="dimmed" mt={4}>
+                    Generate manifests to initiate scraping jobs
+                  </Text>
+                </div>
+              </Group>
               <Tooltip
                 label="This is the starting point for the scraping flow. No manifest = No scraping jobs will be created."
                 multiline
@@ -194,7 +201,7 @@ const FlowActionManagement = () => {
               <Group>
                 {/* Keyword Manifest Button */}
                 <Button
-                  leftSection={<HiPlay />}
+                  leftSection={<Badge size="lg" circle>A</Badge>}
                   color="teal"
                   size="md"
                   loading={loading.keyword}
@@ -205,7 +212,7 @@ const FlowActionManagement = () => {
 
                 {/* Keyword Page Manifest Button */}
                 <Button
-                  leftSection={<HiPlay />}
+                  leftSection={<Badge size="lg" circle>B</Badge>}
                   color="violet"
                   size="md"
                   loading={loading.keywordPage}
@@ -216,7 +223,7 @@ const FlowActionManagement = () => {
 
                 {/* Item Manifest Button */}
                 <Button
-                  leftSection={<HiPlay />}
+                  leftSection={<Badge size="lg" circle>C</Badge>}
                   color="indigo"
                   size="md"
                   loading={loading.item}
@@ -227,7 +234,7 @@ const FlowActionManagement = () => {
 
                 {/* Store Manifest Button */}
                 <Button
-                  leftSection={<HiPlay />}
+                  leftSection={<Badge size="lg" circle>D</Badge>}
                   color="orange"
                   size="md"
                   loading={loading.store}
@@ -245,12 +252,17 @@ const FlowActionManagement = () => {
           <Stack gap="md">
             {/* Section Header */}
             <Group justify="space-between" align="center">
-              <div>
-                <Title order={3}>Manifest to Scraping</Title>
-                <Text size="sm" c="dimmed" mt={4}>
-                  Send pending manifests to the scraping queue
-                </Text>
-              </div>
+              <Group gap="md">
+                <ThemeIcon size="xl" radius="xl" variant="filled" color="cyan">
+                  <Text size="lg" fw={700}>2</Text>
+                </ThemeIcon>
+                <div>
+                  <Title order={3}>Manifest to Scraping</Title>
+                  <Text size="sm" c="dimmed" mt={4}>
+                    Send pending manifests to the scraping queue
+                  </Text>
+                </div>
+              </Group>
               <Tooltip
                 label="This action sends pending manifests to the scraping queue for processing."
                 multiline
@@ -285,7 +297,7 @@ const FlowActionManagement = () => {
               <Group>
                 {/* Keyword Manifest to Scrap */}
                 <Button
-                  leftSection={<HiPlay />}
+                  leftSection={<Badge size="lg" circle>A</Badge>}
                   color="teal"
                   size="md"
                   loading={loading.scrapKeyword}
@@ -296,7 +308,7 @@ const FlowActionManagement = () => {
 
                 {/* Keyword Page Manifest to Scrap */}
                 <Button
-                  leftSection={<HiPlay />}
+                  leftSection={<Badge size="lg" circle>B</Badge>}
                   color="violet"
                   size="md"
                   loading={loading.scrapKeywordPage}
@@ -309,7 +321,7 @@ const FlowActionManagement = () => {
 
                 {/* Item Manifest to Scrap */}
                 <Button
-                  leftSection={<HiPlay />}
+                  leftSection={<Badge size="lg" circle>C</Badge>}
                   color="indigo"
                   size="md"
                   loading={loading.scrapItem}
@@ -320,7 +332,7 @@ const FlowActionManagement = () => {
 
                 {/* Store Manifest to Scrap */}
                 <Button
-                  leftSection={<HiPlay />}
+                  leftSection={<Badge size="lg" circle>D</Badge>}
                   color="orange"
                   size="md"
                   loading={loading.scrapStore}
@@ -338,12 +350,17 @@ const FlowActionManagement = () => {
           <Stack gap="md">
             {/* Section Header */}
             <Group justify="space-between" align="center">
-              <div>
-                <Title order={3}>Handle Scraped Data</Title>
-                <Text size="sm" c="dimmed" mt={4}>
-                  Process and handle completed scraping results
-                </Text>
-              </div>
+              <Group gap="md">
+                <ThemeIcon size="xl" radius="xl" variant="filled" color="orange">
+                  <Text size="lg" fw={700}>3</Text>
+                </ThemeIcon>
+                <div>
+                  <Title order={3}>Handle Scraped Data</Title>
+                  <Text size="sm" c="dimmed" mt={4}>
+                    Process and handle completed scraping results
+                  </Text>
+                </div>
+              </Group>
               <Tooltip
                 label="This processes all scraped data and updates the system accordingly."
                 multiline
@@ -389,12 +406,17 @@ const FlowActionManagement = () => {
           <Stack gap="md">
             {/* Section Header */}
             <Group justify="space-between" align="center">
-              <div>
-                <Title order={3}>Rescrape Dormant Stores</Title>
-                <Text size="sm" c="dimmed" mt={4}>
-                  Reset SCRAPED stores with no recent sales activity
-                </Text>
-              </div>
+              <Group gap="md">
+                <ThemeIcon size="xl" radius="xl" variant="filled" color="grape">
+                  <Text size="lg" fw={700}>4</Text>
+                </ThemeIcon>
+                <div>
+                  <Title order={3}>Rescrape Dormant Stores</Title>
+                  <Text size="sm" c="dimmed" mt={4}>
+                    Reset SCRAPED stores with no recent sales activity
+                  </Text>
+                </div>
+              </Group>
               <Tooltip
                 label="Finds SCRAPED stores with no sales activity (lastSoldDeltaAt) in the specified months and resets them to CREATED stage for rescraping. Minimum 6 months enforced by backend."
                 multiline
