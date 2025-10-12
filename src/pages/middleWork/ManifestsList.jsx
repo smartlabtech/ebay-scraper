@@ -224,7 +224,25 @@ const ManifestsList = () => {
 
   // Calculate estimated completion time for PROCESSING manifests
   const calculateEstimatedTime = () => {
-    const processingCount = manifests.filter(m => m.status?.toUpperCase() === 'PROCESSING').length;
+    let processingCount = 0;
+
+    // If user is filtering by PROCESSING status, use total records from pagination
+    if (filters.status?.toUpperCase() === 'PROCESSING') {
+      processingCount = pagination.totalRecords;
+    } else if (filters.excludeStatus && filters.excludeStatus.includes('PROCESSING')) {
+      // If PROCESSING is excluded, return 0
+      processingCount = 0;
+    } else {
+      // Otherwise, estimate based on current page ratio
+      const currentPageProcessing = manifests.filter(m => m.status?.toUpperCase() === 'PROCESSING').length;
+      const currentPageTotal = manifests.length;
+
+      if (currentPageTotal > 0) {
+        // Calculate ratio and apply to total records
+        const ratio = currentPageProcessing / currentPageTotal;
+        processingCount = Math.round(pagination.totalRecords * ratio);
+      }
+    }
 
     if (processingCount === 0 || workerCount === 0) {
       return { days: 0, hours: 0, minutes: 0, processingCount };
