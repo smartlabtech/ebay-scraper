@@ -201,7 +201,7 @@ const UserDashboard = () => {
           {analyticsLoading && <Loader size="sm" />}
         </Group>
 
-        {analytics ? (
+        {analytics?.ebayModules && analytics?.manifestModule ? (
           <Stack gap="lg">
             {/* Row 1: Created (Need to generate manifest) */}
             <Box>
