@@ -202,65 +202,56 @@ const UserDashboard = () => {
         </Group>
 
         {s3Storage ? (
-          <SimpleGrid cols={{base: 1, sm: 2, md: 3}} spacing="md">
+          <SimpleGrid cols={3} spacing="xs">
             {/* Total Size GB */}
-            <Paper p="md" radius="md" bg="cyan.0" withBorder>
-              <Group gap="xs" align="flex-start">
-                <ThemeIcon size="md" color="cyan" variant="light">
-                  <MdStorage size={18} />
+            <Paper p="sm" radius="md" bg="cyan.0" withBorder>
+              <Stack gap={4} align="center">
+                <ThemeIcon size="sm" color="cyan" variant="light">
+                  <MdStorage size={16} />
                 </ThemeIcon>
-                <Box style={{flex: 1}}>
+                <Box style={{textAlign: "center"}}>
                   <Text size="xs" c="dimmed" fw={600}>
                     Total Size
                   </Text>
-                  <Text size="lg" fw={700} mt={4}>
+                  <Text size="md" fw={700} mt={2}>
                     {s3Storage.totalSizeGB?.toFixed(2)} GB
                   </Text>
-                  <Text size="xs" c="dimmed" mt={2}>
-                    {s3Storage.totalSizeMB?.toFixed(2)} MB
-                  </Text>
                 </Box>
-              </Group>
+              </Stack>
             </Paper>
 
             {/* File Count */}
-            <Paper p="md" radius="md" bg="blue.0" withBorder>
-              <Group gap="xs" align="flex-start">
-                <ThemeIcon size="md" color="blue" variant="light">
-                  <MdInventory size={18} />
+            <Paper p="sm" radius="md" bg="blue.0" withBorder>
+              <Stack gap={4} align="center">
+                <ThemeIcon size="sm" color="blue" variant="light">
+                  <MdInventory size={16} />
                 </ThemeIcon>
-                <Box style={{flex: 1}}>
+                <Box style={{textAlign: "center"}}>
                   <Text size="xs" c="dimmed" fw={600}>
                     Files
                   </Text>
-                  <Text size="lg" fw={700} mt={4}>
+                  <Text size="md" fw={700} mt={2}>
                     {s3Storage.fileCount?.toLocaleString()}
                   </Text>
-                  <Text size="xs" c="dimmed" mt={2}>
-                    Total files
-                  </Text>
                 </Box>
-              </Group>
+              </Stack>
             </Paper>
 
             {/* Monthly Cost */}
-            <Paper p="md" radius="md" bg="green.0" withBorder>
-              <Group gap="xs" align="flex-start">
-                <ThemeIcon size="md" color="green" variant="light">
-                  <MdAttachMoney size={18} />
+            <Paper p="sm" radius="md" bg="green.0" withBorder>
+              <Stack gap={4} align="center">
+                <ThemeIcon size="sm" color="green" variant="light">
+                  <MdAttachMoney size={16} />
                 </ThemeIcon>
-                <Box style={{flex: 1}}>
+                <Box style={{textAlign: "center"}}>
                   <Text size="xs" c="dimmed" fw={600}>
-                    Est. Monthly Cost
+                    Est. Cost
                   </Text>
-                  <Text size="lg" fw={700} mt={4}>
+                  <Text size="md" fw={700} mt={2}>
                     ${s3Storage.estimatedMonthlyCost?.toFixed(2)}
                   </Text>
-                  <Text size="xs" c="dimmed" mt={2}>
-                    {s3Storage.currency || "USD"}
-                  </Text>
                 </Box>
-              </Group>
+              </Stack>
             </Paper>
           </SimpleGrid>
         ) : (
@@ -313,73 +304,73 @@ const UserDashboard = () => {
                   </Text>
                 </Box>
               </Group>
-              <SimpleGrid cols={{base: 1, sm: 2, md: 4}} spacing="md">
+              <SimpleGrid cols={4} spacing="xs">
                 {/* Keywords - CREATED */}
-                <Paper p="md" radius="md" bg="blue.0" withBorder>
-                  <Group gap="xs" align="flex-start">
-                    <ThemeIcon size="md" color="blue" variant="light">
-                      <MdSearch size={18} />
+                <Paper p="sm" radius="md" bg="blue.0" withBorder>
+                  <Stack gap={4} align="center">
+                    <ThemeIcon size="sm" color="blue" variant="light">
+                      <MdSearch size={16} />
                     </ThemeIcon>
-                    <Box style={{flex: 1}}>
+                    <Box style={{textAlign: "center"}}>
                       <Text size="xs" c="dimmed" fw={600}>
                         Keywords
                       </Text>
-                      <Text size="xl" fw={700} mt={4}>
+                      <Text size="md" fw={700} mt={2}>
                         {(analytics.ebayModules.keywords.find(s => s.status === "CREATED")?.count || 0).toLocaleString()}
                       </Text>
                     </Box>
-                  </Group>
+                  </Stack>
                 </Paper>
 
                 {/* Keyword Pages - CREATED */}
-                <Paper p="md" radius="md" bg="violet.0" withBorder>
-                  <Group gap="xs" align="flex-start">
-                    <ThemeIcon size="md" color="violet" variant="light">
-                      <MdDescription size={18} />
+                <Paper p="sm" radius="md" bg="violet.0" withBorder>
+                  <Stack gap={4} align="center">
+                    <ThemeIcon size="sm" color="violet" variant="light">
+                      <MdDescription size={16} />
                     </ThemeIcon>
-                    <Box style={{flex: 1}}>
+                    <Box style={{textAlign: "center"}}>
                       <Text size="xs" c="dimmed" fw={600}>
-                        Keyword Pages
+                        Pages
                       </Text>
-                      <Text size="xl" fw={700} mt={4}>
+                      <Text size="md" fw={700} mt={2}>
                         {(analytics.ebayModules.keywordPages.find(s => s.status === "CREATED")?.count || 0).toLocaleString()}
                       </Text>
                     </Box>
-                  </Group>
+                  </Stack>
                 </Paper>
 
                 {/* Items - CREATED */}
-                <Paper p="md" radius="md" bg="green.0" withBorder>
-                  <Group gap="xs" align="flex-start">
-                    <ThemeIcon size="md" color="green" variant="light">
-                      <MdInventory size={18} />
+                <Paper p="sm" radius="md" bg="green.0" withBorder>
+                  <Stack gap={4} align="center">
+                    <ThemeIcon size="sm" color="green" variant="light">
+                      <MdInventory size={16} />
                     </ThemeIcon>
-                    <Box style={{flex: 1}}>
+                    <Box style={{textAlign: "center"}}>
                       <Text size="xs" c="dimmed" fw={600}>
                         Items
                       </Text>
-                      <Text size="xl" fw={700} mt={4}>
+                      <Text size="md" fw={700} mt={2}>
                         {(analytics.ebayModules.items.find(s => s.status === "CREATED")?.count || 0).toLocaleString()}
                       </Text>
                     </Box>
-                  </Group>
+                  </Stack>
                 </Paper>
 
                 {/* Stores - CREATED */}
-                <Paper p="md" radius="md" bg="orange.0" withBorder>
-                  <Group gap="xs" align="flex-start">
-                    <ThemeIcon size="md" color="orange" variant="light">
-                      <MdStore size={18} />
+                <Paper p="sm" radius="md" bg="orange.0" withBorder>
+                  <Stack gap={4} align="center">
+                    <ThemeIcon size="sm" color="orange" variant="light">
+                      <MdStore size={16} />
                     </ThemeIcon>
-                    <Box style={{flex: 1}}>
+                    <Box style={{textAlign: "center"}}>
                       <Text size="xs" c="dimmed" fw={600}>
                         Stores
                       </Text>
-                      <Text size="xl" fw={700} mt={4}>
+                      <Text size="md" fw={700} mt={2}>
                         {(analytics.ebayModules.stores.find(s => s.status === "CREATED")?.count || 0).toLocaleString()}
                       </Text>
                     </Box>
-                  </Group>
+                  </Stack>
                 </Paper>
               </SimpleGrid>
             </Box>
@@ -399,27 +390,27 @@ const UserDashboard = () => {
                   </Text>
                 </Box>
               </Group>
-              <SimpleGrid cols={{base: 1, sm: 2, md: 4}} spacing="md">
+              <SimpleGrid cols={4} spacing="xs">
                 {analytics.manifestModule.manifests
                   .find(m => m.status === "PENDING")
                   ?.types.map((type, idx) => (
-                    <Paper key={idx} p="md" radius="md" bg="yellow.0" withBorder>
-                      <Group gap="xs" align="flex-start">
-                        <ThemeIcon size="md" color="yellow" variant="light">
-                          {type.type === "keyword" && <MdSearch size={18} />}
-                          {type.type === "keywordPage" && <MdDescription size={18} />}
-                          {type.type === "item" && <MdInventory size={18} />}
-                          {type.type === "store" && <MdStore size={18} />}
+                    <Paper key={idx} p="sm" radius="md" bg="yellow.0" withBorder>
+                      <Stack gap={4} align="center">
+                        <ThemeIcon size="sm" color="yellow" variant="light">
+                          {type.type === "keyword" && <MdSearch size={16} />}
+                          {type.type === "keywordPage" && <MdDescription size={16} />}
+                          {type.type === "item" && <MdInventory size={16} />}
+                          {type.type === "store" && <MdStore size={16} />}
                         </ThemeIcon>
-                        <Box style={{flex: 1}}>
+                        <Box style={{textAlign: "center"}}>
                           <Text size="xs" c="dimmed" fw={600} tt="capitalize">
-                            {type.type}
+                            {type.type === "keywordPage" ? "Pages" : type.type}
                           </Text>
-                          <Text size="xl" fw={700} mt={4}>
+                          <Text size="md" fw={700} mt={2}>
                             {type.count.toLocaleString()}
                           </Text>
                         </Box>
-                      </Group>
+                      </Stack>
                     </Paper>
                   ))}
               </SimpleGrid>
@@ -440,27 +431,27 @@ const UserDashboard = () => {
                   </Text>
                 </Box>
               </Group>
-              <SimpleGrid cols={{base: 1, sm: 2, md: 4}} spacing="md">
+              <SimpleGrid cols={4} spacing="xs">
                 {analytics.manifestModule.manifests
                   .find(m => m.status === "PROCESSING")
                   ?.types.map((type, idx) => (
-                    <Paper key={idx} p="md" radius="md" bg="teal.0" withBorder>
-                      <Group gap="xs" align="flex-start">
-                        <ThemeIcon size="md" color="teal" variant="light">
-                          {type.type === "keyword" && <MdSearch size={18} />}
-                          {type.type === "keywordPage" && <MdDescription size={18} />}
-                          {type.type === "item" && <MdInventory size={18} />}
-                          {type.type === "store" && <MdStore size={18} />}
+                    <Paper key={idx} p="sm" radius="md" bg="teal.0" withBorder>
+                      <Stack gap={4} align="center">
+                        <ThemeIcon size="sm" color="teal" variant="light">
+                          {type.type === "keyword" && <MdSearch size={16} />}
+                          {type.type === "keywordPage" && <MdDescription size={16} />}
+                          {type.type === "item" && <MdInventory size={16} />}
+                          {type.type === "store" && <MdStore size={16} />}
                         </ThemeIcon>
-                        <Box style={{flex: 1}}>
+                        <Box style={{textAlign: "center"}}>
                           <Text size="xs" c="dimmed" fw={600} tt="capitalize">
-                            {type.type}
+                            {type.type === "keywordPage" ? "Pages" : type.type}
                           </Text>
-                          <Text size="xl" fw={700} mt={4}>
+                          <Text size="md" fw={700} mt={2}>
                             {type.count.toLocaleString()}
                           </Text>
                         </Box>
-                      </Group>
+                      </Stack>
                     </Paper>
                   ))}
               </SimpleGrid>
@@ -481,73 +472,73 @@ const UserDashboard = () => {
                   </Text>
                 </Box>
               </Group>
-              <SimpleGrid cols={{base: 1, sm: 2, md: 4}} spacing="md">
+              <SimpleGrid cols={4} spacing="xs">
                 {/* Keywords - TOSCRAP */}
-                <Paper p="md" radius="md" bg="blue.0" withBorder>
-                  <Group gap="xs" align="flex-start">
-                    <ThemeIcon size="md" color="blue" variant="light">
-                      <MdSearch size={18} />
+                <Paper p="sm" radius="md" bg="blue.0" withBorder>
+                  <Stack gap={4} align="center">
+                    <ThemeIcon size="sm" color="blue" variant="light">
+                      <MdSearch size={16} />
                     </ThemeIcon>
-                    <Box style={{flex: 1}}>
+                    <Box style={{textAlign: "center"}}>
                       <Text size="xs" c="dimmed" fw={600}>
                         Keywords
                       </Text>
-                      <Text size="xl" fw={700} mt={4}>
+                      <Text size="md" fw={700} mt={2}>
                         {(analytics.ebayModules.keywords.find(s => s.status === "TOSCRAP")?.count || 0).toLocaleString()}
                       </Text>
                     </Box>
-                  </Group>
+                  </Stack>
                 </Paper>
 
                 {/* Keyword Pages - TOSCRAP */}
-                <Paper p="md" radius="md" bg="violet.0" withBorder>
-                  <Group gap="xs" align="flex-start">
-                    <ThemeIcon size="md" color="violet" variant="light">
-                      <MdDescription size={18} />
+                <Paper p="sm" radius="md" bg="violet.0" withBorder>
+                  <Stack gap={4} align="center">
+                    <ThemeIcon size="sm" color="violet" variant="light">
+                      <MdDescription size={16} />
                     </ThemeIcon>
-                    <Box style={{flex: 1}}>
+                    <Box style={{textAlign: "center"}}>
                       <Text size="xs" c="dimmed" fw={600}>
-                        Keyword Pages
+                        Pages
                       </Text>
-                      <Text size="xl" fw={700} mt={4}>
+                      <Text size="md" fw={700} mt={2}>
                         {(analytics.ebayModules.keywordPages.find(s => s.status === "TOSCRAP")?.count || 0).toLocaleString()}
                       </Text>
                     </Box>
-                  </Group>
+                  </Stack>
                 </Paper>
 
                 {/* Items - TOSCRAP */}
-                <Paper p="md" radius="md" bg="green.0" withBorder>
-                  <Group gap="xs" align="flex-start">
-                    <ThemeIcon size="md" color="green" variant="light">
-                      <MdInventory size={18} />
+                <Paper p="sm" radius="md" bg="green.0" withBorder>
+                  <Stack gap={4} align="center">
+                    <ThemeIcon size="sm" color="green" variant="light">
+                      <MdInventory size={16} />
                     </ThemeIcon>
-                    <Box style={{flex: 1}}>
+                    <Box style={{textAlign: "center"}}>
                       <Text size="xs" c="dimmed" fw={600}>
                         Items
                       </Text>
-                      <Text size="xl" fw={700} mt={4}>
+                      <Text size="md" fw={700} mt={2}>
                         {(analytics.ebayModules.items.find(s => s.status === "TOSCRAP")?.count || 0).toLocaleString()}
                       </Text>
                     </Box>
-                  </Group>
+                  </Stack>
                 </Paper>
 
                 {/* Stores - TOSCRAP */}
-                <Paper p="md" radius="md" bg="orange.0" withBorder>
-                  <Group gap="xs" align="flex-start">
-                    <ThemeIcon size="md" color="orange" variant="light">
-                      <MdStore size={18} />
+                <Paper p="sm" radius="md" bg="orange.0" withBorder>
+                  <Stack gap={4} align="center">
+                    <ThemeIcon size="sm" color="orange" variant="light">
+                      <MdStore size={16} />
                     </ThemeIcon>
-                    <Box style={{flex: 1}}>
+                    <Box style={{textAlign: "center"}}>
                       <Text size="xs" c="dimmed" fw={600}>
                         Stores
                       </Text>
-                      <Text size="xl" fw={700} mt={4}>
+                      <Text size="md" fw={700} mt={2}>
                         {(analytics.ebayModules.stores.find(s => s.status === "TOSCRAP")?.count || 0).toLocaleString()}
                       </Text>
                     </Box>
-                  </Group>
+                  </Stack>
                 </Paper>
               </SimpleGrid>
             </Box>
